@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "845810780371",
+    "project_id": "super-app-telemedicine",
+    "storage_bucket": "super-app-telemedicine.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845810780371:android:256bba8bba1b3924c0ac26",
+        "android_client_info": {
+          "package_name": "com.mhilmirinaldi.super_app_telemedicine"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr1b0m4VDn-Cv-MHKIkGBFLKk56_hFz-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
