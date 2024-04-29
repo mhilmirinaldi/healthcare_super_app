@@ -9,7 +9,7 @@ class Dokter with _$Dokter{
   const factory Dokter({
     required String id,
     required String nama,
-    required int idKategori,
+    required String idKategori,
     required int lamaKerja,
     required String alumnus,
     required String tempatPraktik,

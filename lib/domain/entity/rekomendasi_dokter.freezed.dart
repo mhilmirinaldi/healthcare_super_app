@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'dokter.dart';
+part of 'rekomendasi_dokter.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,50 +14,46 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Dokter _$DokterFromJson(Map<String, dynamic> json) {
-  return _Dokter.fromJson(json);
+RekomendasiDokter _$RekomendasiDokterFromJson(Map<String, dynamic> json) {
+  return _RekomendasiDokter.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Dokter {
+mixin _$RekomendasiDokter {
   String get id => throw _privateConstructorUsedError;
   String get nama => throw _privateConstructorUsedError;
   String get idKategori => throw _privateConstructorUsedError;
-  int get lamaKerja => throw _privateConstructorUsedError;
-  String get alumnus => throw _privateConstructorUsedError;
-  String get tempatPraktik => throw _privateConstructorUsedError;
   int? get ratingTotal => throw _privateConstructorUsedError;
-  List<Review> get review => throw _privateConstructorUsedError;
+  int get lamaKerja => throw _privateConstructorUsedError;
   String get harga => throw _privateConstructorUsedError;
   String? get gambar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $DokterCopyWith<Dokter> get copyWith => throw _privateConstructorUsedError;
+  $RekomendasiDokterCopyWith<RekomendasiDokter> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DokterCopyWith<$Res> {
-  factory $DokterCopyWith(Dokter value, $Res Function(Dokter) then) =
-      _$DokterCopyWithImpl<$Res, Dokter>;
+abstract class $RekomendasiDokterCopyWith<$Res> {
+  factory $RekomendasiDokterCopyWith(
+          RekomendasiDokter value, $Res Function(RekomendasiDokter) then) =
+      _$RekomendasiDokterCopyWithImpl<$Res, RekomendasiDokter>;
   @useResult
   $Res call(
       {String id,
       String nama,
       String idKategori,
-      int lamaKerja,
-      String alumnus,
-      String tempatPraktik,
       int? ratingTotal,
-      List<Review> review,
+      int lamaKerja,
       String harga,
       String? gambar});
 }
 
 /// @nodoc
-class _$DokterCopyWithImpl<$Res, $Val extends Dokter>
-    implements $DokterCopyWith<$Res> {
-  _$DokterCopyWithImpl(this._value, this._then);
+class _$RekomendasiDokterCopyWithImpl<$Res, $Val extends RekomendasiDokter>
+    implements $RekomendasiDokterCopyWith<$Res> {
+  _$RekomendasiDokterCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -70,11 +66,8 @@ class _$DokterCopyWithImpl<$Res, $Val extends Dokter>
     Object? id = null,
     Object? nama = null,
     Object? idKategori = null,
-    Object? lamaKerja = null,
-    Object? alumnus = null,
-    Object? tempatPraktik = null,
     Object? ratingTotal = freezed,
-    Object? review = null,
+    Object? lamaKerja = null,
     Object? harga = null,
     Object? gambar = freezed,
   }) {
@@ -91,26 +84,14 @@ class _$DokterCopyWithImpl<$Res, $Val extends Dokter>
           ? _value.idKategori
           : idKategori // ignore: cast_nullable_to_non_nullable
               as String,
-      lamaKerja: null == lamaKerja
-          ? _value.lamaKerja
-          : lamaKerja // ignore: cast_nullable_to_non_nullable
-              as int,
-      alumnus: null == alumnus
-          ? _value.alumnus
-          : alumnus // ignore: cast_nullable_to_non_nullable
-              as String,
-      tempatPraktik: null == tempatPraktik
-          ? _value.tempatPraktik
-          : tempatPraktik // ignore: cast_nullable_to_non_nullable
-              as String,
       ratingTotal: freezed == ratingTotal
           ? _value.ratingTotal
           : ratingTotal // ignore: cast_nullable_to_non_nullable
               as int?,
-      review: null == review
-          ? _value.review
-          : review // ignore: cast_nullable_to_non_nullable
-              as List<Review>,
+      lamaKerja: null == lamaKerja
+          ? _value.lamaKerja
+          : lamaKerja // ignore: cast_nullable_to_non_nullable
+              as int,
       harga: null == harga
           ? _value.harga
           : harga // ignore: cast_nullable_to_non_nullable
@@ -124,31 +105,29 @@ class _$DokterCopyWithImpl<$Res, $Val extends Dokter>
 }
 
 /// @nodoc
-abstract class _$$DokterImplCopyWith<$Res> implements $DokterCopyWith<$Res> {
-  factory _$$DokterImplCopyWith(
-          _$DokterImpl value, $Res Function(_$DokterImpl) then) =
-      __$$DokterImplCopyWithImpl<$Res>;
+abstract class _$$RekomendasiDokterImplCopyWith<$Res>
+    implements $RekomendasiDokterCopyWith<$Res> {
+  factory _$$RekomendasiDokterImplCopyWith(_$RekomendasiDokterImpl value,
+          $Res Function(_$RekomendasiDokterImpl) then) =
+      __$$RekomendasiDokterImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String id,
       String nama,
       String idKategori,
-      int lamaKerja,
-      String alumnus,
-      String tempatPraktik,
       int? ratingTotal,
-      List<Review> review,
+      int lamaKerja,
       String harga,
       String? gambar});
 }
 
 /// @nodoc
-class __$$DokterImplCopyWithImpl<$Res>
-    extends _$DokterCopyWithImpl<$Res, _$DokterImpl>
-    implements _$$DokterImplCopyWith<$Res> {
-  __$$DokterImplCopyWithImpl(
-      _$DokterImpl _value, $Res Function(_$DokterImpl) _then)
+class __$$RekomendasiDokterImplCopyWithImpl<$Res>
+    extends _$RekomendasiDokterCopyWithImpl<$Res, _$RekomendasiDokterImpl>
+    implements _$$RekomendasiDokterImplCopyWith<$Res> {
+  __$$RekomendasiDokterImplCopyWithImpl(_$RekomendasiDokterImpl _value,
+      $Res Function(_$RekomendasiDokterImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -157,15 +136,12 @@ class __$$DokterImplCopyWithImpl<$Res>
     Object? id = null,
     Object? nama = null,
     Object? idKategori = null,
-    Object? lamaKerja = null,
-    Object? alumnus = null,
-    Object? tempatPraktik = null,
     Object? ratingTotal = freezed,
-    Object? review = null,
+    Object? lamaKerja = null,
     Object? harga = null,
     Object? gambar = freezed,
   }) {
-    return _then(_$DokterImpl(
+    return _then(_$RekomendasiDokterImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -178,26 +154,14 @@ class __$$DokterImplCopyWithImpl<$Res>
           ? _value.idKategori
           : idKategori // ignore: cast_nullable_to_non_nullable
               as String,
-      lamaKerja: null == lamaKerja
-          ? _value.lamaKerja
-          : lamaKerja // ignore: cast_nullable_to_non_nullable
-              as int,
-      alumnus: null == alumnus
-          ? _value.alumnus
-          : alumnus // ignore: cast_nullable_to_non_nullable
-              as String,
-      tempatPraktik: null == tempatPraktik
-          ? _value.tempatPraktik
-          : tempatPraktik // ignore: cast_nullable_to_non_nullable
-              as String,
       ratingTotal: freezed == ratingTotal
           ? _value.ratingTotal
           : ratingTotal // ignore: cast_nullable_to_non_nullable
               as int?,
-      review: null == review
-          ? _value._review
-          : review // ignore: cast_nullable_to_non_nullable
-              as List<Review>,
+      lamaKerja: null == lamaKerja
+          ? _value.lamaKerja
+          : lamaKerja // ignore: cast_nullable_to_non_nullable
+              as int,
       harga: null == harga
           ? _value.harga
           : harga // ignore: cast_nullable_to_non_nullable
@@ -212,22 +176,18 @@ class __$$DokterImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DokterImpl implements _Dokter {
-  const _$DokterImpl(
+class _$RekomendasiDokterImpl implements _RekomendasiDokter {
+  const _$RekomendasiDokterImpl(
       {required this.id,
       required this.nama,
       required this.idKategori,
-      required this.lamaKerja,
-      required this.alumnus,
-      required this.tempatPraktik,
       this.ratingTotal,
-      final List<Review> review = const [],
+      required this.lamaKerja,
       required this.harga,
-      this.gambar})
-      : _review = review;
+      this.gambar});
 
-  factory _$DokterImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DokterImplFromJson(json);
+  factory _$RekomendasiDokterImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RekomendasiDokterImplFromJson(json);
 
   @override
   final String id;
@@ -236,22 +196,9 @@ class _$DokterImpl implements _Dokter {
   @override
   final String idKategori;
   @override
-  final int lamaKerja;
-  @override
-  final String alumnus;
-  @override
-  final String tempatPraktik;
-  @override
   final int? ratingTotal;
-  final List<Review> _review;
   @override
-  @JsonKey()
-  List<Review> get review {
-    if (_review is EqualUnmodifiableListView) return _review;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_review);
-  }
-
+  final int lamaKerja;
   @override
   final String harga;
   @override
@@ -259,26 +206,22 @@ class _$DokterImpl implements _Dokter {
 
   @override
   String toString() {
-    return 'Dokter(id: $id, nama: $nama, idKategori: $idKategori, lamaKerja: $lamaKerja, alumnus: $alumnus, tempatPraktik: $tempatPraktik, ratingTotal: $ratingTotal, review: $review, harga: $harga, gambar: $gambar)';
+    return 'RekomendasiDokter(id: $id, nama: $nama, idKategori: $idKategori, ratingTotal: $ratingTotal, lamaKerja: $lamaKerja, harga: $harga, gambar: $gambar)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DokterImpl &&
+            other is _$RekomendasiDokterImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nama, nama) || other.nama == nama) &&
             (identical(other.idKategori, idKategori) ||
                 other.idKategori == idKategori) &&
-            (identical(other.lamaKerja, lamaKerja) ||
-                other.lamaKerja == lamaKerja) &&
-            (identical(other.alumnus, alumnus) || other.alumnus == alumnus) &&
-            (identical(other.tempatPraktik, tempatPraktik) ||
-                other.tempatPraktik == tempatPraktik) &&
             (identical(other.ratingTotal, ratingTotal) ||
                 other.ratingTotal == ratingTotal) &&
-            const DeepCollectionEquality().equals(other._review, _review) &&
+            (identical(other.lamaKerja, lamaKerja) ||
+                other.lamaKerja == lamaKerja) &&
             (identical(other.harga, harga) || other.harga == harga) &&
             (identical(other.gambar, gambar) || other.gambar == gambar));
   }
@@ -286,46 +229,35 @@ class _$DokterImpl implements _Dokter {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      nama,
-      idKategori,
-      lamaKerja,
-      alumnus,
-      tempatPraktik,
-      ratingTotal,
-      const DeepCollectionEquality().hash(_review),
-      harga,
-      gambar);
+      runtimeType, id, nama, idKategori, ratingTotal, lamaKerja, harga, gambar);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DokterImplCopyWith<_$DokterImpl> get copyWith =>
-      __$$DokterImplCopyWithImpl<_$DokterImpl>(this, _$identity);
+  _$$RekomendasiDokterImplCopyWith<_$RekomendasiDokterImpl> get copyWith =>
+      __$$RekomendasiDokterImplCopyWithImpl<_$RekomendasiDokterImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DokterImplToJson(
+    return _$$RekomendasiDokterImplToJson(
       this,
     );
   }
 }
 
-abstract class _Dokter implements Dokter {
-  const factory _Dokter(
+abstract class _RekomendasiDokter implements RekomendasiDokter {
+  const factory _RekomendasiDokter(
       {required final String id,
       required final String nama,
       required final String idKategori,
-      required final int lamaKerja,
-      required final String alumnus,
-      required final String tempatPraktik,
       final int? ratingTotal,
-      final List<Review> review,
+      required final int lamaKerja,
       required final String harga,
-      final String? gambar}) = _$DokterImpl;
+      final String? gambar}) = _$RekomendasiDokterImpl;
 
-  factory _Dokter.fromJson(Map<String, dynamic> json) = _$DokterImpl.fromJson;
+  factory _RekomendasiDokter.fromJson(Map<String, dynamic> json) =
+      _$RekomendasiDokterImpl.fromJson;
 
   @override
   String get id;
@@ -334,21 +266,15 @@ abstract class _Dokter implements Dokter {
   @override
   String get idKategori;
   @override
-  int get lamaKerja;
-  @override
-  String get alumnus;
-  @override
-  String get tempatPraktik;
-  @override
   int? get ratingTotal;
   @override
-  List<Review> get review;
+  int get lamaKerja;
   @override
   String get harga;
   @override
   String? get gambar;
   @override
   @JsonKey(ignore: true)
-  _$$DokterImplCopyWith<_$DokterImpl> get copyWith =>
+  _$$RekomendasiDokterImplCopyWith<_$RekomendasiDokterImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
