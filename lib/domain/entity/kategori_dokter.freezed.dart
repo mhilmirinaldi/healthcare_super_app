@@ -21,7 +21,7 @@ KategoriDokter _$KategoriDokterFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$KategoriDokter {
   String get id => throw _privateConstructorUsedError;
-  String get nama => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   String? get icon => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ abstract class $KategoriDokterCopyWith<$Res> {
           KategoriDokter value, $Res Function(KategoriDokter) then) =
       _$KategoriDokterCopyWithImpl<$Res, KategoriDokter>;
   @useResult
-  $Res call({String id, String nama, String? icon});
+  $Res call({String id, String name, String? icon});
 }
 
 /// @nodoc
@@ -53,7 +53,7 @@ class _$KategoriDokterCopyWithImpl<$Res, $Val extends KategoriDokter>
   @override
   $Res call({
     Object? id = null,
-    Object? nama = null,
+    Object? name = null,
     Object? icon = freezed,
   }) {
     return _then(_value.copyWith(
@@ -61,9 +61,9 @@ class _$KategoriDokterCopyWithImpl<$Res, $Val extends KategoriDokter>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      nama: null == nama
-          ? _value.nama
-          : nama // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       icon: freezed == icon
           ? _value.icon
@@ -81,7 +81,7 @@ abstract class _$$KategoriDokterImplCopyWith<$Res>
       __$$KategoriDokterImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String nama, String? icon});
+  $Res call({String id, String name, String? icon});
 }
 
 /// @nodoc
@@ -96,7 +96,7 @@ class __$$KategoriDokterImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? nama = null,
+    Object? name = null,
     Object? icon = freezed,
   }) {
     return _then(_$KategoriDokterImpl(
@@ -104,9 +104,9 @@ class __$$KategoriDokterImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      nama: null == nama
-          ? _value.nama
-          : nama // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       icon: freezed == icon
           ? _value.icon
@@ -119,7 +119,7 @@ class __$$KategoriDokterImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$KategoriDokterImpl implements _KategoriDokter {
-  const _$KategoriDokterImpl({required this.id, required this.nama, this.icon});
+  const _$KategoriDokterImpl({required this.id, required this.name, this.icon});
 
   factory _$KategoriDokterImpl.fromJson(Map<String, dynamic> json) =>
       _$$KategoriDokterImplFromJson(json);
@@ -127,13 +127,13 @@ class _$KategoriDokterImpl implements _KategoriDokter {
   @override
   final String id;
   @override
-  final String nama;
+  final String name;
   @override
   final String? icon;
 
   @override
   String toString() {
-    return 'KategoriDokter(id: $id, nama: $nama, icon: $icon)';
+    return 'KategoriDokter(id: $id, name: $name, icon: $icon)';
   }
 
   @override
@@ -142,13 +142,13 @@ class _$KategoriDokterImpl implements _KategoriDokter {
         (other.runtimeType == runtimeType &&
             other is _$KategoriDokterImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.nama, nama) || other.nama == nama) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.icon, icon) || other.icon == icon));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nama, icon);
+  int get hashCode => Object.hash(runtimeType, id, name, icon);
 
   @JsonKey(ignore: true)
   @override
@@ -168,7 +168,7 @@ class _$KategoriDokterImpl implements _KategoriDokter {
 abstract class _KategoriDokter implements KategoriDokter {
   const factory _KategoriDokter(
       {required final String id,
-      required final String nama,
+      required final String name,
       final String? icon}) = _$KategoriDokterImpl;
 
   factory _KategoriDokter.fromJson(Map<String, dynamic> json) =
@@ -177,7 +177,7 @@ abstract class _KategoriDokter implements KategoriDokter {
   @override
   String get id;
   @override
-  String get nama;
+  String get name;
   @override
   String? get icon;
   @override

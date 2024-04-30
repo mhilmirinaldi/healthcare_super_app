@@ -2,7 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:super_app_telemedicine/data/firebase/firebase_dokter_repository.dart';
+import 'package:super_app_telemedicine/data/firebase/firebase_kategori_dokter_repository.dart';
 import 'package:super_app_telemedicine/data/repository/dokter_repository.dart';
+import 'package:super_app_telemedicine/domain/entity/kategori_dokter.dart';
+import 'package:super_app_telemedicine/domain/entity/kategori_obat.dart';
 import 'package:super_app_telemedicine/domain/entity/rekomendasi_dokter.dart';
 import 'package:super_app_telemedicine/domain/usecase/login/login.dart';
 import 'package:super_app_telemedicine/ui/page/main_page.dart';
@@ -36,7 +39,7 @@ class TestPage extends ConsumerWidget {
               //       }
               //     });
 
-              FirebaseDokterRepository dokterRepository = FirebaseDokterRepository();
+              // FirebaseDokterRepository dokterRepository = FirebaseDokterRepository();
               // dokterRepository.getRekomendasiDokter().then((result){
               //   if (result.isSuccess){
               //     // RekomendasiDokter rekomendasiDokter = result.resultValue![0];
@@ -46,14 +49,26 @@ class TestPage extends ConsumerWidget {
               //     log(result.errorMessage.toString());
               //   }
               // });
-              dokterRepository.getDokterByKategori(idKategori: '1').then((result){
-                if (result.isSuccess){
-                  log(result.resultValue.toString());
-                } else {
-                  log('gagal');
-                  log(result.errorMessage.toString());
-                }
-              });
+              // dokterRepository.getDokterByKategori(idKategori: '1').then((result){
+              //   if (result.isSuccess){
+              //     log(result.resultValue.toString());
+              //   } else {
+              //     log('gagal');
+              //     log(result.errorMessage.toString());
+              //   }
+              // });
+
+              // FirebaseKategoriDokterRepository kategoriDokterRepository = FirebaseKategoriDokterRepository();
+              // KategoriDokter kategoriDokter = const KategoriDokter(id: '8', name: 'Spesialis Kandungan');
+
+              // kategoriDokterRepository.createKategoriDokter(kategoriDokter: kategoriDokter).then((result){
+              //   if (result.isSuccess){
+              //     log(result.resultValue.toString());
+              //   } else {
+              //     log('gagal');
+              //     log(result.errorMessage.toString());
+              //   }
+              // });
             },
             child: Text("Login"),
           ),
