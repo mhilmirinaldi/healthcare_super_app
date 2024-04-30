@@ -18,7 +18,7 @@ _$DokterImpl _$$DokterImplFromJson(Map<String, dynamic> json) => _$DokterImpl(
               ?.map((e) => Review.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      harga: json['harga'] as String,
+      harga: (json['harga'] as num).toInt(),
       gambar: json['gambar'] as String?,
     );
 

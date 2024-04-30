@@ -12,7 +12,7 @@ class RekomendasiDokter with _$RekomendasiDokter {
     required String idKategori,
     int? ratingTotal,
     required int lamaKerja,
-    required String harga,
+    required int harga,
     String? gambar,
   }) = _RekomendasiDokter;
 

@@ -13,9 +13,6 @@ _$ReviewImpl _$$ReviewImplFromJson(Map<String, dynamic> json) => _$ReviewImpl(
       review: json['review'] as String,
       rating: (json['rating'] as num).toInt(),
       tanggal: json['tanggal'] as String?,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$ReviewImplToJson(_$ReviewImpl instance) =>
@@ -26,5 +23,4 @@ Map<String, dynamic> _$$ReviewImplToJson(_$ReviewImpl instance) =>
       'review': instance.review,
       'rating': instance.rating,
       'tanggal': instance.tanggal,
-      'createdAt': instance.createdAt?.toIso8601String(),
     };

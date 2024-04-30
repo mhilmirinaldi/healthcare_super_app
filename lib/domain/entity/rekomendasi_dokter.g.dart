@@ -14,7 +14,7 @@ _$RekomendasiDokterImpl _$$RekomendasiDokterImplFromJson(
       idKategori: json['idKategori'] as String,
       ratingTotal: (json['ratingTotal'] as num?)?.toInt(),
       lamaKerja: (json['lamaKerja'] as num).toInt(),
-      harga: json['harga'] as String,
+      harga: (json['harga'] as num).toInt(),
       gambar: json['gambar'] as String?,
     );
 

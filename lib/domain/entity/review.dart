@@ -12,7 +12,6 @@ class Review with _$Review {
     required String review,
     required int rating,
     String? tanggal,
-    DateTime? createdAt,
   }) = _Review;
 
   factory Review.fromJson(Map<String, dynamic> json) => _$ReviewFromJson(json);

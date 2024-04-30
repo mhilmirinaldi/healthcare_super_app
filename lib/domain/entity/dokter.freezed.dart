@@ -28,7 +28,7 @@ mixin _$Dokter {
   String get tempatPraktik => throw _privateConstructorUsedError;
   int? get ratingTotal => throw _privateConstructorUsedError;
   List<Review> get review => throw _privateConstructorUsedError;
-  String get harga => throw _privateConstructorUsedError;
+  int get harga => throw _privateConstructorUsedError;
   String? get gambar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -50,7 +50,7 @@ abstract class $DokterCopyWith<$Res> {
       String tempatPraktik,
       int? ratingTotal,
       List<Review> review,
-      String harga,
+      int harga,
       String? gambar});
 }
 
@@ -114,7 +114,7 @@ class _$DokterCopyWithImpl<$Res, $Val extends Dokter>
       harga: null == harga
           ? _value.harga
           : harga // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       gambar: freezed == gambar
           ? _value.gambar
           : gambar // ignore: cast_nullable_to_non_nullable
@@ -139,7 +139,7 @@ abstract class _$$DokterImplCopyWith<$Res> implements $DokterCopyWith<$Res> {
       String tempatPraktik,
       int? ratingTotal,
       List<Review> review,
-      String harga,
+      int harga,
       String? gambar});
 }
 
@@ -201,7 +201,7 @@ class __$$DokterImplCopyWithImpl<$Res>
       harga: null == harga
           ? _value.harga
           : harga // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       gambar: freezed == gambar
           ? _value.gambar
           : gambar // ignore: cast_nullable_to_non_nullable
@@ -253,7 +253,7 @@ class _$DokterImpl implements _Dokter {
   }
 
   @override
-  final String harga;
+  final int harga;
   @override
   final String? gambar;
 
@@ -322,7 +322,7 @@ abstract class _Dokter implements Dokter {
       required final String tempatPraktik,
       final int? ratingTotal,
       final List<Review> review,
-      required final String harga,
+      required final int harga,
       final String? gambar}) = _$DokterImpl;
 
   factory _Dokter.fromJson(Map<String, dynamic> json) = _$DokterImpl.fromJson;
@@ -344,7 +344,7 @@ abstract class _Dokter implements Dokter {
   @override
   List<Review> get review;
   @override
-  String get harga;
+  int get harga;
   @override
   String? get gambar;
   @override

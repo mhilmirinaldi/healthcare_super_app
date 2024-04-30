@@ -15,7 +15,7 @@ class Dokter with _$Dokter{
     required String tempatPraktik,
     int? ratingTotal,
     @Default([]) List<Review> review,
-    required String harga,
+    required int harga,
     String? gambar,
   }) = _Dokter;
 
