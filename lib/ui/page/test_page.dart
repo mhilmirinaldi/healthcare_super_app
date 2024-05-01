@@ -7,6 +7,12 @@ import 'package:super_app_telemedicine/data/repository/dokter_repository.dart';
 import 'package:super_app_telemedicine/domain/entity/kategori_dokter.dart';
 import 'package:super_app_telemedicine/domain/entity/kategori_obat.dart';
 import 'package:super_app_telemedicine/domain/entity/rekomendasi_dokter.dart';
+import 'package:super_app_telemedicine/domain/usecase/get_dokter_by_kategori/get_dokter_by_kategori.dart';
+import 'package:super_app_telemedicine/domain/usecase/get_dokter_by_kategori/get_dokter_by_kategori_param.dart';
+import 'package:super_app_telemedicine/domain/usecase/get_dokter_detail/get_dokter_detail.dart';
+import 'package:super_app_telemedicine/domain/usecase/get_dokter_detail/get_dokter_detail_param.dart';
+import 'package:super_app_telemedicine/domain/usecase/get_kategori_dokter/get_kategori_dokter.dart';
+import 'package:super_app_telemedicine/domain/usecase/get_rekomendasi_dokter/get_rekomendasi_dokter.dart';
 import 'package:super_app_telemedicine/domain/usecase/login/login.dart';
 import 'package:super_app_telemedicine/ui/page/main_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,6 +30,15 @@ class TestPage extends ConsumerWidget {
         body: Center(
           child: ElevatedButton(
             onPressed: () {
+              GetKategoriDokter getKategoriDokter = GetKategoriDokter(kategoriDokterRepository: FirebaseKategoriDokterRepository());
+              getKategoriDokter(null).then((result){
+                if (result.isSuccess){
+                  log(result.resultValue.toString());
+                } else {
+                  log('gagal');
+                  log(result.errorMessage.toString());
+                }
+              });
               // Login login = ref.watch(loginProvider);
 
               // login(LoginParams(email: "admin@gmail.com", password: '123456'))
@@ -49,7 +64,11 @@ class TestPage extends ConsumerWidget {
               //     log(result.errorMessage.toString());
               //   }
               // });
-              // dokterRepository.getDokterByKategori(idKategori: '1').then((result){
+
+              // FirebaseKategoriDokterRepository kategoriDokterRepository = FirebaseKategoriDokterRepository();
+              // KategoriDokter kategoriDokter = const KategoriDokter(id: '8', name: 'Spesialis Kandungan');
+
+              // kategoriDokterRepository.createKategoriDokter(kategoriDokter: kategoriDokter).then((result){
               //   if (result.isSuccess){
               //     log(result.resultValue.toString());
               //   } else {
@@ -58,10 +77,29 @@ class TestPage extends ConsumerWidget {
               //   }
               // });
 
-              // FirebaseKategoriDokterRepository kategoriDokterRepository = FirebaseKategoriDokterRepository();
-              // KategoriDokter kategoriDokter = const KategoriDokter(id: '8', name: 'Spesialis Kandungan');
+              // FirebaseDokterRepository dokterRepository = FirebaseDokterRepository();
+              // log('Panggil langsung repository');
+              // dokterRepository.getRekomendasiDokter().then((result){
+              //   if (result.isSuccess){
+              //     log(result.resultValue.toString());
+              //   } else {
+              //     log('gagal');
+              //     log(result.errorMessage.toString());
+              //   }
+              // });
 
-              // kategoriDokterRepository.createKategoriDokter(kategoriDokter: kategoriDokter).then((result){
+              // log('Panggil lewat usecase');
+              // GetRekomendasiDokter getRekomendasiDokter = GetRekomendasiDokter(dokterRepository: FirebaseDokterRepository());
+              // getRekomendasiDokter(null).then((result){
+              //   if (result.isSuccess){
+              //     log(result.resultValue.toString());
+              //   } else {
+              //     log('gagal');
+              //     log(result.errorMessage.toString());
+              //   }
+              // });
+              // GetDokterDetail getDokterDetail = GetDokterDetail(dokterRepository: FirebaseDokterRepository());
+              // getDokterDetail(GetDokterDetailParam(id: '2')).then((result){
               //   if (result.isSuccess){
               //     log(result.resultValue.toString());
               //   } else {
