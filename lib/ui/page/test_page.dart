@@ -1,22 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:super_app_telemedicine/data/firebase/firebase_dokter_repository.dart';
 import 'package:super_app_telemedicine/data/firebase/firebase_kategori_dokter_repository.dart';
-import 'package:super_app_telemedicine/data/repository/dokter_repository.dart';
-import 'package:super_app_telemedicine/domain/entity/kategori_dokter.dart';
-import 'package:super_app_telemedicine/domain/entity/kategori_obat.dart';
-import 'package:super_app_telemedicine/domain/entity/rekomendasi_dokter.dart';
-import 'package:super_app_telemedicine/domain/usecase/get_dokter_by_kategori/get_dokter_by_kategori.dart';
-import 'package:super_app_telemedicine/domain/usecase/get_dokter_by_kategori/get_dokter_by_kategori_param.dart';
-import 'package:super_app_telemedicine/domain/usecase/get_dokter_detail/get_dokter_detail.dart';
-import 'package:super_app_telemedicine/domain/usecase/get_dokter_detail/get_dokter_detail_param.dart';
 import 'package:super_app_telemedicine/domain/usecase/get_kategori_dokter/get_kategori_dokter.dart';
-import 'package:super_app_telemedicine/domain/usecase/get_rekomendasi_dokter/get_rekomendasi_dokter.dart';
-import 'package:super_app_telemedicine/domain/usecase/login/login.dart';
-import 'package:super_app_telemedicine/ui/page/main_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:super_app_telemedicine/ui/provider/usecase/login_provider.dart';
 
 class TestPage extends ConsumerWidget {
   const TestPage({super.key});
