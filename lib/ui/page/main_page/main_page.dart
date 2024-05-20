@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:super_app_telemedicine/ui/extension/build_context_extension.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
@@ -16,6 +17,8 @@ class _MainPageState extends ConsumerState<MainPage> {
     ref.listen(userDataProvider, (previous, next) {
       if (previous != null && next is AsyncData && next.value == null) {
         ref.read(routerProvider).goNamed('login');
+      } else if (next is AsyncError) {
+        context.showSnackBar(next.error.toString());
       }
     });
 
