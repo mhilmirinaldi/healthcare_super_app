@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/ui/extension/build_context_extension.dart';
+import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/misc/methods.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
-import 'package:super_app_telemedicine/ui/widget/text_field.dart';
 
-class LoginPage extends ConsumerWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-  LoginPage({super.key});
+class LoginPage extends ConsumerStatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends ConsumerState<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool passToggle = true;
+
+@override
+  Widget build(BuildContext context) {
     ref.listen(userDataProvider, (previous, next) {
       if (next is AsyncData) {
         if (next.value != null) {
@@ -36,16 +42,43 @@ class LoginPage extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
               children: [
-                CustomTextField(
-                  labelText: 'Email',
-                  controller: emailController,
-                ),
+                TextField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                      labelStyle: TextStyle(color: textColor),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: greyColor),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: greyColor)),
+                      prefixIcon: Icon(Icons.email),
+                    )),
                 verticalSpaces(20),
-                CustomTextField(
-                  labelText: 'Password',
-                  controller: passwordController,
-                  obscureText: true,
-                ),
+                TextField(
+                    controller: passwordController,
+                    obscureText: passToggle ? true : false,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      labelStyle: const TextStyle(color: textColor),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: greyColor),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: greyColor)),
+                      prefixIcon: const Icon(Icons.lock),
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          passToggle = !passToggle;
+                          setState(() {});
+                        },
+                        child: Icon(
+                          passToggle
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                      ),
+                    )),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
@@ -84,7 +117,7 @@ class LoginPage extends ConsumerWidget {
                     const Text("Don't have an account?"),
                     TextButton(
                       onPressed: () {
-                        // ref.read(routerProvider).goNamed('register');
+                        ref.read(routerProvider).goNamed('register');
                       },
                       child: const Text(
                         'Register',
