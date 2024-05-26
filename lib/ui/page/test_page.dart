@@ -17,6 +17,7 @@ class TestPage extends ConsumerWidget {
         body: Center(
           child: ElevatedButton(
             onPressed: () {
+              // TANPA PROVIDER
               GetKategoriDokter getKategoriDokter = GetKategoriDokter(kategoriDokterRepository: FirebaseKategoriDokterRepository());
               getKategoriDokter(null).then((result){
                 if (result.isSuccess){
@@ -26,8 +27,9 @@ class TestPage extends ConsumerWidget {
                   log(result.errorMessage.toString());
                 }
               });
-              // Login login = ref.watch(loginProvider);
 
+              // DENGAN PROVIDER
+              // Login login = ref.watch(loginProvider);
               // login(LoginParams(email: "admin@gmail.com", password: '123456'))
               //     .then((result){
               //       if (result.isSuccess){
