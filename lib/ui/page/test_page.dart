@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:super_app_telemedicine/data/firebase/firebase_kategori_dokter_repository.dart';
 import 'package:super_app_telemedicine/domain/usecase/get_kategori_dokter/get_kategori_dokter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
 class TestPage extends ConsumerWidget {
   const TestPage({super.key});
@@ -14,91 +15,113 @@ class TestPage extends ConsumerWidget {
         appBar: AppBar(
           title: const Text("Login Page"),
         ),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              // TANPA PROVIDER
-              GetKategoriDokter getKategoriDokter = GetKategoriDokter(kategoriDokterRepository: FirebaseKategoriDokterRepository());
-              getKategoriDokter(null).then((result){
-                if (result.isSuccess){
-                  log(result.resultValue.toString());
-                } else {
-                  log('gagal');
-                  log(result.errorMessage.toString());
-                }
-              });
+        body: Row(
+          children: [
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  // TANPA PROVIDER
+                  GetKategoriDokter getKategoriDokter = GetKategoriDokter(
+                      kategoriDokterRepository:
+                          FirebaseKategoriDokterRepository());
+                  getKategoriDokter(null).then((result) {
+                    if (result.isSuccess) {
+                      log(result.resultValue.toString());
+                    } else {
+                      log('gagal');
+                      log(result.errorMessage.toString());
+                    }
+                  });
 
-              // DENGAN PROVIDER
-              // Login login = ref.watch(loginProvider);
-              // login(LoginParams(email: "admin@gmail.com", password: '123456'))
-              //     .then((result){
-              //       if (result.isSuccess){
-              //         Navigator.of(context).push(MaterialPageRoute(
-              //           builder: (context) => MainPage(user: result.resultValue!),
-              //         ));
-              //       } else {
-              //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              //           content: Text(result.errorMessage!),
-              //         ));
-              //       }
-              //     });
+                  // DENGAN PROVIDER
+                  // Login login = ref.watch(loginProvider);
+                  // login(LoginParams(email: "admin@gmail.com", password: '123456'))
+                  //     .then((result){
+                  //       if (result.isSuccess){
+                  //         Navigator.of(context).push(MaterialPageRoute(
+                  //           builder: (context) => MainPage(user: result.resultValue!),
+                  //         ));
+                  //       } else {
+                  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  //           content: Text(result.errorMessage!),
+                  //         ));
+                  //       }
+                  //     });
 
-              // FirebaseDokterRepository dokterRepository = FirebaseDokterRepository();
-              // dokterRepository.getRekomendasiDokter().then((result){
-              //   if (result.isSuccess){
-              //     // RekomendasiDokter rekomendasiDokter = result.resultValue![0];
-              //     log(result.resultValue.toString());
-              //   } else {
-              //     log('gagal');
-              //     log(result.errorMessage.toString());
-              //   }
-              // });
+                  // FirebaseDokterRepository dokterRepository = FirebaseDokterRepository();
+                  // dokterRepository.getRekomendasiDokter().then((result){
+                  //   if (result.isSuccess){
+                  //     // RekomendasiDokter rekomendasiDokter = result.resultValue![0];
+                  //     log(result.resultValue.toString());
+                  //   } else {
+                  //     log('gagal');
+                  //     log(result.errorMessage.toString());
+                  //   }
+                  // });
 
-              // FirebaseKategoriDokterRepository kategoriDokterRepository = FirebaseKategoriDokterRepository();
-              // KategoriDokter kategoriDokter = const KategoriDokter(id: '8', name: 'Spesialis Kandungan');
+                  // FirebaseKategoriDokterRepository kategoriDokterRepository = FirebaseKategoriDokterRepository();
+                  // KategoriDokter kategoriDokter = const KategoriDokter(id: '8', name: 'Spesialis Kandungan');
 
-              // kategoriDokterRepository.createKategoriDokter(kategoriDokter: kategoriDokter).then((result){
-              //   if (result.isSuccess){
-              //     log(result.resultValue.toString());
-              //   } else {
-              //     log('gagal');
-              //     log(result.errorMessage.toString());
-              //   }
-              // });
+                  // kategoriDokterRepository.createKategoriDokter(kategoriDokter: kategoriDokter).then((result){
+                  //   if (result.isSuccess){
+                  //     log(result.resultValue.toString());
+                  //   } else {
+                  //     log('gagal');
+                  //     log(result.errorMessage.toString());
+                  //   }
+                  // });
 
-              // FirebaseDokterRepository dokterRepository = FirebaseDokterRepository();
-              // log('Panggil langsung repository');
-              // dokterRepository.getRekomendasiDokter().then((result){
-              //   if (result.isSuccess){
-              //     log(result.resultValue.toString());
-              //   } else {
-              //     log('gagal');
-              //     log(result.errorMessage.toString());
-              //   }
-              // });
+                  // FirebaseDokterRepository dokterRepository = FirebaseDokterRepository();
+                  // log('Panggil langsung repository');
+                  // dokterRepository.getRekomendasiDokter().then((result){
+                  //   if (result.isSuccess){
+                  //     log(result.resultValue.toString());
+                  //   } else {
+                  //     log('gagal');
+                  //     log(result.errorMessage.toString());
+                  //   }
+                  // });
 
-              // log('Panggil lewat usecase');
-              // GetRekomendasiDokter getRekomendasiDokter = GetRekomendasiDokter(dokterRepository: FirebaseDokterRepository());
-              // getRekomendasiDokter(null).then((result){
-              //   if (result.isSuccess){
-              //     log(result.resultValue.toString());
-              //   } else {
-              //     log('gagal');
-              //     log(result.errorMessage.toString());
-              //   }
-              // });
-              // GetDokterDetail getDokterDetail = GetDokterDetail(dokterRepository: FirebaseDokterRepository());
-              // getDokterDetail(GetDokterDetailParam(id: '2')).then((result){
-              //   if (result.isSuccess){
-              //     log(result.resultValue.toString());
-              //   } else {
-              //     log('gagal');
-              //     log(result.errorMessage.toString());
-              //   }
-              // });
-            },
-            child: Text("Login"),
-          ),
+                  // log('Panggil lewat usecase');
+                  // GetRekomendasiDokter getRekomendasiDokter = GetRekomendasiDokter(dokterRepository: FirebaseDokterRepository());
+                  // getRekomendasiDokter(null).then((result){
+                  //   if (result.isSuccess){
+                  //     log(result.resultValue.toString());
+                  //   } else {
+                  //     log('gagal');
+                  //     log(result.errorMessage.toString());
+                  //   }
+                  // });
+                  // GetDokterDetail getDokterDetail = GetDokterDetail(dokterRepository: FirebaseDokterRepository());
+                  // getDokterDetail(GetDokterDetailParam(id: '2')).then((result){
+                  //   if (result.isSuccess){
+                  //     log(result.resultValue.toString());
+                  //   } else {
+                  //     log('gagal');
+                  //     log(result.errorMessage.toString());
+                  //   }
+                  // });
+                },
+                child: Text("Login"),
+              ),
+            ),
+            Center(
+              child: Column(
+                children: [
+                  Text(ref.watch(userDataProvider).when(
+                        data: (data) => data.toString(),
+                        error: (error, stackTrace) => '',
+                        loading: () => 'Loading...',
+                      )),
+                  ElevatedButton(
+                      onPressed: () {
+                        ref.read(userDataProvider.notifier).logout();
+                      },
+                      child: const Text('Logout')),
+                ],
+              ),
+            ),
+          ],
         ));
   }
 }
