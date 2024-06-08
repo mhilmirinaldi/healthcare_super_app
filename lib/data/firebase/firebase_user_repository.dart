@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 import 'package:super_app_telemedicine/data/repository/user_repository.dart';
 import 'package:super_app_telemedicine/domain/entity/result.dart';
 import 'package:super_app_telemedicine/domain/entity/user.dart';
@@ -10,13 +14,14 @@ class FirebaseUserRepository implements UserRepository{
       : _firebaseFirestore = firebaseFirestore ?? FirebaseFirestore.instance;
     
   @override
-  Future<Result<User>> createUser({required String id, required String email, required String name}) async {
+  Future<Result<User>> createUser({required String id, required String email, required String name, String? photoUrl}) async {
     CollectionReference<Map<String, dynamic>> documentReference = _firebaseFirestore.collection('users');
 
     await documentReference.doc(id).set({
       'id': id,
       'email': email,
       'name': name,
+      'photoUrl': photoUrl,
     });
 
     DocumentSnapshot<Map<String, dynamic>> result = await documentReference.doc(id).get();
@@ -74,6 +79,29 @@ class FirebaseUserRepository implements UserRepository{
       
     } on FirebaseException catch (e) {
       return Result.failed(e.message ?? 'Failed to update user');
+    }
+  }
+
+  @override
+  Future<Result<User>> uploadProfilePicture({required User user, required File imageFile}) async {
+    String filename = basename(imageFile.path);
+
+    Reference reference = FirebaseStorage.instance.ref().child(filename);
+
+    try {
+      await reference.putFile(imageFile);
+
+      String downloadUrl = await reference.getDownloadURL();
+
+      var updateResult = await updateUser(user: user.copyWith(photoUrl: downloadUrl));
+
+      if (updateResult.isSuccess) {
+        return Result.success(updateResult.resultValue!);
+      } else {
+        return Result.failed(updateResult.errorMessage!);
+      }
+    } catch (e) {
+      return const Result.failed('Failed to upload profile picture'); 
     }
   }
 

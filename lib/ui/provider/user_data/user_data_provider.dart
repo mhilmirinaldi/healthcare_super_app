@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:super_app_telemedicine/domain/entity/user.dart';
@@ -5,12 +7,15 @@ import 'package:super_app_telemedicine/domain/usecase/get_logged_in_user/get_log
 import 'package:super_app_telemedicine/domain/usecase/login/login.dart';
 import 'package:super_app_telemedicine/domain/usecase/register/register.dart';
 import 'package:super_app_telemedicine/domain/usecase/register/register_param.dart';
+import 'package:super_app_telemedicine/domain/usecase/upload_profile_picture/upload_profile_picture.dart';
+import 'package:super_app_telemedicine/domain/usecase/upload_profile_picture/upload_profile_picture_param.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/list_kategori_dokter_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/list_rekomendasi_dokter_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/get_logged_in_user_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/login_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/logout_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/register_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/usecase/upload_profile_picture_provider.dart';
 
 part 'user_data_provider.g.dart';
 
@@ -50,13 +55,14 @@ class UserData extends _$UserData {
   Future<void> register(
       {required String email,
       required String password,
-      required String name}) async {
+      required String name,
+      String? photoUrl}) async {
     state = const AsyncLoading();
 
     Register register = ref.read(registerProvider);
 
-    var result = await register(
-        RegisterParam(email: email, password: password, name: name));
+    var result = await register(RegisterParam(
+        email: email, password: password, name: name, photoUrl: photoUrl));
 
     if (result.isSuccess) {
       _getListDokterAndKategori();
@@ -91,6 +97,17 @@ class UserData extends _$UserData {
     }
   }
 
+  Future<void> uploadProfilePicture({required User user , required File imageFile}) async{
+    UploadProfilePicture uploadProfilePicture = ref.read(uploadProfilePictureProvider);
+
+    var result = await uploadProfilePicture(UploadProfilePictureParam(user: user, imageFile: imageFile));
+
+    if (result.isSuccess) {
+      state = AsyncData(result.resultValue);
+    }
+  }
+
+  // Read list data yang ada di beberapa menu
   void _getListDokterAndKategori() {
     ref.read(listRekomendasiDokterProvider.notifier).getListRekomendasiDokter();
     ref.read(listKategoriDokterProvider.notifier).getListKategoriDokter();
