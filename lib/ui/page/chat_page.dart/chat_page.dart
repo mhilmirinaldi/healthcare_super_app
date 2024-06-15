@@ -40,7 +40,10 @@ class ChatPage extends ConsumerWidget {
                         .toList(),
                     orElse: () =>
                         [const Center(child: CircularProgressIndicator())],
-                  )
+                  ),
+                  verticalSpaces(8),
+                  const Text('Kategori',
+                      style: TextStyle(color: Colors.black, fontSize: 18)),
                 ],
               ),
             ),
