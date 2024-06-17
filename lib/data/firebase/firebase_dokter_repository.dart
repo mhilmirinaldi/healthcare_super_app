@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:super_app_telemedicine/data/repository/dokter_repository.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
-import 'package:super_app_telemedicine/domain/entity/rekomendasi_dokter.dart';
 import 'package:super_app_telemedicine/domain/entity/result.dart';
 
 class FirebaseDokterRepository implements DokterRepository{
@@ -11,14 +10,14 @@ class FirebaseDokterRepository implements DokterRepository{
       : _firebaseFirestore = firebaseFirestore ?? firestore.FirebaseFirestore.instance;
 
   @override
-  Future<Result<List<RekomendasiDokter>>> getDokterByKategori({required String idKategori}) async{
+  Future<Result<List<Dokter>>> getDokterByKategori({required String idKategori}) async{
     firestore.CollectionReference<Map<String, dynamic>> documentReference = _firebaseFirestore.collection('dokter');
 
     try {
       var result = await documentReference.where('idKategori', isEqualTo: idKategori).get();
 
       if(result.docs.isNotEmpty){
-        return Result.success(result.docs.map((e) => RekomendasiDokter.fromJson(e.data())).toList());
+        return Result.success(result.docs.map((e) => Dokter.fromJson(e.data())).toList());
       } else {
         return const Result.success([]);
       }
@@ -45,14 +44,14 @@ class FirebaseDokterRepository implements DokterRepository{
   }
 
   @override
-  Future<Result<List<RekomendasiDokter>>> getRekomendasiDokter() async {
+  Future<Result<List<Dokter>>> getRekomendasiDokter() async {
     firestore.CollectionReference<Map<String, dynamic>> documentReference = _firebaseFirestore.collection('dokter');
 
     try {
       var result = await documentReference.limit(2).get();
 
       if(result.docs.isNotEmpty){
-        return Result.success(result.docs.map((e) => RekomendasiDokter.fromJson(e.data())).toList());
+        return Result.success(result.docs.map((e) => Dokter.fromJson(e.data())).toList());
       } else {
         return const Result.success([]);
       }

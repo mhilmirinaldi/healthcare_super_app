@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:super_app_telemedicine/domain/entity/rekomendasi_dokter.dart';
+import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
 
 class DokterCard extends StatelessWidget {
-  final RekomendasiDokter dokter;
+  final Dokter dokter;
 
   const DokterCard({super.key, required this.dokter});
 

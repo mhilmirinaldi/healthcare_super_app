@@ -7,12 +7,12 @@ part of 'list_rekomendasi_dokter_provider.dart';
 // **************************************************************************
 
 String _$listRekomendasiDokterHash() =>
-    r'728aeb54670b85dba731b7974528c49bede0a91e';
+    r'2886d67cc46ab185446923cfba91fe7822b7d032';
 
 /// See also [ListRekomendasiDokter].
 @ProviderFor(ListRekomendasiDokter)
-final listRekomendasiDokterProvider = AsyncNotifierProvider<
-    ListRekomendasiDokter, List<RekomendasiDokter>>.internal(
+final listRekomendasiDokterProvider =
+    AsyncNotifierProvider<ListRekomendasiDokter, List<Dokter>>.internal(
   ListRekomendasiDokter.new,
   name: r'listRekomendasiDokterProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final listRekomendasiDokterProvider = AsyncNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$ListRekomendasiDokter = AsyncNotifier<List<RekomendasiDokter>>;
+typedef _$ListRekomendasiDokter = AsyncNotifier<List<Dokter>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

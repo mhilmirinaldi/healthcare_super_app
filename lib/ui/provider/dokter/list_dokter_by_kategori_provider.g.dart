@@ -7,7 +7,7 @@ part of 'list_dokter_by_kategori_provider.dart';
 // **************************************************************************
 
 String _$listDokterByKategoriHash() =>
-    r'6e0468747eaeb1c72d417008bd965ee8f064b426';
+    r'6ddf350dd1a87229bf452a66248974a6df20584e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -35,8 +35,7 @@ class _SystemHash {
 const listDokterByKategoriProvider = ListDokterByKategoriFamily();
 
 /// See also [listDokterByKategori].
-class ListDokterByKategoriFamily
-    extends Family<AsyncValue<List<RekomendasiDokter>>> {
+class ListDokterByKategoriFamily extends Family<AsyncValue<List<Dokter>>> {
   /// See also [listDokterByKategori].
   const ListDokterByKategoriFamily();
 
@@ -75,7 +74,7 @@ class ListDokterByKategoriFamily
 
 /// See also [listDokterByKategori].
 class ListDokterByKategoriProvider
-    extends AutoDisposeFutureProvider<List<RekomendasiDokter>> {
+    extends AutoDisposeFutureProvider<List<Dokter>> {
   /// See also [listDokterByKategori].
   ListDokterByKategoriProvider({
     required String idKategori,
@@ -110,8 +109,7 @@ class ListDokterByKategoriProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<RekomendasiDokter>> Function(ListDokterByKategoriRef provider)
-        create,
+    FutureOr<List<Dokter>> Function(ListDokterByKategoriRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -128,7 +126,7 @@ class ListDokterByKategoriProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<RekomendasiDokter>> createElement() {
+  AutoDisposeFutureProviderElement<List<Dokter>> createElement() {
     return _ListDokterByKategoriProviderElement(this);
   }
 
@@ -147,14 +145,13 @@ class ListDokterByKategoriProvider
   }
 }
 
-mixin ListDokterByKategoriRef
-    on AutoDisposeFutureProviderRef<List<RekomendasiDokter>> {
+mixin ListDokterByKategoriRef on AutoDisposeFutureProviderRef<List<Dokter>> {
   /// The parameter `idKategori` of this provider.
   String get idKategori;
 }
 
 class _ListDokterByKategoriProviderElement
-    extends AutoDisposeFutureProviderElement<List<RekomendasiDokter>>
+    extends AutoDisposeFutureProviderElement<List<Dokter>>
     with ListDokterByKategoriRef {
   _ListDokterByKategoriProviderElement(super.provider);
 
