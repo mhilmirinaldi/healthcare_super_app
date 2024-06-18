@@ -4,20 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
+import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/detail_dokter_page/info_row.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/detail_dokter_page/review_card.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
-class DetailDokterPage extends ConsumerWidget {
+class DetailDokterPage extends ConsumerStatefulWidget {
   final Dokter dokter;
 
   const DetailDokterPage({super.key, required this.dokter});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    String selectedFilter = 'Paling Membantu';
-    String selectedRating = 'Semua Rating';
+  ConsumerState<DetailDokterPage> createState() => _DetailDokterPageState();
+}
 
+class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
+  String selectedFilter = 'Urutkan';
+  String selectedRating = 'Rating';
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -44,22 +50,23 @@ class DetailDokterPage extends ConsumerWidget {
                   color: const Color(0xFFCCD8EF),
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
-                    image: dokter.gambar == null || dokter.gambar!.isEmpty
+                    image: widget.dokter.gambar == null ||
+                            widget.dokter.gambar!.isEmpty
                         ? const AssetImage(
                             'assets/default_profile_doctor_male_transparent.png')
-                        : NetworkImage(dokter.gambar!) as ImageProvider,
+                        : NetworkImage(widget.dokter.gambar!) as ImageProvider,
                     fit: BoxFit.contain,
                   ),
                 ),
               ),
               const SizedBox(height: 16),
               Text(
-                dokter.nama,
+                widget.dokter.nama,
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
               Text(
-                dokter.kategori,
+                widget.dokter.kategori,
                 style: TextStyle(fontSize: 16, color: Colors.grey[800]),
               ),
               const SizedBox(height: 8),
@@ -74,7 +81,8 @@ class DetailDokterPage extends ConsumerWidget {
                         const Icon(Icons.star, size: 16, color: Colors.orange),
                         const SizedBox(width: 4),
                         Text(
-                          dokter.ratingTotal?.toStringAsFixed(1) ?? '0.0',
+                          widget.dokter.ratingTotal?.toStringAsFixed(1) ??
+                              '0.0',
                           style: const TextStyle(fontSize: 14),
                         ),
                       ],
@@ -90,7 +98,7 @@ class DetailDokterPage extends ConsumerWidget {
                         Icon(Icons.work, size: 16, color: Colors.grey[600]),
                         const SizedBox(width: 4),
                         Text(
-                          '${dokter.lamaKerja} Tahun',
+                          '${widget.dokter.lamaKerja} Tahun',
                           style: const TextStyle(fontSize: 14),
                         ),
                       ],
@@ -99,12 +107,13 @@ class DetailDokterPage extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              infoRow('Alumnus', dokter.alumnus, 'assets/alumnus.png'),
+              infoRow('Alumnus', widget.dokter.alumnus, 'assets/alumnus.png'),
               const SizedBox(height: 8),
-              infoRow('Tempat Praktik', dokter.tempatPraktik,
+              infoRow('Tempat Praktik', widget.dokter.tempatPraktik,
                   'assets/tempat_praktik.png'),
               const SizedBox(height: 8),
-              infoRow('Nomor STR', dokter.nomorStr, 'assets/nomor_str.png'),
+              infoRow(
+                  'Nomor STR', widget.dokter.nomorStr, 'assets/nomor_str.png'),
               const SizedBox(height: 16),
               const Text(
                 'Review',
@@ -118,7 +127,7 @@ class DetailDokterPage extends ConsumerWidget {
                       const Icon(Icons.star, size: 16, color: Colors.orange),
                       const SizedBox(width: 4),
                       Text(
-                        dokter.ratingTotal?.toStringAsFixed(1) ?? '0.0',
+                        widget.dokter.ratingTotal?.toStringAsFixed(1) ?? '0.0',
                         style: const TextStyle(fontSize: 14),
                       ),
                       const Text(
@@ -130,32 +139,9 @@ class DetailDokterPage extends ConsumerWidget {
                   Row(
                     children: [
                       DropdownButton<String>(
-                        value: selectedFilter,
-                        items: <String>[
-                          'Paling Membantu',
-                          'Rating Tertinggi',
-                          'Rating Terendah',
-                          'Terbaru'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            selectedFilter = newValue;
-                          }
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      DropdownButton<String>(
                         value: selectedRating,
                         items: <String>[
-                          'Semua Rating',
+                          'Rating',
                           '5 Bintang',
                           '4 Bintang',
                           '3 Bintang',
@@ -164,29 +150,69 @@ class DetailDokterPage extends ConsumerWidget {
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
+                            child: value == 'Rating'
+                                ? Text(
+                                    value,
+                                    style: const TextStyle(fontSize: 14),
+                                  )
+                                : Row(children: [
+                                    const Icon(
+                                      Icons.star,
+                                      size: 16,
+                                      color: Colors.orange,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      ('${value[0]}.0'),
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                  ]),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            if (newValue != null) {
+                              selectedRating = newValue;
+                            }
+                          });
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      DropdownButton<String>(
+                        value: selectedFilter,
+                        items: <String>[
+                          'Urutkan',
+                          'Rating Tertinggi',
+                          'Rating Terendah',
+                          'Terbaru'
+                        ].map<DropdownMenuItem<String>>((value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
                             child: Text(
                               value,
                               style: const TextStyle(fontSize: 14),
                             ),
                           );
                         }).toList(),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            selectedRating = newValue;
-                          }
+                        onChanged: (newValue) {
+                          setState(() {
+                            if (newValue != null) {
+                              selectedFilter = newValue;
+                            }
+                          });
                         },
                       ),
                     ],
                   ),
                 ],
               ),
-              ...dokter.review.map((rev) => reviewCard(rev)).toList(),
+              ...widget.dokter.review.map((rev) => reviewCard(rev)),
             ],
           ),
         ],
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(left: 24, right: 24, top: 12, bottom: 24),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -206,7 +232,7 @@ class DetailDokterPage extends ConsumerWidget {
               children: [
                 const Text('Biaya Konsultasi'),
                 Text(
-                  dokter.harga.toIDRCurrency(),
+                  widget.dokter.harga.toIDRCurrency(),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -218,17 +244,25 @@ class DetailDokterPage extends ConsumerWidget {
               onPressed: () {
                 log('Chat button on tap');
               },
-              style: ElevatedButton.styleFrom(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
-                backgroundColor: const Color(0xFFE1004E),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(const Color(0xFFE1004E)),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 24)),
+                  minimumSize: MaterialStateProperty.all(const Size(0, 0)),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
-              ),
               child: const Text(
                 'Chat',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
             ),
           ],
