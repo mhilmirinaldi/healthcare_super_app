@@ -1,19 +1,21 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
+import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
-class DokterCard extends StatelessWidget {
+class DokterCard extends ConsumerWidget {
   final Dokter dokter;
 
   const DokterCard({super.key, required this.dokter});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        log('Card on tap');
+        ref.read(routerProvider).pushNamed('detail_dokter', extra: dokter);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
@@ -57,23 +59,25 @@ class DokterCard extends StatelessWidget {
                     Text(
                       dokter.nama,
                       style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
+                          fontSize: 16, fontWeight: FontWeight.w500),
                     ),
-                    const Text(
+                    Text(
                       'Dokter Umum',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                      style: TextStyle(fontSize: 14, color: Colors.grey[800]),
                     ),
                     Row(
                       children: [
                         const Icon(Icons.star, size: 14, color: Colors.orange),
+                        const SizedBox(width: 1),
                         Text(
                           dokter.ratingTotal.toString(),
                           style: const TextStyle(fontSize: 12),
                         ),
                         const SizedBox(width: 8),
-                        const Icon(Icons.work, size: 14, color: Colors.grey),
+                        Icon(Icons.work, size: 14, color: Colors.grey[600]),
+                        const SizedBox(width: 2),
                         Text(
-                          '${dokter.lamaKerja} tahun',
+                          '${dokter.lamaKerja} Tahun',
                           style: const TextStyle(fontSize: 12),
                         ),
                       ],
@@ -82,7 +86,7 @@ class DokterCard extends StatelessWidget {
                     Text(
                       dokter.harga.toIDRCurrency(),
                       style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
+                          fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(height: 3),
                   ],

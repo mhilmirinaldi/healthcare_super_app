@@ -30,14 +30,14 @@ class ChatPage extends ConsumerWidget {
                 children: [
                   const Text(
                     'Chat dengan dokter',
-                    style: TextStyle(color: Colors.black, fontSize: 19),
+                    style: TextStyle(fontSize: 20),
                   ),
                   const Divider(),
                   verticalSpaces(14),
                   searchBar(),
                   verticalSpaces(18),
                   const Text('Rekomendasi dokter',
-                      style: TextStyle(color: Colors.black, fontSize: 18)),
+                      style: TextStyle(fontSize: 18)),
                   ...listDokter.maybeWhen(
                     data: (dokters) => dokters
                         .map((dokter) => DokterCard(dokter: dokter))
@@ -47,7 +47,7 @@ class ChatPage extends ConsumerWidget {
                   ),
                   verticalSpaces(8),
                   const Text('Kategori',
-                      style: TextStyle(color: Colors.black, fontSize: 18)),
+                      style: TextStyle(fontSize: 18)),
                   verticalSpaces(14),
                   kategori.maybeWhen(
                     data: (kategoris) {

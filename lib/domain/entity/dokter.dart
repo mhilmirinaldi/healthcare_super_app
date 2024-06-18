@@ -13,7 +13,7 @@ class Dokter with _$Dokter{
     required int lamaKerja,
     required String alumnus,
     required String tempatPraktik,
-    int? ratingTotal,
+    double? ratingTotal,
     @Default([]) List<Review> review,
     required int harga,
     String? gambar,

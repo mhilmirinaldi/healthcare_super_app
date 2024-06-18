@@ -26,7 +26,7 @@ mixin _$Dokter {
   int get lamaKerja => throw _privateConstructorUsedError;
   String get alumnus => throw _privateConstructorUsedError;
   String get tempatPraktik => throw _privateConstructorUsedError;
-  int? get ratingTotal => throw _privateConstructorUsedError;
+  double? get ratingTotal => throw _privateConstructorUsedError;
   List<Review> get review => throw _privateConstructorUsedError;
   int get harga => throw _privateConstructorUsedError;
   String? get gambar => throw _privateConstructorUsedError;
@@ -48,7 +48,7 @@ abstract class $DokterCopyWith<$Res> {
       int lamaKerja,
       String alumnus,
       String tempatPraktik,
-      int? ratingTotal,
+      double? ratingTotal,
       List<Review> review,
       int harga,
       String? gambar});
@@ -106,7 +106,7 @@ class _$DokterCopyWithImpl<$Res, $Val extends Dokter>
       ratingTotal: freezed == ratingTotal
           ? _value.ratingTotal
           : ratingTotal // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       review: null == review
           ? _value.review
           : review // ignore: cast_nullable_to_non_nullable
@@ -137,7 +137,7 @@ abstract class _$$DokterImplCopyWith<$Res> implements $DokterCopyWith<$Res> {
       int lamaKerja,
       String alumnus,
       String tempatPraktik,
-      int? ratingTotal,
+      double? ratingTotal,
       List<Review> review,
       int harga,
       String? gambar});
@@ -193,7 +193,7 @@ class __$$DokterImplCopyWithImpl<$Res>
       ratingTotal: freezed == ratingTotal
           ? _value.ratingTotal
           : ratingTotal // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       review: null == review
           ? _value._review
           : review // ignore: cast_nullable_to_non_nullable
@@ -242,7 +242,7 @@ class _$DokterImpl implements _Dokter {
   @override
   final String tempatPraktik;
   @override
-  final int? ratingTotal;
+  final double? ratingTotal;
   final List<Review> _review;
   @override
   @JsonKey()
@@ -320,7 +320,7 @@ abstract class _Dokter implements Dokter {
       required final int lamaKerja,
       required final String alumnus,
       required final String tempatPraktik,
-      final int? ratingTotal,
+      final double? ratingTotal,
       final List<Review> review,
       required final int harga,
       final String? gambar}) = _$DokterImpl;
@@ -340,7 +340,7 @@ abstract class _Dokter implements Dokter {
   @override
   String get tempatPraktik;
   @override
-  int? get ratingTotal;
+  double? get ratingTotal;
   @override
   List<Review> get review;
   @override

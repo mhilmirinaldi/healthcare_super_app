@@ -31,9 +31,9 @@ class MainApp extends ConsumerWidget {
               brightness: Brightness.light),
           useMaterial3: true,
           textTheme: TextTheme(
-            bodyMedium: GoogleFonts.nunito(color: textColor),
-            bodyLarge: GoogleFonts.nunito(color: textColor),
-            labelLarge: GoogleFonts.nunito(color: textColor),
+            bodyMedium: GoogleFonts.nunito(color: Colors.black),
+            bodyLarge: GoogleFonts.nunito(color: Colors.black),
+            labelLarge: GoogleFonts.nunito(color: Colors.black),
           )),
       debugShowCheckedModeBanner: false,
       routeInformationParser: ref.watch(routerProvider).routeInformationParser,
