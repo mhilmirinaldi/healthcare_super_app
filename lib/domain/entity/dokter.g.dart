@@ -20,6 +20,8 @@ _$DokterImpl _$$DokterImplFromJson(Map<String, dynamic> json) => _$DokterImpl(
           const [],
       harga: (json['harga'] as num).toInt(),
       gambar: json['gambar'] as String?,
+      kategori: json['kategori'] as String,
+      nomorStr: json['nomorStr'] as String,
     );
 
 Map<String, dynamic> _$$DokterImplToJson(_$DokterImpl instance) =>
@@ -34,4 +36,6 @@ Map<String, dynamic> _$$DokterImplToJson(_$DokterImpl instance) =>
       'review': instance.review,
       'harga': instance.harga,
       'gambar': instance.gambar,
+      'kategori': instance.kategori,
+      'nomorStr': instance.nomorStr,
     };

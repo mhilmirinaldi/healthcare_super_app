@@ -17,6 +17,8 @@ class Dokter with _$Dokter{
     @Default([]) List<Review> review,
     required int harga,
     String? gambar,
+    required String kategori,
+    required String nomorStr,
   }) = _Dokter;
 
   factory Dokter.fromJson(Map<String, dynamic> json) => _$DokterFromJson(json);

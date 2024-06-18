@@ -15,6 +15,9 @@ class DetailDokterPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    String selectedFilter = 'Paling Membantu';
+    String selectedRating = 'Semua Rating';
+
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -56,7 +59,7 @@ class DetailDokterPage extends ConsumerWidget {
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
               Text(
-                'Dokter Umum',
+                dokter.kategori,
                 style: TextStyle(fontSize: 16, color: Colors.grey[800]),
               ),
               const SizedBox(height: 8),
@@ -101,71 +104,82 @@ class DetailDokterPage extends ConsumerWidget {
               infoRow('Tempat Praktik', dokter.tempatPraktik,
                   'assets/tempat_praktik.png'),
               const SizedBox(height: 8),
-              infoRow('Nomor STR', dokter.id, 'assets/nomor_str.png'),
+              infoRow('Nomor STR', dokter.nomorStr, 'assets/nomor_str.png'),
               const SizedBox(height: 16),
               const Text(
                 'Review',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    Row(
-      children: [
-        const Icon(Icons.star, size: 16, color: Colors.orange),
-        const SizedBox(width: 4),
-        Text(
-          dokter.ratingTotal?.toStringAsFixed(1) ?? '0.0',
-          style: const TextStyle(fontSize: 14),
-        ),
-        const Text(
-          ' / 5.0',
-          style: TextStyle(fontSize: 14),
-        ),
-      ],
-    ),
-    Row(
-      children: [
-        Container(
-          height: 40, // Atur tinggi dropdown
-          child: DropdownButton<String>(
-            value: 'Rating',
-            items: <String>['Rating', 'Tanggal']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(
-                  value,
-                  style: const TextStyle(fontSize: 14),
-                ),
-              );
-            }).toList(),
-            onChanged: (_) {},
-          ),
-        ),
-        const SizedBox(width: 8),
-        Container(
-          height: 40, // Atur tinggi dropdown
-          child: DropdownButton<String>(
-            value: 'Urutkan',
-            items: <String>['Urutkan']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(
-                  value,
-                  style: const TextStyle(fontSize: 14),
-                ),
-              );
-            }).toList(),
-            onChanged: (_) {},
-          ),
-        ),
-      ],
-    ),
-  ],
-),
-
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.star, size: 16, color: Colors.orange),
+                      const SizedBox(width: 4),
+                      Text(
+                        dokter.ratingTotal?.toStringAsFixed(1) ?? '0.0',
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                      const Text(
+                        ' / 5.0',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      DropdownButton<String>(
+                        value: selectedFilter,
+                        items: <String>[
+                          'Paling Membantu',
+                          'Rating Tertinggi',
+                          'Rating Terendah',
+                          'Terbaru'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            selectedFilter = newValue;
+                          }
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      DropdownButton<String>(
+                        value: selectedRating,
+                        items: <String>[
+                          'Semua Rating',
+                          '5 Bintang',
+                          '4 Bintang',
+                          '3 Bintang',
+                          '2 Bintang',
+                          '1 Bintang'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            selectedRating = newValue;
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
               ...dokter.review.map((rev) => reviewCard(rev)).toList(),
             ],
           ),

@@ -30,6 +30,8 @@ mixin _$Dokter {
   List<Review> get review => throw _privateConstructorUsedError;
   int get harga => throw _privateConstructorUsedError;
   String? get gambar => throw _privateConstructorUsedError;
+  String get kategori => throw _privateConstructorUsedError;
+  String get nomorStr => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +53,9 @@ abstract class $DokterCopyWith<$Res> {
       double? ratingTotal,
       List<Review> review,
       int harga,
-      String? gambar});
+      String? gambar,
+      String kategori,
+      String nomorStr});
 }
 
 /// @nodoc
@@ -77,6 +81,8 @@ class _$DokterCopyWithImpl<$Res, $Val extends Dokter>
     Object? review = null,
     Object? harga = null,
     Object? gambar = freezed,
+    Object? kategori = null,
+    Object? nomorStr = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -119,6 +125,14 @@ class _$DokterCopyWithImpl<$Res, $Val extends Dokter>
           ? _value.gambar
           : gambar // ignore: cast_nullable_to_non_nullable
               as String?,
+      kategori: null == kategori
+          ? _value.kategori
+          : kategori // ignore: cast_nullable_to_non_nullable
+              as String,
+      nomorStr: null == nomorStr
+          ? _value.nomorStr
+          : nomorStr // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -140,7 +154,9 @@ abstract class _$$DokterImplCopyWith<$Res> implements $DokterCopyWith<$Res> {
       double? ratingTotal,
       List<Review> review,
       int harga,
-      String? gambar});
+      String? gambar,
+      String kategori,
+      String nomorStr});
 }
 
 /// @nodoc
@@ -164,6 +180,8 @@ class __$$DokterImplCopyWithImpl<$Res>
     Object? review = null,
     Object? harga = null,
     Object? gambar = freezed,
+    Object? kategori = null,
+    Object? nomorStr = null,
   }) {
     return _then(_$DokterImpl(
       id: null == id
@@ -206,6 +224,14 @@ class __$$DokterImplCopyWithImpl<$Res>
           ? _value.gambar
           : gambar // ignore: cast_nullable_to_non_nullable
               as String?,
+      kategori: null == kategori
+          ? _value.kategori
+          : kategori // ignore: cast_nullable_to_non_nullable
+              as String,
+      nomorStr: null == nomorStr
+          ? _value.nomorStr
+          : nomorStr // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -223,7 +249,9 @@ class _$DokterImpl implements _Dokter {
       this.ratingTotal,
       final List<Review> review = const [],
       required this.harga,
-      this.gambar})
+      this.gambar,
+      required this.kategori,
+      required this.nomorStr})
       : _review = review;
 
   factory _$DokterImpl.fromJson(Map<String, dynamic> json) =>
@@ -256,10 +284,14 @@ class _$DokterImpl implements _Dokter {
   final int harga;
   @override
   final String? gambar;
+  @override
+  final String kategori;
+  @override
+  final String nomorStr;
 
   @override
   String toString() {
-    return 'Dokter(id: $id, nama: $nama, idKategori: $idKategori, lamaKerja: $lamaKerja, alumnus: $alumnus, tempatPraktik: $tempatPraktik, ratingTotal: $ratingTotal, review: $review, harga: $harga, gambar: $gambar)';
+    return 'Dokter(id: $id, nama: $nama, idKategori: $idKategori, lamaKerja: $lamaKerja, alumnus: $alumnus, tempatPraktik: $tempatPraktik, ratingTotal: $ratingTotal, review: $review, harga: $harga, gambar: $gambar, kategori: $kategori, nomorStr: $nomorStr)';
   }
 
   @override
@@ -280,7 +312,11 @@ class _$DokterImpl implements _Dokter {
                 other.ratingTotal == ratingTotal) &&
             const DeepCollectionEquality().equals(other._review, _review) &&
             (identical(other.harga, harga) || other.harga == harga) &&
-            (identical(other.gambar, gambar) || other.gambar == gambar));
+            (identical(other.gambar, gambar) || other.gambar == gambar) &&
+            (identical(other.kategori, kategori) ||
+                other.kategori == kategori) &&
+            (identical(other.nomorStr, nomorStr) ||
+                other.nomorStr == nomorStr));
   }
 
   @JsonKey(ignore: true)
@@ -296,7 +332,9 @@ class _$DokterImpl implements _Dokter {
       ratingTotal,
       const DeepCollectionEquality().hash(_review),
       harga,
-      gambar);
+      gambar,
+      kategori,
+      nomorStr);
 
   @JsonKey(ignore: true)
   @override
@@ -323,7 +361,9 @@ abstract class _Dokter implements Dokter {
       final double? ratingTotal,
       final List<Review> review,
       required final int harga,
-      final String? gambar}) = _$DokterImpl;
+      final String? gambar,
+      required final String kategori,
+      required final String nomorStr}) = _$DokterImpl;
 
   factory _Dokter.fromJson(Map<String, dynamic> json) = _$DokterImpl.fromJson;
 
@@ -347,6 +387,10 @@ abstract class _Dokter implements Dokter {
   int get harga;
   @override
   String? get gambar;
+  @override
+  String get kategori;
+  @override
+  String get nomorStr;
   @override
   @JsonKey(ignore: true)
   _$$DokterImplCopyWith<_$DokterImpl> get copyWith =>

@@ -62,7 +62,7 @@ class DokterCard extends ConsumerWidget {
                           fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      'Dokter Umum',
+                      dokter.kategori,
                       style: TextStyle(fontSize: 14, color: Colors.grey[800]),
                     ),
                     Row(
