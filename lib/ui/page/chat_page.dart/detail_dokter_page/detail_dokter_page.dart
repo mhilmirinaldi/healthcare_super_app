@@ -2,9 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
+import 'package:super_app_telemedicine/domain/entity/review.dart'; // Pastikan impor ini sesuai dengan path yang benar
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
-import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/detail_dokter_page/info_row.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/detail_dokter_page/review_card.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
@@ -22,8 +23,38 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
   String selectedFilter = 'Urutkan';
   String selectedRating = 'Rating';
 
+List<Review> getFilteredReviews() {
+  List<Review> reviews = List.from(widget.dokter.review); // Membuat salinan list
+
+  // Filter reviews based on selectedRating
+  if (selectedRating != 'Rating') {
+    int rating = int.parse(selectedRating[0]);
+    reviews = reviews.where((review) => review.rating == rating).toList();
+  }
+
+  // Sort reviews based on selectedFilter
+  if (selectedFilter == 'Rating Tertinggi') {
+    reviews.sort((a, b) => b.rating.compareTo(a.rating));
+  } else if (selectedFilter == 'Rating Terendah') {
+    reviews.sort((a, b) => a.rating.compareTo(b.rating));
+  } else if (selectedFilter == 'Terbaru') {
+    DateFormat inputFormat = DateFormat('dd-MM-yyyy');
+    reviews.sort((a, b) {
+      DateTime dateA = inputFormat.parse(a.tanggal ?? '');
+      DateTime dateB = inputFormat.parse(b.tanggal ?? '');
+      return dateB.compareTo(dateA);
+    });
+  }
+
+  return reviews;
+}
+
+
+
   @override
   Widget build(BuildContext context) {
+    List<Review> filteredReviews = getFilteredReviews();
+
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -194,7 +225,7 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
                             ),
                           );
                         }).toList(),
-                        onChanged: (newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
                             if (newValue != null) {
                               selectedFilter = newValue;
@@ -206,13 +237,13 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
                   ),
                 ],
               ),
-              ...widget.dokter.review.map((rev) => reviewCard(rev)),
+              ...filteredReviews.map((rev) => reviewCard(rev)),
             ],
           ),
         ],
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(left: 24, right: 24, top: 12, bottom: 24),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
