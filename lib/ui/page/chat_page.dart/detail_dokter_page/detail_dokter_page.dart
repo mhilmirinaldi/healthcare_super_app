@@ -243,7 +243,7 @@ List<Review> getFilteredReviews() {
         ],
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 24),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
