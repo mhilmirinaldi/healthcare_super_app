@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
+import 'package:super_app_telemedicine/ui/extension/str_extension.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
 class DokterCard extends ConsumerWidget {
@@ -57,7 +58,7 @@ class DokterCard extends ConsumerWidget {
                   children: [
                     const SizedBox(height: 3),
                     Text(
-                      dokter.nama,
+                      dokter.nama.capitalize(),
                       style: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w500),
                     ),

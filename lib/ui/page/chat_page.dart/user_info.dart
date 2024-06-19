@@ -28,7 +28,6 @@ Widget userInfo(WidgetRef ref) {
         ),
         horizontalSpaces(10),
         Text(
-          // Fetch the user's name and limit to the first two words
           (ref.watch(userDataProvider).valueOrNull?.name ?? '')
               .split(' ')
               .take(2)

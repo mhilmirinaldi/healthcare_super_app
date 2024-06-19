@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
-import 'package:super_app_telemedicine/domain/entity/review.dart'; // Pastikan impor ini sesuai dengan path yang benar
+import 'package:super_app_telemedicine/domain/entity/review.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
+import 'package:super_app_telemedicine/ui/extension/str_extension.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/detail_dokter_page/info_row.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/detail_dokter_page/review_card.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
@@ -24,15 +25,13 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
   String selectedRating = 'Rating';
 
 List<Review> getFilteredReviews() {
-  List<Review> reviews = List.from(widget.dokter.review); // Membuat salinan list
+  List<Review> reviews = List.from(widget.dokter.review);
 
-  // Filter reviews based on selectedRating
   if (selectedRating != 'Rating') {
     int rating = int.parse(selectedRating[0]);
     reviews = reviews.where((review) => review.rating == rating).toList();
   }
 
-  // Sort reviews based on selectedFilter
   if (selectedFilter == 'Rating Tertinggi') {
     reviews.sort((a, b) => b.rating.compareTo(a.rating));
   } else if (selectedFilter == 'Rating Terendah') {
@@ -92,7 +91,7 @@ List<Review> getFilteredReviews() {
               ),
               const SizedBox(height: 16),
               Text(
-                widget.dokter.nama,
+                widget.dokter.nama.capitalize(),
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),

@@ -13,16 +13,22 @@ class SearchPage extends ConsumerStatefulWidget {
 
 class _SearchPageState extends ConsumerState<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
+  bool _hasSearched = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(FocusNode());
+      FocusScope.of(context).requestFocus(_searchFocusNode);
     });
   }
 
+  final FocusNode _searchFocusNode = FocusNode();
+
   void _search(String query) {
+    setState(() {
+      _hasSearched = true;
+    });
     ref.read(searchDokterProvider.notifier).searchDokter(query);
   }
 
@@ -31,39 +37,60 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     final searchResults = ref.watch(searchDokterProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => ref.read(routerProvider).pop(),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0),
+              ),
+            ),
+          child: AppBar(
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => ref.read(routerProvider).pop(),
+              ),
+            ),
+            title: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: TextField(
+                controller: _searchController,
+                focusNode: _searchFocusNode,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: 'Cari dokter atau spesialis',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                ),
+                onSubmitted: (query) {
+                  _search(query);
+                },
+              ),
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    _search(_searchController.text);
+                  },
+                ),
+              ),
+            ],
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            
           ),
         ),
-        title: TextField(
-          controller: _searchController,
-          autofocus: true,
-          decoration: const InputDecoration(
-            hintText: 'Cari dokter',
-            border: InputBorder.none,
-          ),
-          onSubmitted: (query) {
-            _search(query);
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              _search(_searchController.text);
-            },
-          ),
-        ],
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
-        child: searchResults.when(
+        padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24, top: 8),
+        child: _hasSearched ? searchResults.when(
           data: (dokters) {
             if (dokters.isEmpty) {
               return const Center(child: Text('Tidak ada hasil ditemukan'));
@@ -77,7 +104,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stack) => Center(child: Text('Error: $error')),
-        ),
+        ) : const Text(''),
       ),
     );
   }

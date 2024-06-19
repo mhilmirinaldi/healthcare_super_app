@@ -4,6 +4,7 @@ import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/domain/entity/kategori_dokter.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/category_page/category_page.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/detail_dokter_page/detail_dokter_page.dart';
+import 'package:super_app_telemedicine/ui/page/chat_page.dart/search_page/search_page.dart';
 import 'package:super_app_telemedicine/ui/page/login_page/login_page.dart';
 import 'package:super_app_telemedicine/ui/page/main_page/main_page.dart';
 import 'package:super_app_telemedicine/ui/page/register_page/register_page.dart';
@@ -36,4 +37,8 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(routes: [
           name: 'category',
           builder: (context, state) =>
               CategoryPage(state.extra as KategoriDokter)),
+      GoRoute(
+          path: '/search_page',
+          name: 'search_page',
+          builder: (context, state) => const SearchPage()),
     ], initialLocation: '/login', debugLogDiagnostics: false);

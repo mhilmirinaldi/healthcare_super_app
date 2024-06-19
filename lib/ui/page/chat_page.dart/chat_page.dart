@@ -4,10 +4,10 @@ import 'package:super_app_telemedicine/domain/entity/kategori_dokter.dart';
 import 'package:super_app_telemedicine/ui/misc/methods.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/category_item.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/dokter_card.dart';
-import 'package:super_app_telemedicine/ui/page/chat_page.dart/search_page/search_page.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/user_info.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/list_kategori_dokter_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/list_rekomendasi_dokter_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
 class ChatPage extends ConsumerWidget {
   const ChatPage({super.key});
@@ -36,9 +36,7 @@ class ChatPage extends ConsumerWidget {
                   verticalSpaces(14),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const SearchPage(),
-                      ));
+                      ref.read(routerProvider).pushNamed('search_page');
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -47,13 +45,13 @@ class ChatPage extends ConsumerWidget {
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Icon(Icons.search, color: Colors.grey),
-                          SizedBox(width: 8),
+                          Icon(Icons.search, color: Colors.grey[500]),
+                          const SizedBox(width: 8),
                           Text(
-                            'Cari dokter, spesialis atau gejala',
-                            style: TextStyle(color: Colors.grey),
+                            'Cari dokter atau spesialis',
+                            style: TextStyle(color: Colors.grey[800]),
                           ),
                         ],
                       ),
