@@ -1,15 +1,18 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/kategori_dokter.dart';
 
-Widget categoryItem(BuildContext context, KategoriDokter kategori, {bool isLainnya = false}){
+import '../../provider/router/router_provider.dart';
+
+Widget categoryItem(WidgetRef ref, BuildContext context, KategoriDokter kategori, {bool isLainnya = false}){
   return GestureDetector(
       onTap: () {
         if (isLainnya) {
-          log('Navigate to full categories list');
+          log('Lainnya');
         } else {
-          log('Selected category: ${kategori.name}');
+          ref.read(routerProvider).pushNamed('category', extra: kategori);
         }
       },
       child: Column(

@@ -169,69 +169,75 @@ List<Review> getFilteredReviews() {
                   ),
                   Row(
                     children: [
-                      DropdownButton<String>(
-                        value: selectedRating,
-                        items: <String>[
-                          'Rating',
-                          '5 Bintang',
-                          '4 Bintang',
-                          '3 Bintang',
-                          '2 Bintang',
-                          '1 Bintang'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: value == 'Rating'
-                                ? Text(
-                                    value,
-                                    style: const TextStyle(fontSize: 14),
-                                  )
-                                : Row(children: [
-                                    const Icon(
-                                      Icons.star,
-                                      size: 16,
-                                      color: Colors.orange,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      ('${value[0]}.0'),
+                      SizedBox(
+                        height: 40,
+                        child: DropdownButton<String>(
+                          value: selectedRating,
+                          items: <String>[
+                            'Rating',
+                            '5 Bintang',
+                            '4 Bintang',
+                            '3 Bintang',
+                            '2 Bintang',
+                            '1 Bintang'
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: value == 'Rating'
+                                  ? Text(
+                                      value,
                                       style: const TextStyle(fontSize: 14),
-                                    ),
-                                  ]),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            if (newValue != null) {
-                              selectedRating = newValue;
-                            }
-                          });
-                        },
+                                    )
+                                  : Row(children: [
+                                      const Icon(
+                                        Icons.star,
+                                        size: 16,
+                                        color: Colors.orange,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        ('${value[0]}.0'),
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                    ]),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              if (newValue != null) {
+                                selectedRating = newValue;
+                              }
+                            });
+                          },
+                        ),
                       ),
-                      const SizedBox(width: 8),
-                      DropdownButton<String>(
-                        value: selectedFilter,
-                        items: <String>[
-                          'Urutkan',
-                          'Rating Tertinggi',
-                          'Rating Terendah',
-                          'Terbaru'
-                        ].map<DropdownMenuItem<String>>((value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            if (newValue != null) {
-                              selectedFilter = newValue;
-                            }
-                          });
-                        },
+                      const SizedBox(width: 12),
+                      SizedBox(
+                        height: 40,
+                        child: DropdownButton<String>(
+                          value: selectedFilter,
+                          items: <String>[
+                            'Urutkan',
+                            'Rating Tertinggi',
+                            'Rating Terendah',
+                            'Terbaru'
+                          ].map<DropdownMenuItem<String>>((value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              if (newValue != null) {
+                                selectedFilter = newValue;
+                              }
+                            });
+                          },
+                        ),
                       ),
                     ],
                   ),

@@ -66,6 +66,7 @@ class ChatPage extends ConsumerWidget {
                         itemBuilder: (context, index) {
                           if (index == displayedKategoris.length) {
                             return categoryItem(
+                              ref,
                               context,
                               const KategoriDokter(
                                   id: '99',
@@ -75,6 +76,7 @@ class ChatPage extends ConsumerWidget {
                             );
                           } else {
                             return categoryItem(
+                              ref,
                               context,
                               displayedKategoris[index],
                             );
