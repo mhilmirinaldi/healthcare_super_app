@@ -4,7 +4,7 @@ import 'package:super_app_telemedicine/domain/entity/kategori_dokter.dart';
 import 'package:super_app_telemedicine/ui/misc/methods.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/category_item.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/dokter_card.dart';
-import 'package:super_app_telemedicine/ui/page/chat_page.dart/search_bar.dart';
+import 'package:super_app_telemedicine/ui/page/chat_page.dart/search_page/search_page.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/user_info.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/list_kategori_dokter_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/list_rekomendasi_dokter_provider.dart';
@@ -34,7 +34,31 @@ class ChatPage extends ConsumerWidget {
                   ),
                   const Divider(),
                   verticalSpaces(14),
-                  searchBar(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const SearchPage(),
+                      ));
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(Icons.search, color: Colors.grey),
+                          SizedBox(width: 8),
+                          Text(
+                            'Cari dokter, spesialis atau gejala',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   verticalSpaces(18),
                   const Text('Rekomendasi dokter',
                       style: TextStyle(fontSize: 18)),
@@ -46,8 +70,7 @@ class ChatPage extends ConsumerWidget {
                         [const Center(child: CircularProgressIndicator())],
                   ),
                   verticalSpaces(8),
-                  const Text('Kategori',
-                      style: TextStyle(fontSize: 18)),
+                  const Text('Kategori', style: TextStyle(fontSize: 18)),
                   verticalSpaces(14),
                   kategori.maybeWhen(
                     data: (kategoris) {
