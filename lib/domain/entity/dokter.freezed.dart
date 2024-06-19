@@ -32,6 +32,7 @@ mixin _$Dokter {
   String? get gambar => throw _privateConstructorUsedError;
   String get kategori => throw _privateConstructorUsedError;
   String get nomorStr => throw _privateConstructorUsedError;
+  String get jenisKelamin => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -55,7 +56,8 @@ abstract class $DokterCopyWith<$Res> {
       int harga,
       String? gambar,
       String kategori,
-      String nomorStr});
+      String nomorStr,
+      String jenisKelamin});
 }
 
 /// @nodoc
@@ -83,6 +85,7 @@ class _$DokterCopyWithImpl<$Res, $Val extends Dokter>
     Object? gambar = freezed,
     Object? kategori = null,
     Object? nomorStr = null,
+    Object? jenisKelamin = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -133,6 +136,10 @@ class _$DokterCopyWithImpl<$Res, $Val extends Dokter>
           ? _value.nomorStr
           : nomorStr // ignore: cast_nullable_to_non_nullable
               as String,
+      jenisKelamin: null == jenisKelamin
+          ? _value.jenisKelamin
+          : jenisKelamin // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -156,7 +163,8 @@ abstract class _$$DokterImplCopyWith<$Res> implements $DokterCopyWith<$Res> {
       int harga,
       String? gambar,
       String kategori,
-      String nomorStr});
+      String nomorStr,
+      String jenisKelamin});
 }
 
 /// @nodoc
@@ -182,6 +190,7 @@ class __$$DokterImplCopyWithImpl<$Res>
     Object? gambar = freezed,
     Object? kategori = null,
     Object? nomorStr = null,
+    Object? jenisKelamin = null,
   }) {
     return _then(_$DokterImpl(
       id: null == id
@@ -232,6 +241,10 @@ class __$$DokterImplCopyWithImpl<$Res>
           ? _value.nomorStr
           : nomorStr // ignore: cast_nullable_to_non_nullable
               as String,
+      jenisKelamin: null == jenisKelamin
+          ? _value.jenisKelamin
+          : jenisKelamin // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -251,7 +264,8 @@ class _$DokterImpl implements _Dokter {
       required this.harga,
       this.gambar,
       required this.kategori,
-      required this.nomorStr})
+      required this.nomorStr,
+      required this.jenisKelamin})
       : _review = review;
 
   factory _$DokterImpl.fromJson(Map<String, dynamic> json) =>
@@ -288,10 +302,12 @@ class _$DokterImpl implements _Dokter {
   final String kategori;
   @override
   final String nomorStr;
+  @override
+  final String jenisKelamin;
 
   @override
   String toString() {
-    return 'Dokter(id: $id, nama: $nama, idKategori: $idKategori, lamaKerja: $lamaKerja, alumnus: $alumnus, tempatPraktik: $tempatPraktik, ratingTotal: $ratingTotal, review: $review, harga: $harga, gambar: $gambar, kategori: $kategori, nomorStr: $nomorStr)';
+    return 'Dokter(id: $id, nama: $nama, idKategori: $idKategori, lamaKerja: $lamaKerja, alumnus: $alumnus, tempatPraktik: $tempatPraktik, ratingTotal: $ratingTotal, review: $review, harga: $harga, gambar: $gambar, kategori: $kategori, nomorStr: $nomorStr, jenisKelamin: $jenisKelamin)';
   }
 
   @override
@@ -316,7 +332,9 @@ class _$DokterImpl implements _Dokter {
             (identical(other.kategori, kategori) ||
                 other.kategori == kategori) &&
             (identical(other.nomorStr, nomorStr) ||
-                other.nomorStr == nomorStr));
+                other.nomorStr == nomorStr) &&
+            (identical(other.jenisKelamin, jenisKelamin) ||
+                other.jenisKelamin == jenisKelamin));
   }
 
   @JsonKey(ignore: true)
@@ -334,7 +352,8 @@ class _$DokterImpl implements _Dokter {
       harga,
       gambar,
       kategori,
-      nomorStr);
+      nomorStr,
+      jenisKelamin);
 
   @JsonKey(ignore: true)
   @override
@@ -363,7 +382,8 @@ abstract class _Dokter implements Dokter {
       required final int harga,
       final String? gambar,
       required final String kategori,
-      required final String nomorStr}) = _$DokterImpl;
+      required final String nomorStr,
+      required final String jenisKelamin}) = _$DokterImpl;
 
   factory _Dokter.fromJson(Map<String, dynamic> json) = _$DokterImpl.fromJson;
 
@@ -391,6 +411,8 @@ abstract class _Dokter implements Dokter {
   String get kategori;
   @override
   String get nomorStr;
+  @override
+  String get jenisKelamin;
   @override
   @JsonKey(ignore: true)
   _$$DokterImplCopyWith<_$DokterImpl> get copyWith =>

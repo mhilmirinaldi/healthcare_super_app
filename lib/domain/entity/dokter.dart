@@ -19,6 +19,7 @@ class Dokter with _$Dokter{
     String? gambar,
     required String kategori,
     required String nomorStr,
+    required String jenisKelamin,
   }) = _Dokter;
 
   factory Dokter.fromJson(Map<String, dynamic> json) => _$DokterFromJson(json);
