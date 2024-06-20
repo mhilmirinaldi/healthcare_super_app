@@ -13,17 +13,18 @@ class SearchPage extends ConsumerStatefulWidget {
 
 class _SearchPageState extends ConsumerState<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
   bool _hasSearched = false;
+  bool _isSearching = false;
 
   @override
   void initState() {
     super.initState();
+    // Focus on search field and show keyboard
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_searchFocusNode);
     });
   }
-
-  final FocusNode _searchFocusNode = FocusNode();
 
   void _search(String query) {
     setState(() {
@@ -41,10 +42,11 @@ class _SearchPageState extends ConsumerState<SearchPage> {
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Container(
           decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0),
-              ),
+            border: Border(
+              bottom:
+                  BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0),
             ),
+          ),
           child: AppBar(
             leading: Padding(
               padding: const EdgeInsets.only(left: 8),
@@ -53,59 +55,75 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                 onPressed: () => ref.read(routerProvider).pop(),
               ),
             ),
-            title: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: TextField(
-                controller: _searchController,
-                focusNode: _searchFocusNode,
-                autofocus: true,
-                decoration: const InputDecoration(
-                  hintText: 'Cari dokter atau spesialis',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 0),
+            title: TextField(
+              controller: _searchController,
+              focusNode: _searchFocusNode,
+              autofocus: true,
+              decoration: const InputDecoration(
+                hintText: 'Cari dokter atau spesialis',
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
                 ),
-                onSubmitted: (query) {
-                  _search(query);
-                },
+                contentPadding: EdgeInsets.symmetric(horizontal: 0),
               ),
+              onSubmitted: (query) {
+                _search(query);
+              },
+              onChanged: (value) => setState(() {
+                _isSearching = value.isNotEmpty;
+              }),
             ),
             actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {
-                    _search(_searchController.text);
-                  },
+              if (!_isSearching)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      _search(_searchController.text);
+                    },
+                  ),
                 ),
-              ),
+              if (_isSearching)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      setState(() {
+                        _isSearching = false;
+                        _searchController.clear();
+                      });
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        FocusScope.of(context).requestFocus(_searchFocusNode);
+                      });
+                    },
+                  ),
+                ),
             ],
             backgroundColor: Colors.white,
             surfaceTintColor: Colors.white,
-            
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24, top: 8),
-        child: _hasSearched ? searchResults.when(
-          data: (dokters) {
-            if (dokters.isEmpty) {
-              return const Center(child: Text('Tidak ada hasil ditemukan'));
-            }
-            return ListView.builder(
-              itemCount: dokters.length,
-              itemBuilder: (context, index) {
-                return DokterCard(dokter: dokters[index]);
+      body: _hasSearched
+          ? searchResults.when(
+              data: (dokters) {
+                if (dokters.isEmpty) {
+                  return const Center(child: Text('Tidak ada hasil ditemukan'));
+                }
+                return ListView.builder(
+                  padding: const EdgeInsets.only(left: 24, right: 24, top: 8),
+                  itemCount: dokters.length,
+                  itemBuilder: (context, index) {
+                    return DokterCard(dokter: dokters[index]);
+                  },
+                );
               },
-            );
-          },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stack) => Center(child: Text('Error: $error')),
-        ) : const Text(''),
-      ),
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, stack) => Center(child: Text('Error: $error')),
+            )
+          : const Text(''),
     );
   }
 }
