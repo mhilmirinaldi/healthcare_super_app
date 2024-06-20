@@ -21,7 +21,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
   final FocusNode _searchFocusNode = FocusNode();
   bool _isSearching = false;
   bool _hasSearched = false;
-  String _selectedGender = 'Semua';
+  String _selectedGender = 'Jenis Kelamin';
   String _selectedSorting = 'Urutkan';
   String _selectedExperience = 'Pengalaman';
 
@@ -165,61 +165,68 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
   Widget _buildFilterSection() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Row(
-        children: [
-          _buildDropdown('Jenis Kelamin', ['Semua', 'Laki-laki', 'Perempuan'],
-              _selectedGender, (value) {
-            if (value != null) {
-              setState(() {
-                _selectedGender = value;
-                _filteredDokters = _filterDokters(_filteredDokters);
-              });
-            }
-          }),
-          const SizedBox(width: 8),
-          _buildDropdown(
-              'Urutkan',
-              [
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _buildDropdown(
+                'Jenis Kelamin',
+                ['Jenis Kelamin', 'Laki-laki', 'Perempuan'],
+                _selectedGender, (value) {
+              if (value != null) {
+                setState(() {
+                  _selectedGender = value;
+                  _filteredDokters = _filterDokters(_filteredDokters);
+                });
+              }
+            }, 110),
+            const SizedBox(width: 9),
+            _buildDropdown(
+                'Pengalaman',
+                ['Pengalaman', '< 5 tahun', '5 - 10 tahun', '> 10 tahun'],
+                _selectedExperience, (value) {
+              if (value != null) {
+                setState(() {
+                  _selectedExperience = value;
+                  _filteredDokters = _filterDokters(_filteredDokters);
+                });
+              }
+            }, 127),
+            const SizedBox(width: 9),
+            _buildDropdown(
                 'Urutkan',
-                'Harga tertinggi',
-                'Harga terendah',
-                'Rating tertinggi',
-                'Rating terendah'
-              ],
-              _selectedSorting, (value) {
-            if (value != null) {
-              setState(() {
-                _selectedSorting = value;
-                _filteredDokters = _filterDokters(_filteredDokters);
-              });
-            }
-          }),
-          const SizedBox(width: 8),
-          _buildDropdown(
-              'Pengalaman',
-              ['Pengalaman', '< 5 tahun', '5 - 10 tahun', '> 10 tahun'],
-              _selectedExperience, (value) {
-            if (value != null) {
-              setState(() {
-                _selectedExperience = value;
-                _filteredDokters = _filterDokters(_filteredDokters);
-              });
-            }
-          }),
-        ],
+                [
+                  'Urutkan',
+                  'Harga tertinggi',
+                  'Harga terendah',
+                  'Rating tertinggi',
+                  'Rating terendah'
+                ],
+                _selectedSorting, (value) {
+              if (value != null) {
+                setState(() {
+                  _selectedSorting = value;
+                  _filteredDokters = _filterDokters(_filteredDokters);
+                });
+              }
+            }, 110),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildDropdown(String label, List<String> items, String selectedItem,
-      ValueChanged<String?> onChanged) {
+      ValueChanged<String?> onChanged, double width) {
     return Container(
+      width: width,
       padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.grey),
       ),
       child: DropdownButton<String>(
+        isExpanded: true,
         value: selectedItem,
         icon: const Icon(Icons.arrow_drop_down),
         onChanged: onChanged,
@@ -237,7 +244,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
   List<Dokter> _filterDokters(List<Dokter> dokters) {
     List<Dokter> filteredList = dokters;
 
-    if (_selectedGender != 'Semua') {
+    if (_selectedGender != 'Jenis Kelamin') {
       filteredList = filteredList
           .where((dokter) => dokter.jenisKelamin == _selectedGender)
           .toList();
