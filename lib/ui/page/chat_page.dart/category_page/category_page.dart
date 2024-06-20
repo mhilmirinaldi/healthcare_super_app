@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/domain/entity/kategori_dokter.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/list_dokter_by_kategori_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/search_dokter_provider.dart';
@@ -23,6 +24,8 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
   String _selectedGender = 'Semua';
   String _selectedSorting = 'Urutkan';
   String _selectedExperience = 'Pengalaman';
+
+  List<Dokter> _filteredDokters = [];
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,9 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                   setState(() {
                     _hasSearched = true;
                   });
-                  ref.read(searchDokterProvider.notifier).searchDokterWithKategori(query, widget.kategori.id);
+                  ref
+                      .read(searchDokterProvider.notifier)
+                      .searchDokterWithKategori(query, widget.kategori.id);
                 },
               )
             : Text(
@@ -92,37 +97,35 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
           _buildFilterSection(),
           const SizedBox(height: 16),
           Expanded(
-            child: !_hasSearched ? listDokter.when(
-              data: (dokters) {
-                if (dokters.isEmpty) {
-                  return const Center(child: Text('Tidak ada hasil ditemukan'));
-                }
-                return ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  itemCount: dokters.length,
-                  itemBuilder: (context, index) {
-                    return DokterCard(dokter: dokters[index]);
-                  },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stack) => Center(child: Text('Error: $error')),
-            ) : searchResults.when(
-              data: (dokters) {
-                if (dokters.isEmpty) {
-                  return const Center(child: Text('Tidak ada hasil ditemukan'));
-                }
-                return ListView.builder(
-                  padding: const EdgeInsets.only(left: 24, right: 24, top: 8),
-                  itemCount: dokters.length,
-                  itemBuilder: (context, index) {
-                    return DokterCard(dokter: dokters[index]);
-                  },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stack) => Center(child: Text('Error: $error')),
-            ),
+            child: !_hasSearched
+                ? listDokter.when(
+                    data: (dokters) {
+                      if (dokters.isEmpty) {
+                        return const Center(
+                            child: Text('Tidak ada hasil ditemukan'));
+                      }
+                      _filteredDokters = _filterDokters(dokters);
+                      return _buildDokterList(_filteredDokters);
+                    },
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (error, stack) =>
+                        Center(child: Text('Error: $error')),
+                  )
+                : searchResults.when(
+                    data: (dokters) {
+                      if (dokters.isEmpty) {
+                        return const Center(
+                            child: Text('Tidak ada hasil ditemukan'));
+                      }
+                      _filteredDokters = _filterDokters(dokters);
+                      return _buildDokterList(_filteredDokters);
+                    },
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (error, stack) =>
+                        Center(child: Text('Error: $error')),
+                  ),
           ),
         ],
       ),
@@ -139,8 +142,8 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
             if (value != null) {
               setState(() {
                 _selectedGender = value;
+                _filteredDokters = _filterDokters(_filteredDokters);
               });
-              // Lakukan filter berdasarkan jenis kelamin
             }
           }),
           const SizedBox(width: 8),
@@ -157,8 +160,8 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
             if (value != null) {
               setState(() {
                 _selectedSorting = value;
+                _filteredDokters = _filterDokters(_filteredDokters);
               });
-              // Lakukan pengurutan
             }
           }),
           const SizedBox(width: 8),
@@ -169,8 +172,8 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
             if (value != null) {
               setState(() {
                 _selectedExperience = value;
+                _filteredDokters = _filterDokters(_filteredDokters);
               });
-              // Lakukan filter berdasarkan pengalaman
             }
           }),
         ],
@@ -193,13 +196,63 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
         items: items.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value,
-                style: const TextStyle(
-                    fontSize: 12)), // Adjust font size if necessary
+            child: Text(value, style: const TextStyle(fontSize: 12)),
           );
         }).toList(),
-        underline: const SizedBox(), // Remove the underline
+        underline: const SizedBox(),
       ),
+    );
+  }
+
+  List<Dokter> _filterDokters(List<Dokter> dokters) {
+    List<Dokter> filteredList = dokters;
+
+    if (_selectedGender != 'Semua') {
+      filteredList = filteredList
+          .where((dokter) => dokter.jenisKelamin == _selectedGender)
+          .toList();
+    }
+
+    if (_selectedExperience != 'Pengalaman') {
+      filteredList = filteredList.where((dokter) {
+        if (_selectedExperience == '< 5 tahun') {
+          return dokter.lamaKerja < 5;
+        } else if (_selectedExperience == '5 - 10 tahun') {
+          return dokter.lamaKerja >= 5 && dokter.lamaKerja <= 10;
+        } else if (_selectedExperience == '> 10 tahun') {
+          return dokter.lamaKerja > 10;
+        }
+        return true;
+      }).toList();
+    }
+
+    switch (_selectedSorting) {
+      case 'Harga tertinggi':
+        filteredList.sort((a, b) => (b.harga).compareTo(a.harga));
+        break;
+      case 'Harga terendah':
+        filteredList.sort((a, b) => (a.harga).compareTo(b.harga));
+        break;
+      case 'Rating tertinggi':
+        filteredList
+            .sort((a, b) => (b.ratingTotal ?? 0).compareTo(a.ratingTotal ?? 0));
+        break;
+      case 'Rating terendah':
+        filteredList
+            .sort((a, b) => (a.ratingTotal ?? 0).compareTo(b.ratingTotal ?? 0));
+        break;
+    }
+
+    return filteredList;
+  }
+
+  Widget _buildDokterList(List<Dokter> dokters) {
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      itemCount: dokters.length,
+      itemBuilder: (context, index) {
+        return DokterCard(dokter: dokters[index]);
+      },
     );
   }
 }
