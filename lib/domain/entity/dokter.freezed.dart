@@ -26,7 +26,7 @@ mixin _$Dokter {
   int get lamaKerja => throw _privateConstructorUsedError;
   String get alumnus => throw _privateConstructorUsedError;
   String get tempatPraktik => throw _privateConstructorUsedError;
-  double? get ratingTotal => throw _privateConstructorUsedError;
+  double get ratingTotal => throw _privateConstructorUsedError;
   List<Review> get review => throw _privateConstructorUsedError;
   int get harga => throw _privateConstructorUsedError;
   String? get gambar => throw _privateConstructorUsedError;
@@ -51,7 +51,7 @@ abstract class $DokterCopyWith<$Res> {
       int lamaKerja,
       String alumnus,
       String tempatPraktik,
-      double? ratingTotal,
+      double ratingTotal,
       List<Review> review,
       int harga,
       String? gambar,
@@ -79,7 +79,7 @@ class _$DokterCopyWithImpl<$Res, $Val extends Dokter>
     Object? lamaKerja = null,
     Object? alumnus = null,
     Object? tempatPraktik = null,
-    Object? ratingTotal = freezed,
+    Object? ratingTotal = null,
     Object? review = null,
     Object? harga = null,
     Object? gambar = freezed,
@@ -112,10 +112,10 @@ class _$DokterCopyWithImpl<$Res, $Val extends Dokter>
           ? _value.tempatPraktik
           : tempatPraktik // ignore: cast_nullable_to_non_nullable
               as String,
-      ratingTotal: freezed == ratingTotal
+      ratingTotal: null == ratingTotal
           ? _value.ratingTotal
           : ratingTotal // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
       review: null == review
           ? _value.review
           : review // ignore: cast_nullable_to_non_nullable
@@ -158,7 +158,7 @@ abstract class _$$DokterImplCopyWith<$Res> implements $DokterCopyWith<$Res> {
       int lamaKerja,
       String alumnus,
       String tempatPraktik,
-      double? ratingTotal,
+      double ratingTotal,
       List<Review> review,
       int harga,
       String? gambar,
@@ -184,7 +184,7 @@ class __$$DokterImplCopyWithImpl<$Res>
     Object? lamaKerja = null,
     Object? alumnus = null,
     Object? tempatPraktik = null,
-    Object? ratingTotal = freezed,
+    Object? ratingTotal = null,
     Object? review = null,
     Object? harga = null,
     Object? gambar = freezed,
@@ -217,10 +217,10 @@ class __$$DokterImplCopyWithImpl<$Res>
           ? _value.tempatPraktik
           : tempatPraktik // ignore: cast_nullable_to_non_nullable
               as String,
-      ratingTotal: freezed == ratingTotal
+      ratingTotal: null == ratingTotal
           ? _value.ratingTotal
           : ratingTotal // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
       review: null == review
           ? _value._review
           : review // ignore: cast_nullable_to_non_nullable
@@ -259,7 +259,7 @@ class _$DokterImpl implements _Dokter {
       required this.lamaKerja,
       required this.alumnus,
       required this.tempatPraktik,
-      this.ratingTotal,
+      required this.ratingTotal,
       final List<Review> review = const [],
       required this.harga,
       this.gambar,
@@ -284,7 +284,7 @@ class _$DokterImpl implements _Dokter {
   @override
   final String tempatPraktik;
   @override
-  final double? ratingTotal;
+  final double ratingTotal;
   final List<Review> _review;
   @override
   @JsonKey()
@@ -377,7 +377,7 @@ abstract class _Dokter implements Dokter {
       required final int lamaKerja,
       required final String alumnus,
       required final String tempatPraktik,
-      final double? ratingTotal,
+      required final double ratingTotal,
       final List<Review> review,
       required final int harga,
       final String? gambar,
@@ -400,7 +400,7 @@ abstract class _Dokter implements Dokter {
   @override
   String get tempatPraktik;
   @override
-  double? get ratingTotal;
+  double get ratingTotal;
   @override
   List<Review> get review;
   @override

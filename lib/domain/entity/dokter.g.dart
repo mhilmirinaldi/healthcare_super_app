@@ -13,7 +13,7 @@ _$DokterImpl _$$DokterImplFromJson(Map<String, dynamic> json) => _$DokterImpl(
       lamaKerja: (json['lamaKerja'] as num).toInt(),
       alumnus: json['alumnus'] as String,
       tempatPraktik: json['tempatPraktik'] as String,
-      ratingTotal: (json['ratingTotal'] as num?)?.toDouble(),
+      ratingTotal: (json['ratingTotal'] as num).toDouble(),
       review: (json['review'] as List<dynamic>?)
               ?.map((e) => Review.fromJson(e as Map<String, dynamic>))
               .toList() ??

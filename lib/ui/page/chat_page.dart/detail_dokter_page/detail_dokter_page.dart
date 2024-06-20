@@ -109,8 +109,7 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
                         const Icon(Icons.star, size: 16, color: Colors.orange),
                         const SizedBox(width: 4),
                         Text(
-                          widget.dokter.ratingTotal?.toStringAsFixed(1) ??
-                              '0.0',
+                          widget.dokter.ratingTotal.toStringAsFixed(1),
                           style: const TextStyle(fontSize: 14),
                         ),
                       ],
@@ -155,7 +154,7 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
                       const Icon(Icons.star, size: 16, color: Colors.orange),
                       const SizedBox(width: 4),
                       Text(
-                        widget.dokter.ratingTotal?.toStringAsFixed(1) ?? '0.0',
+                        widget.dokter.ratingTotal.toStringAsFixed(1),
                         style: const TextStyle(fontSize: 14),
                       ),
                       const Text(

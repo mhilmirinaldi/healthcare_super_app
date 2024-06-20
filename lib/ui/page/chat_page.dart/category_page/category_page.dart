@@ -34,98 +34,128 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
     final searchResults = ref.watch(searchDokterProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => ref.read(routerProvider).pop(),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom:
+                  BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0),
+            ),
+          ),
+          child: AppBar(
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => ref.read(routerProvider).pop(),
+              ),
+            ),
+            elevation: 2,
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            title: Row(
+              children: [
+                if (!_isSearching)
+                  Expanded(
+                    child: Text(
+                      widget.kategori.name,
+                      style: const TextStyle(fontSize: 18),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                if (_isSearching)
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      focusNode: _searchFocusNode,
+                      decoration: const InputDecoration(
+                        hintText: 'Cari dokter',
+                        border: InputBorder.none,
+                      ),
+                      onSubmitted: (query) {
+                        setState(() {
+                          _hasSearched = true;
+                        });
+                        ref
+                            .read(searchDokterProvider.notifier)
+                            .searchDokterWithKategori(
+                                query, widget.kategori.id);
+                      },
+                    ),
+                  ),
+              ],
+            ),
+            actions: [
+              if (!_isSearching)
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    setState(() {
+                      _isSearching = true;
+                    });
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      FocusScope.of(context).requestFocus(_searchFocusNode);
+                    });
+                  },
+                ),
+              if (_isSearching)
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    setState(() {
+                      _isSearching = false;
+                      _searchController.clear();
+                    });
+                  },
+                ),
+            ],
           ),
         ),
-        elevation: 2,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        title: _isSearching
-            ? TextField(
-                controller: _searchController,
-                focusNode: _searchFocusNode,
-                decoration: const InputDecoration(
-                  hintText: 'Cari dokter',
-                  border: InputBorder.none,
-                ),
-                onSubmitted: (query) {
-                  setState(() {
-                    _hasSearched = true;
-                  });
-                  ref
-                      .read(searchDokterProvider.notifier)
-                      .searchDokterWithKategori(query, widget.kategori.id);
-                },
-              )
-            : Text(
-                widget.kategori.name,
-                style: const TextStyle(fontSize: 18),
-              ),
-        actions: [
-          if (!_isSearching)
-            IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                setState(() {
-                  _isSearching = true;
-                });
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  FocusScope.of(context).requestFocus(_searchFocusNode);
-                });
-              },
-            ),
-          if (_isSearching)
-            IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () {
-                setState(() {
-                  _isSearching = false;
-                  _searchController.clear();
-                });
-              },
-            ),
-        ],
       ),
       body: Column(
         children: [
-          const SizedBox(height: 16),
-          _buildFilterSection(),
-          const SizedBox(height: 16),
           Expanded(
-            child: !_hasSearched
-                ? listDokter.when(
-                    data: (dokters) {
-                      if (dokters.isEmpty) {
-                        return const Center(
-                            child: Text('Tidak ada hasil ditemukan'));
-                      }
-                      _filteredDokters = _filterDokters(dokters);
-                      return _buildDokterList(_filteredDokters);
-                    },
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
-                    error: (error, stack) =>
-                        Center(child: Text('Error: $error')),
-                  )
-                : searchResults.when(
-                    data: (dokters) {
-                      if (dokters.isEmpty) {
-                        return const Center(
-                            child: Text('Tidak ada hasil ditemukan'));
-                      }
-                      _filteredDokters = _filterDokters(dokters);
-                      return _buildDokterList(_filteredDokters);
-                    },
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
-                    error: (error, stack) =>
-                        Center(child: Text('Error: $error')),
-                  ),
+            child: ListView(
+              children: [
+                const SizedBox(height: 16),
+                _buildFilterSection(),
+                const SizedBox(height: 8),
+                !_hasSearched
+                    ? listDokter.when(
+                        data: (dokters) {
+                          if (dokters.isEmpty) {
+                            return const Center(
+                                child: Padding(
+                                    padding: EdgeInsets.only(top: 220),
+                                    child: Text('Tidak ada hasil ditemukan')));
+                          }
+                          _filteredDokters = _filterDokters(dokters);
+                          return _buildDokterList(_filteredDokters);
+                        },
+                        loading: () =>
+                            const Center(child: CircularProgressIndicator()),
+                        error: (error, stack) =>
+                            Center(child: Text('Error: $error')),
+                      )
+                    : searchResults.when(
+                        data: (dokters) {
+                          if (dokters.isEmpty) {
+                            return const Center(
+                                child: Padding(
+                                    padding: EdgeInsets.only(top: 220),
+                                    child: Text('Tidak ada hasil ditemukan')));
+                          }
+                          _filteredDokters = _filterDokters(dokters);
+                          return _buildDokterList(_filteredDokters);
+                        },
+                        loading: () =>
+                            const Center(child: CircularProgressIndicator()),
+                        error: (error, stack) =>
+                            Center(child: Text('Error: $error')),
+                      ),
+              ],
+            ),
           ),
         ],
       ),
@@ -133,8 +163,8 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
   }
 
   Widget _buildFilterSection() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
         children: [
           _buildDropdown('Jenis Kelamin', ['Semua', 'Laki-laki', 'Perempuan'],
@@ -186,7 +216,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.grey),
       ),
       child: DropdownButton<String>(
@@ -196,7 +226,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
         items: items.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value, style: const TextStyle(fontSize: 12)),
+            child: Text(value, style: const TextStyle(fontSize: 14)),
           );
         }).toList(),
         underline: const SizedBox(),
@@ -234,12 +264,10 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
         filteredList.sort((a, b) => (a.harga).compareTo(b.harga));
         break;
       case 'Rating tertinggi':
-        filteredList
-            .sort((a, b) => (b.ratingTotal ?? 0).compareTo(a.ratingTotal ?? 0));
+        filteredList.sort((a, b) => (b.ratingTotal).compareTo(a.ratingTotal));
         break;
       case 'Rating terendah':
-        filteredList
-            .sort((a, b) => (a.ratingTotal ?? 0).compareTo(b.ratingTotal ?? 0));
+        filteredList.sort((a, b) => (a.ratingTotal).compareTo(b.ratingTotal));
         break;
     }
 
@@ -248,6 +276,8 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
 
   Widget _buildDokterList(List<Dokter> dokters) {
     return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 24),
       itemCount: dokters.length,
       itemBuilder: (context, index) {
