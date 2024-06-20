@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/domain/entity/kategori_dokter.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/category_page/category_page.dart';
+import 'package:super_app_telemedicine/ui/page/chat_page.dart/category_page/lainnya_page.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/detail_dokter_page/detail_dokter_page.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/search_page/search_page.dart';
 import 'package:super_app_telemedicine/ui/page/login_page/login_page.dart';
@@ -41,4 +42,8 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(routes: [
           path: '/search_page',
           name: 'search_page',
           builder: (context, state) => const SearchPage()),
+      GoRoute(
+          path: '/lainnya_page',
+          name: 'lainnya_page',
+          builder: (context, state) => const LainnyaPage()),
     ], initialLocation: '/login', debugLogDiagnostics: false);
