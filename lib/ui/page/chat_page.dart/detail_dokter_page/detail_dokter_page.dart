@@ -78,11 +78,13 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
                   color: const Color(0xFFCCD8EF),
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
-                    image: widget.dokter.gambar == null ||
-                            widget.dokter.gambar!.isEmpty
-                        ? const AssetImage(
-                            'assets/default_profile_doctor_male_transparent.png')
-                        : NetworkImage(widget.dokter.gambar!) as ImageProvider,
+                    image: widget.dokter.gambar == null || widget.dokter.gambar!.isEmpty
+                            ? widget.dokter.jenisKelamin == 'Laki-laki'
+                                ? const AssetImage(
+                                    'assets/default_profile_doctor_male_transparent.png')
+                                : const AssetImage(
+                                    'assets/default_profile_doctor_female_transparent.png')
+                            : NetworkImage(widget.dokter.gambar!) as ImageProvider,
                     fit: BoxFit.contain,
                   ),
                 ),

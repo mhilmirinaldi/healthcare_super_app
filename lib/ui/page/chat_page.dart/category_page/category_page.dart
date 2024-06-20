@@ -233,7 +233,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
         items: items.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value, style: const TextStyle(fontSize: 14)),
+            child: Text(value, style: const TextStyle(fontSize: 12)),
           );
         }).toList(),
         underline: const SizedBox(),

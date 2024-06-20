@@ -46,8 +46,11 @@ class DokterCard extends ConsumerWidget {
                     border: Border.all(color: Colors.grey, width: 1),
                     image: DecorationImage(
                         image: dokter.gambar == null || dokter.gambar!.isEmpty
-                            ? const AssetImage(
-                                'assets/default_profile_doctor_male.png')
+                            ? dokter.jenisKelamin == 'Laki-laki'
+                                ? const AssetImage(
+                                    'assets/default_profile_doctor_male.png')
+                                : const AssetImage(
+                                    'assets/default_profile_doctor_female.png')
                             : NetworkImage(dokter.gambar!) as ImageProvider,
                         fit: BoxFit.cover)),
               ),
