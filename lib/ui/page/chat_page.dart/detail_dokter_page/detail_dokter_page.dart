@@ -24,31 +24,29 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
   String selectedFilter = 'Urutkan';
   String selectedRating = 'Rating';
 
-List<Review> getFilteredReviews() {
-  List<Review> reviews = List.from(widget.dokter.review);
+  List<Review> getFilteredReviews() {
+    List<Review> reviews = List.from(widget.dokter.review);
 
-  if (selectedRating != 'Rating') {
-    int rating = int.parse(selectedRating[0]);
-    reviews = reviews.where((review) => review.rating == rating).toList();
+    if (selectedRating != 'Rating') {
+      int rating = int.parse(selectedRating[0]);
+      reviews = reviews.where((review) => review.rating == rating).toList();
+    }
+
+    if (selectedFilter == 'Rating Tertinggi') {
+      reviews.sort((a, b) => b.rating.compareTo(a.rating));
+    } else if (selectedFilter == 'Rating Terendah') {
+      reviews.sort((a, b) => a.rating.compareTo(b.rating));
+    } else if (selectedFilter == 'Terbaru') {
+      DateFormat inputFormat = DateFormat('dd-MM-yyyy');
+      reviews.sort((a, b) {
+        DateTime dateA = inputFormat.parse(a.tanggal ?? '');
+        DateTime dateB = inputFormat.parse(b.tanggal ?? '');
+        return dateB.compareTo(dateA);
+      });
+    }
+
+    return reviews;
   }
-
-  if (selectedFilter == 'Rating Tertinggi') {
-    reviews.sort((a, b) => b.rating.compareTo(a.rating));
-  } else if (selectedFilter == 'Rating Terendah') {
-    reviews.sort((a, b) => a.rating.compareTo(b.rating));
-  } else if (selectedFilter == 'Terbaru') {
-    DateFormat inputFormat = DateFormat('dd-MM-yyyy');
-    reviews.sort((a, b) {
-      DateTime dateA = inputFormat.parse(a.tanggal ?? '');
-      DateTime dateB = inputFormat.parse(b.tanggal ?? '');
-      return dateB.compareTo(dateA);
-    });
-  }
-
-  return reviews;
-}
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +246,8 @@ List<Review> getFilteredReviews() {
         ],
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 24),
+        padding:
+            const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 24),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -281,18 +280,18 @@ List<Review> getFilteredReviews() {
                 log('Chat button on tap');
               },
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color(0xFFE1004E)),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                backgroundColor:
+                    MaterialStateProperty.all(const Color(0xFFE1004E)),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 24)),
-                  minimumSize: MaterialStateProperty.all(const Size(0, 0)),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 24)),
+                minimumSize: MaterialStateProperty.all(const Size(0, 0)),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
               child: const Text(
                 'Chat',
                 style: TextStyle(

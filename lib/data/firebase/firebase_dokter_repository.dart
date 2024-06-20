@@ -98,4 +98,35 @@ class FirebaseDokterRepository implements DokterRepository {
       return Result.failed(e.toString());
     }
   }
+
+  @override
+  Future<Result<List<Dokter>>> searchDokterWithKategori(
+      String query, String idKategori) async {
+    firestore.CollectionReference<Map<String, dynamic>> documentReference =
+        _firebaseFirestore.collection('dokter');
+
+    try {
+      var result = await documentReference
+          .where('idKategori', isEqualTo: idKategori)
+          .get();
+
+      if (result.docs.isNotEmpty) {
+        var filteredResults = result.docs
+            .where((doc) {
+              var data = doc.data();
+              var nama = data['nama'].toString().toLowerCase();
+              var lowerCaseQuery = query.toLowerCase();
+              return nama.contains(lowerCaseQuery);
+            })
+            .map((e) => Dokter.fromJson(e.data()))
+            .toList();
+
+        return Result.success(filteredResults);
+      } else {
+        return const Result.success([]);
+      }
+    } catch (e) {
+      return Result.failed(e.toString());
+    }
+  }
 }

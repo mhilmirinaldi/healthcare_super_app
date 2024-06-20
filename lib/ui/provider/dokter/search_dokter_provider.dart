@@ -26,4 +26,18 @@ class SearchDokterNotifier extends StateNotifier<AsyncValue<List<Dokter>>> {
       state = AsyncValue.error(e.toString(), stackTrace);
     }
   }
+
+  Future<void> searchDokterWithKategori(String query, String idKategori) async {
+    state = const AsyncValue.loading();
+    try {
+      final result = await dokterRepository.searchDokterWithKategori(query, idKategori);
+      if (result.isSuccess) {
+        state = AsyncValue.data(result.resultValue!);
+      } else {
+        state = AsyncValue.error(result.errorMessage!, StackTrace.current);
+      }
+    } catch (e, stackTrace) {
+      state = AsyncValue.error(e.toString(), stackTrace);
+    }
+  }
 }
