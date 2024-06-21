@@ -24,6 +24,7 @@ mixin _$Obat {
   String get idKategori => throw _privateConstructorUsedError;
   String get nama => throw _privateConstructorUsedError;
   String get harga => throw _privateConstructorUsedError;
+  String get satuan => throw _privateConstructorUsedError;
   String get deskripsi => throw _privateConstructorUsedError;
   String get dosis => throw _privateConstructorUsedError;
   String get komposisi => throw _privateConstructorUsedError;
@@ -46,6 +47,7 @@ abstract class $ObatCopyWith<$Res> {
       String idKategori,
       String nama,
       String harga,
+      String satuan,
       String deskripsi,
       String dosis,
       String komposisi,
@@ -71,6 +73,7 @@ class _$ObatCopyWithImpl<$Res, $Val extends Obat>
     Object? idKategori = null,
     Object? nama = null,
     Object? harga = null,
+    Object? satuan = null,
     Object? deskripsi = null,
     Object? dosis = null,
     Object? komposisi = null,
@@ -94,6 +97,10 @@ class _$ObatCopyWithImpl<$Res, $Val extends Obat>
       harga: null == harga
           ? _value.harga
           : harga // ignore: cast_nullable_to_non_nullable
+              as String,
+      satuan: null == satuan
+          ? _value.satuan
+          : satuan // ignore: cast_nullable_to_non_nullable
               as String,
       deskripsi: null == deskripsi
           ? _value.deskripsi
@@ -135,6 +142,7 @@ abstract class _$$ObatImplCopyWith<$Res> implements $ObatCopyWith<$Res> {
       String idKategori,
       String nama,
       String harga,
+      String satuan,
       String deskripsi,
       String dosis,
       String komposisi,
@@ -157,6 +165,7 @@ class __$$ObatImplCopyWithImpl<$Res>
     Object? idKategori = null,
     Object? nama = null,
     Object? harga = null,
+    Object? satuan = null,
     Object? deskripsi = null,
     Object? dosis = null,
     Object? komposisi = null,
@@ -180,6 +189,10 @@ class __$$ObatImplCopyWithImpl<$Res>
       harga: null == harga
           ? _value.harga
           : harga // ignore: cast_nullable_to_non_nullable
+              as String,
+      satuan: null == satuan
+          ? _value.satuan
+          : satuan // ignore: cast_nullable_to_non_nullable
               as String,
       deskripsi: null == deskripsi
           ? _value.deskripsi
@@ -217,6 +230,7 @@ class _$ObatImpl implements _Obat {
       required this.idKategori,
       required this.nama,
       required this.harga,
+      required this.satuan,
       required this.deskripsi,
       required this.dosis,
       required this.komposisi,
@@ -236,6 +250,8 @@ class _$ObatImpl implements _Obat {
   @override
   final String harga;
   @override
+  final String satuan;
+  @override
   final String deskripsi;
   @override
   final String dosis;
@@ -251,7 +267,7 @@ class _$ObatImpl implements _Obat {
 
   @override
   String toString() {
-    return 'Obat(id: $id, idKategori: $idKategori, nama: $nama, harga: $harga, deskripsi: $deskripsi, dosis: $dosis, komposisi: $komposisi, aturan: $aturan, gambar: $gambar, jumlah: $jumlah)';
+    return 'Obat(id: $id, idKategori: $idKategori, nama: $nama, harga: $harga, satuan: $satuan, deskripsi: $deskripsi, dosis: $dosis, komposisi: $komposisi, aturan: $aturan, gambar: $gambar, jumlah: $jumlah)';
   }
 
   @override
@@ -264,6 +280,7 @@ class _$ObatImpl implements _Obat {
                 other.idKategori == idKategori) &&
             (identical(other.nama, nama) || other.nama == nama) &&
             (identical(other.harga, harga) || other.harga == harga) &&
+            (identical(other.satuan, satuan) || other.satuan == satuan) &&
             (identical(other.deskripsi, deskripsi) ||
                 other.deskripsi == deskripsi) &&
             (identical(other.dosis, dosis) || other.dosis == dosis) &&
@@ -277,7 +294,7 @@ class _$ObatImpl implements _Obat {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, idKategori, nama, harga,
-      deskripsi, dosis, komposisi, aturan, gambar, jumlah);
+      satuan, deskripsi, dosis, komposisi, aturan, gambar, jumlah);
 
   @JsonKey(ignore: true)
   @override
@@ -299,6 +316,7 @@ abstract class _Obat implements Obat {
       required final String idKategori,
       required final String nama,
       required final String harga,
+      required final String satuan,
       required final String deskripsi,
       required final String dosis,
       required final String komposisi,
@@ -316,6 +334,8 @@ abstract class _Obat implements Obat {
   String get nama;
   @override
   String get harga;
+  @override
+  String get satuan;
   @override
   String get deskripsi;
   @override

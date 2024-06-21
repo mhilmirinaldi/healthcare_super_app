@@ -179,7 +179,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                   _filteredDokters = _filterDokters(_filteredDokters);
                 });
               }
-            }, 110),
+            }, 130),
             const SizedBox(width: 9),
             _buildDropdown(
                 'Pengalaman',
@@ -191,7 +191,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                   _filteredDokters = _filterDokters(_filteredDokters);
                 });
               }
-            }, 127),
+            }, 121),
             const SizedBox(width: 9),
             _buildDropdown(
                 'Urutkan',
@@ -209,7 +209,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                   _filteredDokters = _filterDokters(_filteredDokters);
                 });
               }
-            }, 110),
+            }, 97),
           ],
         ),
       ),
@@ -233,7 +233,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
         items: items.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value, style: const TextStyle(fontSize: 12)),
+            child: Text(value, style: const TextStyle(fontSize: 13)),
           );
         }).toList(),
         underline: const SizedBox(),

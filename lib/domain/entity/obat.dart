@@ -10,6 +10,7 @@ class Obat with _$Obat {
     required String idKategori,
     required String nama,
     required String harga,
+    required String satuan,
     required String deskripsi,
     required String dosis,
     required String komposisi,
