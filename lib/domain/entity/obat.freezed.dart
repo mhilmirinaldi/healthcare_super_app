@@ -23,7 +23,7 @@ mixin _$Obat {
   String get id => throw _privateConstructorUsedError;
   String get idKategori => throw _privateConstructorUsedError;
   String get nama => throw _privateConstructorUsedError;
-  String get harga => throw _privateConstructorUsedError;
+  int get harga => throw _privateConstructorUsedError;
   String get satuan => throw _privateConstructorUsedError;
   String get deskripsi => throw _privateConstructorUsedError;
   String get dosis => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $ObatCopyWith<$Res> {
       {String id,
       String idKategori,
       String nama,
-      String harga,
+      int harga,
       String satuan,
       String deskripsi,
       String dosis,
@@ -97,7 +97,7 @@ class _$ObatCopyWithImpl<$Res, $Val extends Obat>
       harga: null == harga
           ? _value.harga
           : harga // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       satuan: null == satuan
           ? _value.satuan
           : satuan // ignore: cast_nullable_to_non_nullable
@@ -141,7 +141,7 @@ abstract class _$$ObatImplCopyWith<$Res> implements $ObatCopyWith<$Res> {
       {String id,
       String idKategori,
       String nama,
-      String harga,
+      int harga,
       String satuan,
       String deskripsi,
       String dosis,
@@ -189,7 +189,7 @@ class __$$ObatImplCopyWithImpl<$Res>
       harga: null == harga
           ? _value.harga
           : harga // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       satuan: null == satuan
           ? _value.satuan
           : satuan // ignore: cast_nullable_to_non_nullable
@@ -248,7 +248,7 @@ class _$ObatImpl implements _Obat {
   @override
   final String nama;
   @override
-  final String harga;
+  final int harga;
   @override
   final String satuan;
   @override
@@ -315,7 +315,7 @@ abstract class _Obat implements Obat {
       {required final String id,
       required final String idKategori,
       required final String nama,
-      required final String harga,
+      required final int harga,
       required final String satuan,
       required final String deskripsi,
       required final String dosis,
@@ -333,7 +333,7 @@ abstract class _Obat implements Obat {
   @override
   String get nama;
   @override
-  String get harga;
+  int get harga;
   @override
   String get satuan;
   @override

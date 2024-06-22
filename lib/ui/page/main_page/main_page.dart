@@ -4,6 +4,7 @@ import 'package:super_app_telemedicine/ui/extension/build_context_extension.dart
 import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page.dart/chat_page.dart';
 import 'package:super_app_telemedicine/ui/page/profile_page/profile_page.dart';
+import 'package:super_app_telemedicine/ui/page/toko_obat_page/toko_obat_page.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
@@ -18,7 +19,7 @@ class _MainPageState extends ConsumerState<MainPage> {
   int _selectedIndex = 0;
   final _screens = [
     const ChatPage(),
-    const Center(child: Text('Toko obat'),),
+    const TokoObatPage(),
     const Center(child: Text('Buat janji di rumah sakit'),),
     const Center(child: Text('Riwayat Kesehatan'),),
     const ProfilePage(),

@@ -51,23 +51,32 @@ class FirebaseObatRepository implements ObatRepository {
   }
 
   @override
-  Future<Result<List<Obat>>> getRekomendasiObat() async {
-    firestore.CollectionReference<Map<String, dynamic>> documentReference =
-        _firebaseFirestore.collection('obat');
+Future<Result<List<Obat>>> getRekomendasiObat() async {
+  firestore.CollectionReference<Map<String, dynamic>> documentReference =
+      _firebaseFirestore.collection('obat');
 
-    try {
-      var result = await documentReference.limit(5).get();
+  try {
+    var result = await documentReference.get();
 
-      if (result.docs.isNotEmpty) {
-        return Result.success(
-            result.docs.map((e) => Obat.fromJson(e.data())).toList());
-      } else {
-        return const Result.success([]);
+    if (result.docs.isNotEmpty) {
+      List<Obat> selectedObats = [];
+      List<int> indices = [0, 18, 9, 3, 17];
+      
+      for (int index in indices) {
+        if (index < result.docs.length) {
+          selectedObats.add(Obat.fromJson(result.docs[index].data()));
+        }
       }
-    } catch (e) {
-      return Result.failed(e.toString());
+
+      return Result.success(selectedObats);
+    } else {
+      return const Result.success([]);
     }
+  } catch (e) {
+    return Result.failed(e.toString());
   }
+}
+
 
   @override
   Future<Result<List<Obat>>> searchObat(String query) async {
@@ -123,6 +132,20 @@ class FirebaseObatRepository implements ObatRepository {
       } else {
         return const Result.success([]);
       }
+    } catch (e) {
+      return Result.failed(e.toString());
+    }
+  }
+
+  Future<Result<Obat>> createObatWithList({required List<Obat> obatList}) async {
+    firestore.CollectionReference<Map<String, dynamic>> documentReference =
+        _firebaseFirestore.collection('obat');
+
+    try {
+      for (var obat in obatList) {
+        await documentReference.doc(obat.id).set(obat.toJson());
+      }
+      return Result.success(obatList.first);
     } catch (e) {
       return Result.failed(e.toString());
     }

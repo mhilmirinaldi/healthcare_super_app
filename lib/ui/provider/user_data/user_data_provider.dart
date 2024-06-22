@@ -11,6 +11,8 @@ import 'package:super_app_telemedicine/domain/usecase/upload_profile_picture/upl
 import 'package:super_app_telemedicine/domain/usecase/upload_profile_picture/upload_profile_picture_param.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/list_kategori_dokter_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/list_rekomendasi_dokter_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/obat/list_kategori_obat_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/obat/list_rekomendasi_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/get_logged_in_user_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/login_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/logout_provider.dart';
@@ -111,5 +113,7 @@ class UserData extends _$UserData {
   void _getListDokterAndKategori() {
     ref.read(listRekomendasiDokterProvider.notifier).getListRekomendasiDokter();
     ref.read(listKategoriDokterProvider.notifier).getListKategoriDokter();
+    ref.read(listKategoriObatProvider.notifier).getListKategoriObat();
+    ref.read(listRekomendasiObatProvider.notifier).getListRekomendasiObat();
   }
 }

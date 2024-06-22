@@ -10,7 +10,7 @@ _$ObatImpl _$$ObatImplFromJson(Map<String, dynamic> json) => _$ObatImpl(
       id: json['id'] as String,
       idKategori: json['idKategori'] as String,
       nama: json['nama'] as String,
-      harga: json['harga'] as String,
+      harga: (json['harga'] as num).toInt(),
       satuan: json['satuan'] as String,
       deskripsi: json['deskripsi'] as String,
       dosis: json['dosis'] as String,

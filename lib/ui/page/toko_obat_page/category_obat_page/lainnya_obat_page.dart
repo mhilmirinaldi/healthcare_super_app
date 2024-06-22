@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:super_app_telemedicine/ui/page/chat_page.dart/category_item.dart';
-import 'package:super_app_telemedicine/ui/provider/dokter/list_kategori_dokter_provider.dart';
+import 'package:super_app_telemedicine/ui/page/toko_obat_page/category_obat_item.dart';
+import 'package:super_app_telemedicine/ui/provider/obat/list_kategori_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
-class LainnyaPage extends ConsumerWidget {
-  const LainnyaPage({super.key});
+class LainnyaObatPage extends ConsumerWidget {
+  const LainnyaObatPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final kategori = ref.watch(listKategoriDokterProvider);
+    final kategori = ref.watch(listKategoriObatProvider);
 
     return Scaffold(
       appBar: PreferredSize(
@@ -35,7 +35,7 @@ class LainnyaPage extends ConsumerWidget {
             title: const Row(
               children: [
                 Text(
-                  'Kategori dokter',
+                  'Kategori obat',
                   style: TextStyle(fontSize: 18),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -65,7 +65,7 @@ class LainnyaPage extends ConsumerWidget {
                         ),
                         itemCount: displayedKategoris.length,
                         itemBuilder: (context, index) {
-                            return categoryItem(
+                            return categoryObatItem(
                               ref,
                               context,
                               displayedKategoris[index],

@@ -9,7 +9,7 @@ class Obat with _$Obat {
     required String id,
     required String idKategori,
     required String nama,
-    required String harga,
+    required int harga,
     required String satuan,
     required String deskripsi,
     required String dosis,
