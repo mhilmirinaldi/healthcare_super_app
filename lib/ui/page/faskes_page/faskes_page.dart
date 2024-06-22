@@ -1,11 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/kategori_spesialis.dart';
 import 'package:super_app_telemedicine/ui/misc/methods.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/user_info.dart';
 import 'package:super_app_telemedicine/ui/page/faskes_page/category_spesialis_item.dart';
+import 'package:super_app_telemedicine/ui/page/faskes_page/faskes_card.dart';
 import 'package:super_app_telemedicine/ui/provider/faskes/list_kategori_spesialis_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/faskes/list_rekomendasi_faskes_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
@@ -17,8 +16,6 @@ class FaskesPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final listFaskes = ref.watch(listRekomendasiFaskesProvider);
     final kategori = ref.watch(listKategoriSpesialisProvider);
-
-    log(kategori.toString());
 
     return ListView(
       children: [
@@ -63,26 +60,26 @@ class FaskesPage extends ConsumerWidget {
                   verticalSpaces(18),
                   const Text('Fasilitas Kesehatan Terdekat',
                       style: TextStyle(fontSize: 18)),
-                  // listFaskes.maybeWhen(
-                  //   data: (faskess) => faskess.isNotEmpty
-                  //       ? SingleChildScrollView(
-                  //           scrollDirection: Axis.horizontal,
-                  //           child: Row(
-                  //             children: faskess
-                  //                 .map((faskes) => Padding(
-                  //                       padding: EdgeInsets.only(
-                  //                           left: faskes == faskess.first ? 2 : 15,
-                  //                           right: faskes == faskess.last ? 2 : 0),
-                  //                       child: FaskesCard(faskes: faskes),
-                  //                     ))
-                  //                 .toList(),
-                  //           ),
-                  //         )
-                  //       : const Center(
-                  //           child: Text('Tidak ada rekomendasi faskes')),
-                  //   orElse: () =>
-                  //       const Center(child: CircularProgressIndicator()),
-                  // ),
+                  listFaskes.maybeWhen(
+                    data: (faskess) => faskess.isNotEmpty
+                        ? SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: faskess
+                                  .map((faskes) => Padding(
+                                        padding: EdgeInsets.only(
+                                            left: faskes == faskess.first ? 2 : 15,
+                                            right: faskes == faskess.last ? 2 : 0),
+                                        child: FaskesCard(faskes: faskes),
+                                      ))
+                                  .toList(),
+                            ),
+                          )
+                        : const Center(
+                            child: Text('Tidak ada rekomendasi faskes')),
+                    orElse: () =>
+                        const Center(child: CircularProgressIndicator()),
+                  ),
                   verticalSpaces(8),
                   const Text('Spesialis', style: TextStyle(fontSize: 18)),
                   verticalSpaces(14),
