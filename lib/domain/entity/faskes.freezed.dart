@@ -22,7 +22,9 @@ Faskes _$FaskesFromJson(Map<String, dynamic> json) {
 mixin _$Faskes {
   String get id => throw _privateConstructorUsedError;
   String get nama => throw _privateConstructorUsedError;
-  String get jarak => throw _privateConstructorUsedError;
+  double get jarak => throw _privateConstructorUsedError;
+  String get latitude => throw _privateConstructorUsedError;
+  String get longitude => throw _privateConstructorUsedError;
   String get alamat => throw _privateConstructorUsedError;
   String get kategori => throw _privateConstructorUsedError;
   List<Dokter> get listDokter => throw _privateConstructorUsedError;
@@ -41,7 +43,9 @@ abstract class $FaskesCopyWith<$Res> {
   $Res call(
       {String id,
       String nama,
-      String jarak,
+      double jarak,
+      String latitude,
+      String longitude,
       String alamat,
       String kategori,
       List<Dokter> listDokter,
@@ -64,6 +68,8 @@ class _$FaskesCopyWithImpl<$Res, $Val extends Faskes>
     Object? id = null,
     Object? nama = null,
     Object? jarak = null,
+    Object? latitude = null,
+    Object? longitude = null,
     Object? alamat = null,
     Object? kategori = null,
     Object? listDokter = null,
@@ -81,6 +87,14 @@ class _$FaskesCopyWithImpl<$Res, $Val extends Faskes>
       jarak: null == jarak
           ? _value.jarak
           : jarak // ignore: cast_nullable_to_non_nullable
+              as double,
+      latitude: null == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as String,
+      longitude: null == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
               as String,
       alamat: null == alamat
           ? _value.alamat
@@ -112,7 +126,9 @@ abstract class _$$FaskesImplCopyWith<$Res> implements $FaskesCopyWith<$Res> {
   $Res call(
       {String id,
       String nama,
-      String jarak,
+      double jarak,
+      String latitude,
+      String longitude,
       String alamat,
       String kategori,
       List<Dokter> listDokter,
@@ -133,6 +149,8 @@ class __$$FaskesImplCopyWithImpl<$Res>
     Object? id = null,
     Object? nama = null,
     Object? jarak = null,
+    Object? latitude = null,
+    Object? longitude = null,
     Object? alamat = null,
     Object? kategori = null,
     Object? listDokter = null,
@@ -150,6 +168,14 @@ class __$$FaskesImplCopyWithImpl<$Res>
       jarak: null == jarak
           ? _value.jarak
           : jarak // ignore: cast_nullable_to_non_nullable
+              as double,
+      latitude: null == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as String,
+      longitude: null == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
               as String,
       alamat: null == alamat
           ? _value.alamat
@@ -178,6 +204,8 @@ class _$FaskesImpl implements _Faskes {
       {required this.id,
       required this.nama,
       required this.jarak,
+      required this.latitude,
+      required this.longitude,
       required this.alamat,
       required this.kategori,
       final List<Dokter> listDokter = const [],
@@ -192,7 +220,11 @@ class _$FaskesImpl implements _Faskes {
   @override
   final String nama;
   @override
-  final String jarak;
+  final double jarak;
+  @override
+  final String latitude;
+  @override
+  final String longitude;
   @override
   final String alamat;
   @override
@@ -211,7 +243,7 @@ class _$FaskesImpl implements _Faskes {
 
   @override
   String toString() {
-    return 'Faskes(id: $id, nama: $nama, jarak: $jarak, alamat: $alamat, kategori: $kategori, listDokter: $listDokter, gambar: $gambar)';
+    return 'Faskes(id: $id, nama: $nama, jarak: $jarak, latitude: $latitude, longitude: $longitude, alamat: $alamat, kategori: $kategori, listDokter: $listDokter, gambar: $gambar)';
   }
 
   @override
@@ -222,6 +254,10 @@ class _$FaskesImpl implements _Faskes {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nama, nama) || other.nama == nama) &&
             (identical(other.jarak, jarak) || other.jarak == jarak) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude) &&
             (identical(other.alamat, alamat) || other.alamat == alamat) &&
             (identical(other.kategori, kategori) ||
                 other.kategori == kategori) &&
@@ -232,8 +268,17 @@ class _$FaskesImpl implements _Faskes {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nama, jarak, alamat,
-      kategori, const DeepCollectionEquality().hash(_listDokter), gambar);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      nama,
+      jarak,
+      latitude,
+      longitude,
+      alamat,
+      kategori,
+      const DeepCollectionEquality().hash(_listDokter),
+      gambar);
 
   @JsonKey(ignore: true)
   @override
@@ -253,7 +298,9 @@ abstract class _Faskes implements Faskes {
   const factory _Faskes(
       {required final String id,
       required final String nama,
-      required final String jarak,
+      required final double jarak,
+      required final String latitude,
+      required final String longitude,
       required final String alamat,
       required final String kategori,
       final List<Dokter> listDokter,
@@ -266,7 +313,11 @@ abstract class _Faskes implements Faskes {
   @override
   String get nama;
   @override
-  String get jarak;
+  double get jarak;
+  @override
+  String get latitude;
+  @override
+  String get longitude;
   @override
   String get alamat;
   @override

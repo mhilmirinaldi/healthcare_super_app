@@ -29,7 +29,7 @@ class ChatPage extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Chat dengan dokter',
+                    'Chat Dengan Dokter',
                     style: TextStyle(fontSize: 20),
                   ),
                   const Divider(color: Colors.grey,),
@@ -50,7 +50,7 @@ class ChatPage extends ConsumerWidget {
                           Icon(Icons.search, color: Colors.grey[500]),
                           const SizedBox(width: 8),
                           Text(
-                            'Cari dokter atau spesialis',
+                            'Cari nama dokter atau spesialis',
                             style: TextStyle(color: Colors.grey[800]),
                           ),
                         ],
@@ -58,7 +58,7 @@ class ChatPage extends ConsumerWidget {
                     ),
                   ),
                   verticalSpaces(18),
-                  const Text('Rekomendasi dokter',
+                  const Text('Rekomendasi Dokter',
                       style: TextStyle(fontSize: 18)),
                   ...listDokter.maybeWhen(
                     data: (dokters) => dokters

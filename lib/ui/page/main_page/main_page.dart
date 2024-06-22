@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/ui/extension/build_context_extension.dart';
 import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_page.dart';
+import 'package:super_app_telemedicine/ui/page/faskes_page/faskes_page.dart';
 import 'package:super_app_telemedicine/ui/page/profile_page/profile_page.dart';
 import 'package:super_app_telemedicine/ui/page/toko_obat_page/toko_obat_page.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
@@ -20,7 +21,7 @@ class _MainPageState extends ConsumerState<MainPage> {
   final _screens = [
     const ChatPage(),
     const TokoObatPage(),
-    const Center(child: Text('Buat janji di rumah sakit'),),
+    const FaskesPage(),
     const Center(child: Text('Riwayat Kesehatan'),),
     const ProfilePage(),
   ];

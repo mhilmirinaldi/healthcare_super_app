@@ -9,7 +9,9 @@ part of 'faskes.dart';
 _$FaskesImpl _$$FaskesImplFromJson(Map<String, dynamic> json) => _$FaskesImpl(
       id: json['id'] as String,
       nama: json['nama'] as String,
-      jarak: json['jarak'] as String,
+      jarak: (json['jarak'] as num).toDouble(),
+      latitude: json['latitude'] as String,
+      longitude: json['longitude'] as String,
       alamat: json['alamat'] as String,
       kategori: json['kategori'] as String,
       listDokter: (json['listDokter'] as List<dynamic>?)
@@ -24,6 +26,8 @@ Map<String, dynamic> _$$FaskesImplToJson(_$FaskesImpl instance) =>
       'id': instance.id,
       'nama': instance.nama,
       'jarak': instance.jarak,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
       'alamat': instance.alamat,
       'kategori': instance.kategori,
       'listDokter': instance.listDokter,

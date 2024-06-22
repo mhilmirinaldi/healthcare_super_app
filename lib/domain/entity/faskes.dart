@@ -9,7 +9,9 @@ class Faskes with _$Faskes{
   const factory Faskes({
     required String id,
     required String nama,
-    required String jarak,
+    required double jarak,
+    required String latitude,
+    required String longitude,
     required String alamat,
     required String kategori,
     @Default([]) List<Dokter> listDokter,
