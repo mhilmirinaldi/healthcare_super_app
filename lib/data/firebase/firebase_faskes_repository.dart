@@ -208,5 +208,46 @@ Future<Result<List<Dokter>>> getDokterFaskesByKategori({required String idKatego
     }
 }
 
+  @override
+  Future<Result<List<Dokter>>> searchDokterFaskesWithKategori(String query, String idKategori) async {
+    firestore.CollectionReference<Map<String, dynamic>> documentReference =
+        _firebaseFirestore.collection('faskes');
+
+    try {
+      var result = await documentReference
+          .get();
+
+      if (result.docs.isNotEmpty) {
+        List<Dokter> dokters = [];
+        for (var doc in result.docs) {
+          var data = doc.data();
+          var listDokter = data['listDokter'] as List;
+          for (var dokter in listDokter) {
+            // check if dokter has the same idKategori
+            if (dokter['idKategori'] == idKategori){
+              dokters.add(Dokter.fromJson(dokter));
+            }
+          }
+        }
+
+        dokters = dokters.where((dokter) {
+          var nama = dokter.nama.toLowerCase();
+          var faskes = dokter.tempatPraktik.toLowerCase();
+          var lowerCaseQuery = query.toLowerCase();
+          return nama.contains(lowerCaseQuery) || faskes.contains(lowerCaseQuery);
+        }).toList();
+
+        return Result.success(dokters);
+      } else {
+        return const Result.success([]);
+      }
+    } catch (e) {
+      return Result.failed(e.toString());
+    }
+
+    
+  }
+
+
 
 }
