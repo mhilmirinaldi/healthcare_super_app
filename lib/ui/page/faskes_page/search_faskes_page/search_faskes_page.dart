@@ -119,7 +119,7 @@ class _SearchFaskesPageState extends ConsumerState<SearchFaskesPage> {
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 16.0,
-                    childAspectRatio: 0.56,
+                    childAspectRatio: 0.65,
                   ),
                   itemCount: faskess.length,
                   itemBuilder: (context, index) {

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:super_app_telemedicine/data/repository/faskes_repository.dart';
+import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/domain/entity/faskes.dart';
 import 'package:super_app_telemedicine/domain/entity/result.dart';
 
@@ -52,30 +53,30 @@ class FirebaseFaskesRepository implements FaskesRepository {
 
   @override
   Future<Result<List<Faskes>>> getRekomendasiFaskes() async {
-  firestore.CollectionReference<Map<String, dynamic>> documentReference =
-      _firebaseFirestore.collection('faskes');
+    firestore.CollectionReference<Map<String, dynamic>> documentReference =
+        _firebaseFirestore.collection('faskes');
 
-  try {
-    var result = await documentReference.get();
+    try {
+      var result = await documentReference.get();
 
-    if (result.docs.isNotEmpty) {
-      List<Faskes> selectedFaskess = [];
-      List<int> indices = [2, 0, 1, 3, 9];
-      
-      for (int index in indices) {
-        if (index < result.docs.length) {
-          selectedFaskess.add(Faskes.fromJson(result.docs[index].data()));
+      if (result.docs.isNotEmpty) {
+        List<Faskes> selectedFaskess = [];
+        List<int> indices = [2, 0, 1, 3, 9];
+
+        for (int index in indices) {
+          if (index < result.docs.length) {
+            selectedFaskess.add(Faskes.fromJson(result.docs[index].data()));
+          }
         }
-      }
 
-      return Result.success(selectedFaskess);
-    } else {
-      return const Result.success([]);
+        return Result.success(selectedFaskess);
+      } else {
+        return const Result.success([]);
+      }
+    } catch (e) {
+      return Result.failed(e.toString());
     }
-  } catch (e) {
-    return Result.failed(e.toString());
   }
-}
 
   @override
   Future<Result<List<Faskes>>> searchFaskes(String query) async {
@@ -138,40 +139,73 @@ class FirebaseFaskesRepository implements FaskesRepository {
     }
   }
 
-  Future<Result<Faskes>> createFaskesWithList({required List<Faskes> faskesList}) async {
-  firestore.CollectionReference<Map<String, dynamic>> documentReference =
-      _firebaseFirestore.collection('faskes');
+  Future<Result<Faskes>> createFaskesWithList(
+      {required List<Faskes> faskesList}) async {
+    firestore.CollectionReference<Map<String, dynamic>> documentReference =
+        _firebaseFirestore.collection('faskes');
 
-  try {
-    for (var faskes in faskesList) {
-      // Convert listDokter to List<Map<String, dynamic>>
-      List<Map<String, dynamic>> dokterListJson = faskes.listDokter.map((dokter) {
-        // Convert review to List<Map<String, dynamic>>
-        List<Map<String, dynamic>> reviewListJson = dokter.review.map((review) => review.toJson()).toList();
+    try {
+      for (var faskes in faskesList) {
+        // Convert listDokter to List<Map<String, dynamic>>
+        List<Map<String, dynamic>> dokterListJson =
+            faskes.listDokter.map((dokter) {
+          // Convert review to List<Map<String, dynamic>>
+          List<Map<String, dynamic>> reviewListJson =
+              dokter.review.map((review) => review.toJson()).toList();
 
-        // Create a copy of Dokter without review to avoid circular reference issue
-        var dokterJson = dokter.toJson();
-        dokterJson.remove('review');
+          // Create a copy of Dokter without review to avoid circular reference issue
+          var dokterJson = dokter.toJson();
+          dokterJson.remove('review');
 
-        // Add review as a separate field
-        dokterJson['review'] = reviewListJson;
+          // Add review as a separate field
+          dokterJson['review'] = reviewListJson;
 
-        return dokterJson;
-      }).toList();
+          return dokterJson;
+        }).toList();
 
-      // Create a copy of Faskes without listDokter to avoid circular reference issue
-      var faskesJson = faskes.toJson();
-      faskesJson.remove('listDokter');
+        // Create a copy of Faskes without listDokter to avoid circular reference issue
+        var faskesJson = faskes.toJson();
+        faskesJson.remove('listDokter');
 
-      // Add listDokter as a separate field
-      faskesJson['listDokter'] = dokterListJson;
+        // Add listDokter as a separate field
+        faskesJson['listDokter'] = dokterListJson;
 
-      await documentReference.doc(faskes.id).set(faskesJson);
+        await documentReference.doc(faskes.id).set(faskesJson);
+      }
+      return Result.success(faskesList.first);
+    } catch (e) {
+      return Result.failed(e.toString());
     }
-    return Result.success(faskesList.first);
-  } catch (e) {
-    return Result.failed(e.toString());
   }
+
+@override
+Future<Result<List<Dokter>>> getDokterFaskesByKategori({required String idKategori}) async {
+    firestore.CollectionReference<Map<String, dynamic>> documentReference =
+        _firebaseFirestore.collection('faskes');
+
+    try {
+      var result = await documentReference
+          .get();
+
+      if (result.docs.isNotEmpty) {
+        List<Dokter> dokters = [];
+        for (var doc in result.docs) {
+          var data = doc.data();
+          var listDokter = data['listDokter'] as List;
+          for (var dokter in listDokter) {
+            // check if dokter has the same idKategori
+            if (dokter['idKategori'] == idKategori){
+              dokters.add(Dokter.fromJson(dokter));
+            }
+          }
+        }
+        return Result.success(dokters);
+      } else {
+        return const Result.success([]);
+      }
+    } catch (e) {
+      return Result.failed(e.toString());
+    }
 }
 
 

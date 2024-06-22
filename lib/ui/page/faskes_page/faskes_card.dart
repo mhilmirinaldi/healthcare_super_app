@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/faskes.dart';
+import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
 class FaskesCard extends ConsumerWidget {
@@ -16,11 +17,11 @@ class FaskesCard extends ConsumerWidget {
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
-        width: 160,
+        width: 155,
         height: faskes.kategori == 'Rumah Sakit Khusus Jantung' ||
                 faskes.kategori == 'Rumah Sakit Khusus Ibu dan Anak'
-            ? 300
-            : 271,
+            ? 260
+            : 231,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -55,10 +56,7 @@ class FaskesCard extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
+              SizedBox(
                     height: 45,
                     child: Text(
                       faskes.nama,
@@ -66,47 +64,56 @@ class FaskesCard extends ConsumerWidget {
                           fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   const SizedBox(height: 4),
                   Text(faskes.kategori,
                       style: TextStyle(fontSize: 14, color: Colors.grey[800])),
                   const SizedBox(height: 2),
-                  Text(
-                    '${faskes.jarak} km',
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Implementasi tombol tambah
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(const Color(0xFFE1004E)),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                  Row(
+                    children: [
+                      const Icon(Icons.location_on, color: primaryColor, size: 16),
+                      const SizedBox(width: 3),
+                      Text(
+                        '${faskes.jarak} km',
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500),
                       ),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 37)),
-                      minimumSize: MaterialStateProperty.all(const Size(0, 0)),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: const Text(
-                      'Tambah',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
+                    ],
                   ),
                 ],
               ),
+              // const SizedBox(height: 8),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     ElevatedButton(
+              //       onPressed: () {
+              //         // Implementasi tombol tambah
+              //       },
+              //       style: ButtonStyle(
+              //         backgroundColor:
+              //             MaterialStateProperty.all(const Color(0xFFE1004E)),
+              //         shape: MaterialStateProperty.all(
+              //           RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(10),
+              //           ),
+              //         ),
+              //         padding: MaterialStateProperty.all<EdgeInsets>(
+              //             const EdgeInsets.symmetric(
+              //                 vertical: 8, horizontal: 37)),
+              //         minimumSize: MaterialStateProperty.all(const Size(0, 0)),
+              //         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              //       ),
+              //       child: const Text(
+              //         'Tambah',
+              //         style: TextStyle(
+              //             color: Colors.white, fontWeight: FontWeight.bold),
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),
