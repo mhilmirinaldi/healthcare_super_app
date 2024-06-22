@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/kategori_obat.dart';
 import 'package:super_app_telemedicine/ui/misc/methods.dart';
-import 'package:super_app_telemedicine/ui/page/chat_page.dart/user_info.dart';
+import 'package:super_app_telemedicine/ui/page/chat_page/user_info.dart';
 import 'package:super_app_telemedicine/ui/page/toko_obat_page/category_obat_item.dart';
 import 'package:super_app_telemedicine/ui/page/toko_obat_page/obat_card.dart';
 import 'package:super_app_telemedicine/ui/provider/obat/list_kategori_obat_provider.dart';

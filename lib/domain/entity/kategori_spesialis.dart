@@ -7,7 +7,7 @@ part 'kategori_spesialis.g.dart';
 class KategoriSpesialis with _$KategoriSpesialis{
   const factory KategoriSpesialis({
     required String id,
-    required String name,
+    required String nama,
     String? icon,
   }) = _KategoriSpesialis;
 

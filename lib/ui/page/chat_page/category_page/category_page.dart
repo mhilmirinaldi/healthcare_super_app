@@ -5,7 +5,7 @@ import 'package:super_app_telemedicine/domain/entity/kategori_dokter.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/list_dokter_by_kategori_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/search_dokter_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
-import 'package:super_app_telemedicine/ui/page/chat_page.dart/dokter_card.dart';
+import 'package:super_app_telemedicine/ui/page/chat_page/dokter_card.dart';
 
 class CategoryPage extends ConsumerStatefulWidget {
   final KategoriDokter kategori;

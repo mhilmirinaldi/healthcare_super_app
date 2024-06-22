@@ -7,8 +7,8 @@ import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/domain/entity/review.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
 import 'package:super_app_telemedicine/ui/extension/str_extension.dart';
-import 'package:super_app_telemedicine/ui/page/chat_page.dart/detail_dokter_page/info_row.dart';
-import 'package:super_app_telemedicine/ui/page/chat_page.dart/detail_dokter_page/review_card.dart';
+import 'package:super_app_telemedicine/ui/page/chat_page/detail_dokter_page/info_row.dart';
+import 'package:super_app_telemedicine/ui/page/chat_page/detail_dokter_page/review_card.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
 class DetailDokterPage extends ConsumerStatefulWidget {

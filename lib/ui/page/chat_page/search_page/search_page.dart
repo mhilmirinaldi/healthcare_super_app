@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:super_app_telemedicine/ui/page/chat_page.dart/dokter_card.dart';
+import 'package:super_app_telemedicine/ui/page/chat_page/dokter_card.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/search_dokter_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 

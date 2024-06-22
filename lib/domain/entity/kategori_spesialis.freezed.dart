@@ -21,7 +21,7 @@ KategoriSpesialis _$KategoriSpesialisFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$KategoriSpesialis {
   String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String get nama => throw _privateConstructorUsedError;
   String? get icon => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ abstract class $KategoriSpesialisCopyWith<$Res> {
           KategoriSpesialis value, $Res Function(KategoriSpesialis) then) =
       _$KategoriSpesialisCopyWithImpl<$Res, KategoriSpesialis>;
   @useResult
-  $Res call({String id, String name, String? icon});
+  $Res call({String id, String nama, String? icon});
 }
 
 /// @nodoc
@@ -53,7 +53,7 @@ class _$KategoriSpesialisCopyWithImpl<$Res, $Val extends KategoriSpesialis>
   @override
   $Res call({
     Object? id = null,
-    Object? name = null,
+    Object? nama = null,
     Object? icon = freezed,
   }) {
     return _then(_value.copyWith(
@@ -61,9 +61,9 @@ class _$KategoriSpesialisCopyWithImpl<$Res, $Val extends KategoriSpesialis>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      nama: null == nama
+          ? _value.nama
+          : nama // ignore: cast_nullable_to_non_nullable
               as String,
       icon: freezed == icon
           ? _value.icon
@@ -81,7 +81,7 @@ abstract class _$$KategoriSpesialisImplCopyWith<$Res>
       __$$KategoriSpesialisImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String? icon});
+  $Res call({String id, String nama, String? icon});
 }
 
 /// @nodoc
@@ -96,7 +96,7 @@ class __$$KategoriSpesialisImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? name = null,
+    Object? nama = null,
     Object? icon = freezed,
   }) {
     return _then(_$KategoriSpesialisImpl(
@@ -104,9 +104,9 @@ class __$$KategoriSpesialisImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      nama: null == nama
+          ? _value.nama
+          : nama // ignore: cast_nullable_to_non_nullable
               as String,
       icon: freezed == icon
           ? _value.icon
@@ -120,7 +120,7 @@ class __$$KategoriSpesialisImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$KategoriSpesialisImpl implements _KategoriSpesialis {
   const _$KategoriSpesialisImpl(
-      {required this.id, required this.name, this.icon});
+      {required this.id, required this.nama, this.icon});
 
   factory _$KategoriSpesialisImpl.fromJson(Map<String, dynamic> json) =>
       _$$KategoriSpesialisImplFromJson(json);
@@ -128,13 +128,13 @@ class _$KategoriSpesialisImpl implements _KategoriSpesialis {
   @override
   final String id;
   @override
-  final String name;
+  final String nama;
   @override
   final String? icon;
 
   @override
   String toString() {
-    return 'KategoriSpesialis(id: $id, name: $name, icon: $icon)';
+    return 'KategoriSpesialis(id: $id, nama: $nama, icon: $icon)';
   }
 
   @override
@@ -143,13 +143,13 @@ class _$KategoriSpesialisImpl implements _KategoriSpesialis {
         (other.runtimeType == runtimeType &&
             other is _$KategoriSpesialisImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.nama, nama) || other.nama == nama) &&
             (identical(other.icon, icon) || other.icon == icon));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, icon);
+  int get hashCode => Object.hash(runtimeType, id, nama, icon);
 
   @JsonKey(ignore: true)
   @override
@@ -169,7 +169,7 @@ class _$KategoriSpesialisImpl implements _KategoriSpesialis {
 abstract class _KategoriSpesialis implements KategoriSpesialis {
   const factory _KategoriSpesialis(
       {required final String id,
-      required final String name,
+      required final String nama,
       final String? icon}) = _$KategoriSpesialisImpl;
 
   factory _KategoriSpesialis.fromJson(Map<String, dynamic> json) =
@@ -178,7 +178,7 @@ abstract class _KategoriSpesialis implements KategoriSpesialis {
   @override
   String get id;
   @override
-  String get name;
+  String get nama;
   @override
   String? get icon;
   @override
