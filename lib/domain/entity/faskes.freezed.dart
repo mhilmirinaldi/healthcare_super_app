@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'fasilitas_kesehatan.dart';
+part of 'faskes.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,46 +14,44 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-FasilitasKesehatan _$FasilitasKesehatanFromJson(Map<String, dynamic> json) {
-  return _FasilitasKesehatan.fromJson(json);
+Faskes _$FaskesFromJson(Map<String, dynamic> json) {
+  return _Faskes.fromJson(json);
 }
 
 /// @nodoc
-mixin _$FasilitasKesehatan {
+mixin _$Faskes {
   String get id => throw _privateConstructorUsedError;
   String get nama => throw _privateConstructorUsedError;
   String get jarak => throw _privateConstructorUsedError;
   String get alamat => throw _privateConstructorUsedError;
-  String get profil => throw _privateConstructorUsedError;
-  List<Dokter> get daftarDokter => throw _privateConstructorUsedError;
+  String get kategori => throw _privateConstructorUsedError;
+  List<Dokter> get listDokter => throw _privateConstructorUsedError;
   String? get gambar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FasilitasKesehatanCopyWith<FasilitasKesehatan> get copyWith =>
-      throw _privateConstructorUsedError;
+  $FaskesCopyWith<Faskes> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FasilitasKesehatanCopyWith<$Res> {
-  factory $FasilitasKesehatanCopyWith(
-          FasilitasKesehatan value, $Res Function(FasilitasKesehatan) then) =
-      _$FasilitasKesehatanCopyWithImpl<$Res, FasilitasKesehatan>;
+abstract class $FaskesCopyWith<$Res> {
+  factory $FaskesCopyWith(Faskes value, $Res Function(Faskes) then) =
+      _$FaskesCopyWithImpl<$Res, Faskes>;
   @useResult
   $Res call(
       {String id,
       String nama,
       String jarak,
       String alamat,
-      String profil,
-      List<Dokter> daftarDokter,
+      String kategori,
+      List<Dokter> listDokter,
       String? gambar});
 }
 
 /// @nodoc
-class _$FasilitasKesehatanCopyWithImpl<$Res, $Val extends FasilitasKesehatan>
-    implements $FasilitasKesehatanCopyWith<$Res> {
-  _$FasilitasKesehatanCopyWithImpl(this._value, this._then);
+class _$FaskesCopyWithImpl<$Res, $Val extends Faskes>
+    implements $FaskesCopyWith<$Res> {
+  _$FaskesCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -67,8 +65,8 @@ class _$FasilitasKesehatanCopyWithImpl<$Res, $Val extends FasilitasKesehatan>
     Object? nama = null,
     Object? jarak = null,
     Object? alamat = null,
-    Object? profil = null,
-    Object? daftarDokter = null,
+    Object? kategori = null,
+    Object? listDokter = null,
     Object? gambar = freezed,
   }) {
     return _then(_value.copyWith(
@@ -88,13 +86,13 @@ class _$FasilitasKesehatanCopyWithImpl<$Res, $Val extends FasilitasKesehatan>
           ? _value.alamat
           : alamat // ignore: cast_nullable_to_non_nullable
               as String,
-      profil: null == profil
-          ? _value.profil
-          : profil // ignore: cast_nullable_to_non_nullable
+      kategori: null == kategori
+          ? _value.kategori
+          : kategori // ignore: cast_nullable_to_non_nullable
               as String,
-      daftarDokter: null == daftarDokter
-          ? _value.daftarDokter
-          : daftarDokter // ignore: cast_nullable_to_non_nullable
+      listDokter: null == listDokter
+          ? _value.listDokter
+          : listDokter // ignore: cast_nullable_to_non_nullable
               as List<Dokter>,
       gambar: freezed == gambar
           ? _value.gambar
@@ -105,11 +103,10 @@ class _$FasilitasKesehatanCopyWithImpl<$Res, $Val extends FasilitasKesehatan>
 }
 
 /// @nodoc
-abstract class _$$FasilitasKesehatanImplCopyWith<$Res>
-    implements $FasilitasKesehatanCopyWith<$Res> {
-  factory _$$FasilitasKesehatanImplCopyWith(_$FasilitasKesehatanImpl value,
-          $Res Function(_$FasilitasKesehatanImpl) then) =
-      __$$FasilitasKesehatanImplCopyWithImpl<$Res>;
+abstract class _$$FaskesImplCopyWith<$Res> implements $FaskesCopyWith<$Res> {
+  factory _$$FaskesImplCopyWith(
+          _$FaskesImpl value, $Res Function(_$FaskesImpl) then) =
+      __$$FaskesImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -117,17 +114,17 @@ abstract class _$$FasilitasKesehatanImplCopyWith<$Res>
       String nama,
       String jarak,
       String alamat,
-      String profil,
-      List<Dokter> daftarDokter,
+      String kategori,
+      List<Dokter> listDokter,
       String? gambar});
 }
 
 /// @nodoc
-class __$$FasilitasKesehatanImplCopyWithImpl<$Res>
-    extends _$FasilitasKesehatanCopyWithImpl<$Res, _$FasilitasKesehatanImpl>
-    implements _$$FasilitasKesehatanImplCopyWith<$Res> {
-  __$$FasilitasKesehatanImplCopyWithImpl(_$FasilitasKesehatanImpl _value,
-      $Res Function(_$FasilitasKesehatanImpl) _then)
+class __$$FaskesImplCopyWithImpl<$Res>
+    extends _$FaskesCopyWithImpl<$Res, _$FaskesImpl>
+    implements _$$FaskesImplCopyWith<$Res> {
+  __$$FaskesImplCopyWithImpl(
+      _$FaskesImpl _value, $Res Function(_$FaskesImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -137,11 +134,11 @@ class __$$FasilitasKesehatanImplCopyWithImpl<$Res>
     Object? nama = null,
     Object? jarak = null,
     Object? alamat = null,
-    Object? profil = null,
-    Object? daftarDokter = null,
+    Object? kategori = null,
+    Object? listDokter = null,
     Object? gambar = freezed,
   }) {
-    return _then(_$FasilitasKesehatanImpl(
+    return _then(_$FaskesImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -158,13 +155,13 @@ class __$$FasilitasKesehatanImplCopyWithImpl<$Res>
           ? _value.alamat
           : alamat // ignore: cast_nullable_to_non_nullable
               as String,
-      profil: null == profil
-          ? _value.profil
-          : profil // ignore: cast_nullable_to_non_nullable
+      kategori: null == kategori
+          ? _value.kategori
+          : kategori // ignore: cast_nullable_to_non_nullable
               as String,
-      daftarDokter: null == daftarDokter
-          ? _value._daftarDokter
-          : daftarDokter // ignore: cast_nullable_to_non_nullable
+      listDokter: null == listDokter
+          ? _value._listDokter
+          : listDokter // ignore: cast_nullable_to_non_nullable
               as List<Dokter>,
       gambar: freezed == gambar
           ? _value.gambar
@@ -176,19 +173,19 @@ class __$$FasilitasKesehatanImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$FasilitasKesehatanImpl implements _FasilitasKesehatan {
-  const _$FasilitasKesehatanImpl(
+class _$FaskesImpl implements _Faskes {
+  const _$FaskesImpl(
       {required this.id,
       required this.nama,
       required this.jarak,
       required this.alamat,
-      required this.profil,
-      final List<Dokter> daftarDokter = const [],
+      required this.kategori,
+      final List<Dokter> listDokter = const [],
       this.gambar})
-      : _daftarDokter = daftarDokter;
+      : _listDokter = listDokter;
 
-  factory _$FasilitasKesehatanImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FasilitasKesehatanImplFromJson(json);
+  factory _$FaskesImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FaskesImplFromJson(json);
 
   @override
   final String id;
@@ -199,14 +196,14 @@ class _$FasilitasKesehatanImpl implements _FasilitasKesehatan {
   @override
   final String alamat;
   @override
-  final String profil;
-  final List<Dokter> _daftarDokter;
+  final String kategori;
+  final List<Dokter> _listDokter;
   @override
   @JsonKey()
-  List<Dokter> get daftarDokter {
-    if (_daftarDokter is EqualUnmodifiableListView) return _daftarDokter;
+  List<Dokter> get listDokter {
+    if (_listDokter is EqualUnmodifiableListView) return _listDokter;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_daftarDokter);
+    return EqualUnmodifiableListView(_listDokter);
   }
 
   @override
@@ -214,56 +211,55 @@ class _$FasilitasKesehatanImpl implements _FasilitasKesehatan {
 
   @override
   String toString() {
-    return 'FasilitasKesehatan(id: $id, nama: $nama, jarak: $jarak, alamat: $alamat, profil: $profil, daftarDokter: $daftarDokter, gambar: $gambar)';
+    return 'Faskes(id: $id, nama: $nama, jarak: $jarak, alamat: $alamat, kategori: $kategori, listDokter: $listDokter, gambar: $gambar)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FasilitasKesehatanImpl &&
+            other is _$FaskesImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nama, nama) || other.nama == nama) &&
             (identical(other.jarak, jarak) || other.jarak == jarak) &&
             (identical(other.alamat, alamat) || other.alamat == alamat) &&
-            (identical(other.profil, profil) || other.profil == profil) &&
+            (identical(other.kategori, kategori) ||
+                other.kategori == kategori) &&
             const DeepCollectionEquality()
-                .equals(other._daftarDokter, _daftarDokter) &&
+                .equals(other._listDokter, _listDokter) &&
             (identical(other.gambar, gambar) || other.gambar == gambar));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nama, jarak, alamat, profil,
-      const DeepCollectionEquality().hash(_daftarDokter), gambar);
+  int get hashCode => Object.hash(runtimeType, id, nama, jarak, alamat,
+      kategori, const DeepCollectionEquality().hash(_listDokter), gambar);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FasilitasKesehatanImplCopyWith<_$FasilitasKesehatanImpl> get copyWith =>
-      __$$FasilitasKesehatanImplCopyWithImpl<_$FasilitasKesehatanImpl>(
-          this, _$identity);
+  _$$FaskesImplCopyWith<_$FaskesImpl> get copyWith =>
+      __$$FaskesImplCopyWithImpl<_$FaskesImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$FasilitasKesehatanImplToJson(
+    return _$$FaskesImplToJson(
       this,
     );
   }
 }
 
-abstract class _FasilitasKesehatan implements FasilitasKesehatan {
-  const factory _FasilitasKesehatan(
+abstract class _Faskes implements Faskes {
+  const factory _Faskes(
       {required final String id,
       required final String nama,
       required final String jarak,
       required final String alamat,
-      required final String profil,
-      final List<Dokter> daftarDokter,
-      final String? gambar}) = _$FasilitasKesehatanImpl;
+      required final String kategori,
+      final List<Dokter> listDokter,
+      final String? gambar}) = _$FaskesImpl;
 
-  factory _FasilitasKesehatan.fromJson(Map<String, dynamic> json) =
-      _$FasilitasKesehatanImpl.fromJson;
+  factory _Faskes.fromJson(Map<String, dynamic> json) = _$FaskesImpl.fromJson;
 
   @override
   String get id;
@@ -274,13 +270,13 @@ abstract class _FasilitasKesehatan implements FasilitasKesehatan {
   @override
   String get alamat;
   @override
-  String get profil;
+  String get kategori;
   @override
-  List<Dokter> get daftarDokter;
+  List<Dokter> get listDokter;
   @override
   String? get gambar;
   @override
   @JsonKey(ignore: true)
-  _$$FasilitasKesehatanImplCopyWith<_$FasilitasKesehatanImpl> get copyWith =>
+  _$$FaskesImplCopyWith<_$FaskesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
