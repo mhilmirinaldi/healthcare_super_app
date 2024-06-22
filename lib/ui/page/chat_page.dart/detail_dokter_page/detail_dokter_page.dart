@@ -267,6 +267,7 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text('Biaya Konsultasi'),
+                const SizedBox(height: 4),
                 Text(
                   widget.dokter.harga.toIDRCurrency(),
                   style: const TextStyle(

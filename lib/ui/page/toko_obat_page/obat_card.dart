@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/obat.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
+import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
 class ObatCard extends ConsumerWidget {
   final Obat obat;
@@ -12,7 +13,7 @@ class ObatCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        // Implementasi ketika card obat di tap
+        ref.read(routerProvider).pushNamed('detail_obat', extra: obat);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),

@@ -8,7 +8,7 @@ Widget categoryItem(WidgetRef ref, BuildContext context, KategoriDokter kategori
   return GestureDetector(
       onTap: () {
         if (isLainnya) {
-          ref.read(routerProvider).pushNamed('lainnya_page');
+          ref.read(routerProvider).pushNamed('lainnya');
         } else {
           ref.read(routerProvider).pushNamed('category', extra: kategori);
         }

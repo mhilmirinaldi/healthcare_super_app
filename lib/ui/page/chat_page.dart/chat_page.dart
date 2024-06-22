@@ -32,7 +32,7 @@ class ChatPage extends ConsumerWidget {
                     'Chat dengan dokter',
                     style: TextStyle(fontSize: 20),
                   ),
-                  const Divider(),
+                  const Divider(color: Colors.grey,),
                   verticalSpaces(14),
                   GestureDetector(
                     onTap: () {

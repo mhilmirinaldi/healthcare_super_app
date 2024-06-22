@@ -10,9 +10,9 @@ Widget categoryObatItem(
   return GestureDetector(
     onTap: () {
       if (isLainnya) {
-        ref.read(routerProvider).pushNamed('lainnya_obat_page');
+        ref.read(routerProvider).pushNamed('lainnya_obat');
       } else {
-        ref.read(routerProvider).pushNamed('category', extra: kategori);
+        ref.read(routerProvider).pushNamed('category_obat', extra: kategori);
       }
     },
     child: Column(

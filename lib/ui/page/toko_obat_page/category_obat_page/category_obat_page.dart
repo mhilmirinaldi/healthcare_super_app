@@ -162,7 +162,7 @@ class _CategoryObatPageState extends ConsumerState<CategoryObatPage> {
 
   Widget _buildFilterSection() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -182,7 +182,7 @@ class _CategoryObatPageState extends ConsumerState<CategoryObatPage> {
                   _filteredObats = _filterObats(_filteredObats);
                 });
               }
-            }, 97),
+            }, 130),
           ],
         ),
       ),
@@ -230,14 +230,20 @@ class _CategoryObatPageState extends ConsumerState<CategoryObatPage> {
   }
 
   Widget _buildObatList(List<Obat> obats) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      itemCount: obats.length,
-      itemBuilder: (context, index) {
-        return ObatCard(obat: obats[index]);
-      },
-    );
-  }
+  return GridView.builder(
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    padding: const EdgeInsets.symmetric(horizontal: 24),
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      crossAxisSpacing: 16.0,
+      childAspectRatio: 0.6,
+    ),
+    itemCount: obats.length,
+    itemBuilder: (context, index) {
+      return ObatCard(obat: obats[index]);
+    },
+  );
+}
+
 }

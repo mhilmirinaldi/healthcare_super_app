@@ -32,11 +32,11 @@ class TokoObatPage extends ConsumerWidget {
                     'Toko obat',
                     style: TextStyle(fontSize: 20),
                   ),
-                  const Divider(),
+                  const Divider(color: Colors.grey,),
                   verticalSpaces(14),
                   GestureDetector(
                     onTap: () {
-                      ref.read(routerProvider).pushNamed('search_page');
+                      ref.read(routerProvider).pushNamed('search_obat');
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
