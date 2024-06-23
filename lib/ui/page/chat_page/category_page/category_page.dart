@@ -219,6 +219,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
   Widget _buildDropdown(String label, List<String> items, String selectedItem,
       ValueChanged<String?> onChanged, double width) {
     return Container(
+      height: 40,
       width: width,
       padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
