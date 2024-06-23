@@ -35,7 +35,7 @@ class LainnyaSpesialisPage extends ConsumerWidget {
             title: const Row(
               children: [
                 Text(
-                  'Kategori spesialis',
+                  'Cari spesialis',
                   style: TextStyle(fontSize: 18),
                   overflow: TextOverflow.ellipsis,
                 ),

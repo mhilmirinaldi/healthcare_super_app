@@ -10,4 +10,5 @@ abstract interface class FaskesRepository{
   Future<Result<List<Faskes>>> searchFaskesWithKategori(String query, String idKategori);
   Future<Result<List<Dokter>>> getDokterFaskesByKategori({required String idKategori});
   Future<Result<List<Dokter>>> searchDokterFaskesWithKategori(String query, String idKategori);
+  Future<Result<double>> searchJarakByFaskes({required String namaFaskes});
 }

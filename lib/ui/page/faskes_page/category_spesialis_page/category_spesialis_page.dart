@@ -5,7 +5,6 @@ import 'package:super_app_telemedicine/domain/entity/kategori_spesialis.dart';
 import 'package:super_app_telemedicine/ui/page/faskes_page/category_spesialis_page/dokter_spesialis_card.dart';
 import 'package:super_app_telemedicine/ui/provider/faskes/list_dokter_faskes_by_kategori_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/faskes/search_dokter_faskes_provider.dart';
-import 'package:super_app_telemedicine/ui/provider/faskes/search_faskes_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
 class CategorySpesialisPage extends ConsumerStatefulWidget {
@@ -71,7 +70,7 @@ class _CategorySpesialisPageState extends ConsumerState<CategorySpesialisPage> {
                       controller: _searchController,
                       focusNode: _searchFocusNode,
                       decoration: const InputDecoration(
-                        hintText: 'Cari faskes',
+                        hintText: 'Cari nama dokter',
                         border: InputBorder.none,
                       ),
                       onSubmitted: (query) {
