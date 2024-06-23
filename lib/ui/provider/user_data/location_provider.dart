@@ -15,7 +15,6 @@ class LocationNotifier extends StateNotifier<String> {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       state = 'Location services are disabled.';

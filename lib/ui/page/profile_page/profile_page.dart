@@ -28,10 +28,18 @@ class ProfilePage extends ConsumerWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(const Color(0xFFE1004E)),
+                  ),
                   onPressed: () {
                     ref.read(userDataProvider.notifier).logout();
                   },
-                  child: const Text('Logout'),
+                  child: const Text(
+                    'Logout',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               verticalSpaces(20),

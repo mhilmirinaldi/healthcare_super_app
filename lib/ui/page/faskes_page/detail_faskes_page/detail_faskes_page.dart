@@ -21,6 +21,18 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
   String selectedFilter = 'Urutkan';
   String selectedGender = 'Jenis Kelamin';
   String selectedSpesialis = 'Spesialis';
+  List<String> kategoriList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _extractKategoriList();
+  }
+
+  void _extractKategoriList() {
+    kategoriList = widget.faskes.listDokter.map((dokter) => dokter.kategori).toSet().toList();
+    kategoriList.insert(0, 'Spesialis');
+  }
 
   List<Dokter> getFilteredDokters() {
     List<Dokter> filteredList = List.from(widget.faskes.listDokter);
@@ -28,6 +40,12 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
     if (selectedGender != 'Jenis Kelamin') {
       filteredList = filteredList
           .where((dokter) => dokter.jenisKelamin == selectedGender)
+          .toList();
+    }
+
+    if (selectedSpesialis != 'Spesialis') {
+      filteredList = filteredList
+          .where((dokter) => dokter.kategori == selectedSpesialis)
           .toList();
     }
 
@@ -92,7 +110,7 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
               Text(
                 widget.faskes.nama.capitalize(),
                 style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               Text(
                 widget.faskes.kategori,
@@ -139,7 +157,7 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
                 children: [
                   Container(
                     height: 40,
-                    width: 100,
+                    width: 119,
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -149,10 +167,7 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
                       isExpanded: true,
                       underline: const SizedBox(),
                       value: selectedSpesialis,
-                      items: <String>[
-                        'Spesialis',
-                        // Dinamis
-                      ].map<DropdownMenuItem<String>>((value) {
+                      items: kategoriList.map<DropdownMenuItem<String>>((value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(
@@ -257,3 +272,4 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
     );
   }
 }
+

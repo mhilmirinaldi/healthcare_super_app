@@ -30,7 +30,6 @@ class FirebaseKategoriSpesialisRepository implements KategoriSpesialisRepository
     firestore.CollectionReference<Map<String, dynamic>> documentReference = _firebaseFirestore.collection('kategoriSpesialis');
 
     try {
-      // set id
       await documentReference.doc(kategoriSpesialis.id).set(kategoriSpesialis.toJson());
       return Result.success(kategoriSpesialis);
     } catch (e) {

@@ -70,7 +70,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                       controller: _searchController,
                       focusNode: _searchFocusNode,
                       decoration: const InputDecoration(
-                        hintText: 'Cari dokter',
+                        hintText: 'Cari nama dokter',
                         border: InputBorder.none,
                       ),
                       onSubmitted: (query) {

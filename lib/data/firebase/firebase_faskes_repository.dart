@@ -193,7 +193,6 @@ class FirebaseFaskesRepository implements FaskesRepository {
           var data = doc.data();
           var listDokter = data['listDokter'] as List;
           for (var dokter in listDokter) {
-            // check if dokter has the same idKategori
             if (dokter['idKategori'] == idKategori) {
               dokters.add(Dokter.fromJson(dokter));
             }
@@ -223,7 +222,6 @@ class FirebaseFaskesRepository implements FaskesRepository {
           var data = doc.data();
           var listDokter = data['listDokter'] as List;
           for (var dokter in listDokter) {
-            // check if dokter has the same idKategori
             if (dokter['idKategori'] == idKategori) {
               dokters.add(Dokter.fromJson(dokter));
             }

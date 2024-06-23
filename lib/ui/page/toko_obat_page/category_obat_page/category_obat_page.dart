@@ -68,7 +68,7 @@ class _CategoryObatPageState extends ConsumerState<CategoryObatPage> {
                       controller: _searchController,
                       focusNode: _searchFocusNode,
                       decoration: const InputDecoration(
-                        hintText: 'Cari obat',
+                        hintText: 'Cari nama obat',
                         border: InputBorder.none,
                       ),
                       onSubmitted: (query) {

@@ -60,7 +60,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
               focusNode: _searchFocusNode,
               autofocus: true,
               decoration: const InputDecoration(
-                hintText: 'Cari dokter atau spesialis',
+                hintText: 'Cari nama dokter atau spesialis',
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
                 ),
