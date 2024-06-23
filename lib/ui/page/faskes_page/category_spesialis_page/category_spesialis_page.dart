@@ -13,7 +13,8 @@ class CategorySpesialisPage extends ConsumerStatefulWidget {
   const CategorySpesialisPage(this.kategori, {super.key});
 
   @override
-  ConsumerState<CategorySpesialisPage> createState() => _CategorySpesialisPageState();
+  ConsumerState<CategorySpesialisPage> createState() =>
+      _CategorySpesialisPageState();
 }
 
 class _CategorySpesialisPageState extends ConsumerState<CategorySpesialisPage> {
@@ -29,8 +30,8 @@ class _CategorySpesialisPageState extends ConsumerState<CategorySpesialisPage> {
 
   @override
   Widget build(BuildContext context) {
-    final listDokter =
-        ref.watch(ListDokterFaskesByKategoriProvider(idKategori: widget.kategori.id));
+    final listDokter = ref.watch(
+        ListDokterFaskesByKategoriProvider(idKategori: widget.kategori.id));
     final searchResults = ref.watch(searchDokterFaskesProvider);
 
     return Scaffold(
@@ -197,10 +198,12 @@ class _CategorySpesialisPageState extends ConsumerState<CategorySpesialisPage> {
                 'Urutkan',
                 [
                   'Urutkan',
+                  'Jarak terdekat',
+                  'Jarak terjauh',
                   'Harga tertinggi',
                   'Harga terendah',
                   'Rating tertinggi',
-                  'Rating terendah'
+                  'Rating terendah',
                 ],
                 _selectedSorting, (value) {
               if (value != null) {
@@ -275,6 +278,12 @@ class _CategorySpesialisPageState extends ConsumerState<CategorySpesialisPage> {
         break;
       case 'Rating terendah':
         filteredList.sort((a, b) => (a.ratingTotal).compareTo(b.ratingTotal));
+        break;
+      case 'Jarak terdekat':
+        filteredList.sort((a, b) => (a.jarak ?? 0.0).compareTo(b.jarak ?? 0.0));
+        break;
+      case 'Jarak terjauh':
+        filteredList.sort((a, b) => (b.jarak ?? 0.0).compareTo(a.jarak ?? 0.0));
         break;
     }
 

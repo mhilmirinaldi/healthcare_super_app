@@ -23,6 +23,7 @@ _$DokterImpl _$$DokterImplFromJson(Map<String, dynamic> json) => _$DokterImpl(
       kategori: json['kategori'] as String,
       nomorStr: json['nomorStr'] as String,
       jenisKelamin: json['jenisKelamin'] as String,
+      jarak: (json['jarak'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$DokterImplToJson(_$DokterImpl instance) =>
@@ -40,4 +41,5 @@ Map<String, dynamic> _$$DokterImplToJson(_$DokterImpl instance) =>
       'kategori': instance.kategori,
       'nomorStr': instance.nomorStr,
       'jenisKelamin': instance.jenisKelamin,
+      'jarak': instance.jarak,
     };

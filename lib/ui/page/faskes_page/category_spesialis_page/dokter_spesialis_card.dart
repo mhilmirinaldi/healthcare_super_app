@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
 import 'package:super_app_telemedicine/ui/extension/str_extension.dart';
+import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/provider/faskes/search_jarak_faskes_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
@@ -123,8 +124,8 @@ class _DokterSpesialisCardState extends ConsumerState<DokterSpesialisCard> {
                           ),
                           Row(
                             children: [
-                              Icon(Icons.location_on,
-                                  size: 14, color: Colors.grey[600]),
+                              const Icon(Icons.location_on,
+                                  size: 14, color: primaryColor),
                               const SizedBox(width: 2),
                               Text(
                                 '${jarak.toStringAsFixed(2)} km',
