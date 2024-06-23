@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/obat.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
+import 'package:super_app_telemedicine/ui/provider/cart/cart_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
 class ObatCard extends ConsumerWidget {
@@ -11,6 +12,9 @@ class ObatCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cart = ref.watch(cartProvider);
+    final itemCount = cart.getItemCount(obat.id);
+
     return GestureDetector(
       onTap: () {
         ref.read(routerProvider).pushNamed('detail_obat', extra: obat);
@@ -18,7 +22,7 @@ class ObatCard extends ConsumerWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
         width: 155,
-        height: 271,
+        height: 290,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -79,30 +83,52 @@ class ObatCard extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Implementasi tombol tambah
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(const Color(0xFFE1004E)),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                  itemCount > 0
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.remove),
+                              onPressed: () {
+                                ref.read(cartProvider).removeItem(obat.id);
+                              },
+                            ),
+                            Text('$itemCount',
+                                style: const TextStyle(fontSize: 14)),
+                            IconButton(
+                              icon: const Icon(Icons.add),
+                              onPressed: () {
+                                ref.read(cartProvider).addItem(obat);
+                              },
+                            ),
+                          ],
+                        )
+                      : ElevatedButton(
+                          onPressed: () {
+                            ref.read(cartProvider).addItem(obat);
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color(0xFFE1004E)),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            padding: MaterialStateProperty.all<EdgeInsets>(
+                                const EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 37)),
+                            minimumSize:
+                                MaterialStateProperty.all(const Size(0, 0)),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          child: const Text(
+                            'Tambah',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 37)),
-                      minimumSize: MaterialStateProperty.all(const Size(0, 0)),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: const Text(
-                      'Tambah',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ),
                 ],
               ),
             ],

@@ -119,7 +119,7 @@ class _SearchObatPageState extends ConsumerState<SearchObatPage> {
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 16.0,
-                    childAspectRatio: 0.6,
+                    childAspectRatio: 0.55,
                   ),
                   itemCount: obats.length,
                   itemBuilder: (context, index) {
