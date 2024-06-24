@@ -30,6 +30,7 @@ mixin _$Transaksi {
   Dokter? get dokter => throw _privateConstructorUsedError;
   Faskes? get faskes => throw _privateConstructorUsedError;
   String? get diagnosa => throw _privateConstructorUsedError;
+  int? get waktuJanji => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -52,7 +53,8 @@ abstract class $TransaksiCopyWith<$Res> {
       List<Obat>? listObat,
       Dokter? dokter,
       Faskes? faskes,
-      String? diagnosa});
+      String? diagnosa,
+      int? waktuJanji});
 
   $DokterCopyWith<$Res>? get dokter;
   $FaskesCopyWith<$Res>? get faskes;
@@ -81,6 +83,7 @@ class _$TransaksiCopyWithImpl<$Res, $Val extends Transaksi>
     Object? dokter = freezed,
     Object? faskes = freezed,
     Object? diagnosa = freezed,
+    Object? waktuJanji = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -123,6 +126,10 @@ class _$TransaksiCopyWithImpl<$Res, $Val extends Transaksi>
           ? _value.diagnosa
           : diagnosa // ignore: cast_nullable_to_non_nullable
               as String?,
+      waktuJanji: freezed == waktuJanji
+          ? _value.waktuJanji
+          : waktuJanji // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -169,7 +176,8 @@ abstract class _$$TransaksiImplCopyWith<$Res>
       List<Obat>? listObat,
       Dokter? dokter,
       Faskes? faskes,
-      String? diagnosa});
+      String? diagnosa,
+      int? waktuJanji});
 
   @override
   $DokterCopyWith<$Res>? get dokter;
@@ -198,6 +206,7 @@ class __$$TransaksiImplCopyWithImpl<$Res>
     Object? dokter = freezed,
     Object? faskes = freezed,
     Object? diagnosa = freezed,
+    Object? waktuJanji = freezed,
   }) {
     return _then(_$TransaksiImpl(
       id: null == id
@@ -240,6 +249,10 @@ class __$$TransaksiImplCopyWithImpl<$Res>
           ? _value.diagnosa
           : diagnosa // ignore: cast_nullable_to_non_nullable
               as String?,
+      waktuJanji: freezed == waktuJanji
+          ? _value.waktuJanji
+          : waktuJanji // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -257,7 +270,8 @@ class _$TransaksiImpl implements _Transaksi {
       final List<Obat>? listObat,
       this.dokter,
       this.faskes,
-      this.diagnosa})
+      this.diagnosa,
+      this.waktuJanji})
       : _listObat = listObat;
 
   factory _$TransaksiImpl.fromJson(Map<String, dynamic> json) =>
@@ -291,10 +305,12 @@ class _$TransaksiImpl implements _Transaksi {
   final Faskes? faskes;
   @override
   final String? diagnosa;
+  @override
+  final int? waktuJanji;
 
   @override
   String toString() {
-    return 'Transaksi(id: $id, idUser: $idUser, judul: $judul, kategori: $kategori, waktuTransaksi: $waktuTransaksi, totalHarga: $totalHarga, listObat: $listObat, dokter: $dokter, faskes: $faskes, diagnosa: $diagnosa)';
+    return 'Transaksi(id: $id, idUser: $idUser, judul: $judul, kategori: $kategori, waktuTransaksi: $waktuTransaksi, totalHarga: $totalHarga, listObat: $listObat, dokter: $dokter, faskes: $faskes, diagnosa: $diagnosa, waktuJanji: $waktuJanji)';
   }
 
   @override
@@ -315,7 +331,9 @@ class _$TransaksiImpl implements _Transaksi {
             (identical(other.dokter, dokter) || other.dokter == dokter) &&
             (identical(other.faskes, faskes) || other.faskes == faskes) &&
             (identical(other.diagnosa, diagnosa) ||
-                other.diagnosa == diagnosa));
+                other.diagnosa == diagnosa) &&
+            (identical(other.waktuJanji, waktuJanji) ||
+                other.waktuJanji == waktuJanji));
   }
 
   @JsonKey(ignore: true)
@@ -331,7 +349,8 @@ class _$TransaksiImpl implements _Transaksi {
       const DeepCollectionEquality().hash(_listObat),
       dokter,
       faskes,
-      diagnosa);
+      diagnosa,
+      waktuJanji);
 
   @JsonKey(ignore: true)
   @override
@@ -358,7 +377,8 @@ abstract class _Transaksi implements Transaksi {
       final List<Obat>? listObat,
       final Dokter? dokter,
       final Faskes? faskes,
-      final String? diagnosa}) = _$TransaksiImpl;
+      final String? diagnosa,
+      final int? waktuJanji}) = _$TransaksiImpl;
 
   factory _Transaksi.fromJson(Map<String, dynamic> json) =
       _$TransaksiImpl.fromJson;
@@ -383,6 +403,8 @@ abstract class _Transaksi implements Transaksi {
   Faskes? get faskes;
   @override
   String? get diagnosa;
+  @override
+  int? get waktuJanji;
   @override
   @JsonKey(ignore: true)
   _$$TransaksiImplCopyWith<_$TransaksiImpl> get copyWith =>
