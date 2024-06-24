@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/ui/page/toko_obat_page/obat_card.dart';
+import 'package:super_app_telemedicine/ui/page/toko_obat_page/pop_up_cart.dart';
+import 'package:super_app_telemedicine/ui/provider/cart/cart_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/cart/popup_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/obat/search_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
@@ -35,6 +38,8 @@ class _SearchObatPageState extends ConsumerState<SearchObatPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isVisible = ref.watch(popupProvider).isVisible;
+    final cartProviderWatch = ref.watch(cartProvider);
     final searchResults = ref.watch(searchObatProvider);
 
     return Scaffold(
@@ -106,31 +111,38 @@ class _SearchObatPageState extends ConsumerState<SearchObatPage> {
           ),
         ),
       ),
-      body: _hasSearched
-          ? searchResults.when(
-              data: (obats) {
-                if (obats.isEmpty) {
-                  return const Center(child: Text('Tidak ada hasil ditemukan'));
-                }
-                return GridView.builder(
-                  shrinkWrap: true,
-                  
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16.0,
-                    childAspectRatio: 0.55,
-                  ),
-                  itemCount: obats.length,
-                  itemBuilder: (context, index) {
-                    return ObatCard(obat: obats[index]);
+      body: Stack(
+        children: [
+          _hasSearched
+              ? searchResults.when(
+                  data: (obats) {
+                    if (obats.isEmpty) {
+                      return const Center(
+                          child: Text('Tidak ada hasil ditemukan'));
+                    }
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 16.0,
+                        childAspectRatio: 0.55,
+                      ),
+                      itemCount: obats.length,
+                      itemBuilder: (context, index) {
+                        return ObatCard(obat: obats[index]);
+                      },
+                    );
                   },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stack) => Center(child: Text('Error: $error')),
-            )
-          : const Text(''),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (error, stack) => Center(child: Text('Error: $error')),
+                )
+              : const Text(''),
+          if (isVisible) popUpCart(cartProviderWatch, 25),
+        ],
+      ),
     );
   }
 }

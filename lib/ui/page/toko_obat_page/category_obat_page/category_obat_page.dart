@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/obat.dart';
 import 'package:super_app_telemedicine/domain/entity/kategori_obat.dart';
 import 'package:super_app_telemedicine/ui/page/toko_obat_page/obat_card.dart';
+import 'package:super_app_telemedicine/ui/page/toko_obat_page/pop_up_cart.dart';
+import 'package:super_app_telemedicine/ui/provider/cart/cart_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/cart/popup_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/obat/list_obat_by_kategori_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/obat/search_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
@@ -30,6 +33,8 @@ class _CategoryObatPageState extends ConsumerState<CategoryObatPage> {
     final listObat =
         ref.watch(ListObatByKategoriProvider(idKategori: widget.kategori.id));
     final searchResults = ref.watch(searchObatProvider);
+    final isVisible = ref.watch(popupProvider).isVisible;
+    final cartProviderWatch = ref.watch(cartProvider);
 
     return Scaffold(
       appBar: PreferredSize(
@@ -77,8 +82,7 @@ class _CategoryObatPageState extends ConsumerState<CategoryObatPage> {
                         });
                         ref
                             .read(searchObatProvider.notifier)
-                            .searchObatWithKategori(
-                                query, widget.kategori.id);
+                            .searchObatWithKategori(query, widget.kategori.id);
                       },
                     ),
                   ),
@@ -111,50 +115,57 @@ class _CategoryObatPageState extends ConsumerState<CategoryObatPage> {
           ),
         ),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Expanded(
-            child: ListView(
-              children: [
-                const SizedBox(height: 16),
-                _buildFilterSection(),
-                const SizedBox(height: 8),
-                !_hasSearched
-                    ? listObat.when(
-                        data: (obats) {
-                          if (obats.isEmpty) {
-                            return const Center(
-                                child: Padding(
-                                    padding: EdgeInsets.only(top: 220),
-                                    child: Text('Tidak ada hasil ditemukan')));
-                          }
-                          _filteredObats = _filterObats(obats);
-                          return _buildObatList(_filteredObats);
-                        },
-                        loading: () =>
-                            const Center(child: CircularProgressIndicator()),
-                        error: (error, stack) =>
-                            Center(child: Text('Error: $error')),
-                      )
-                    : searchResults.when(
-                        data: (obats) {
-                          if (obats.isEmpty) {
-                            return const Center(
-                                child: Padding(
-                                    padding: EdgeInsets.only(top: 220),
-                                    child: Text('Tidak ada hasil ditemukan')));
-                          }
-                          _filteredObats = _filterObats(obats);
-                          return _buildObatList(_filteredObats);
-                        },
-                        loading: () =>
-                            const Center(child: CircularProgressIndicator()),
-                        error: (error, stack) =>
-                            Center(child: Text('Error: $error')),
-                      ),
-              ],
-            ),
+          Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  children: [
+                    const SizedBox(height: 16),
+                    _buildFilterSection(),
+                    const SizedBox(height: 8),
+                    !_hasSearched
+                        ? listObat.when(
+                            data: (obats) {
+                              if (obats.isEmpty) {
+                                return const Center(
+                                    child: Padding(
+                                        padding: EdgeInsets.only(top: 220),
+                                        child:
+                                            Text('Tidak ada hasil ditemukan')));
+                              }
+                              _filteredObats = _filterObats(obats);
+                              return _buildObatList(_filteredObats);
+                            },
+                            loading: () => const Center(
+                                child: CircularProgressIndicator()),
+                            error: (error, stack) =>
+                                Center(child: Text('Error: $error')),
+                          )
+                        : searchResults.when(
+                            data: (obats) {
+                              if (obats.isEmpty) {
+                                return const Center(
+                                    child: Padding(
+                                        padding: EdgeInsets.only(top: 220),
+                                        child:
+                                            Text('Tidak ada hasil ditemukan')));
+                              }
+                              _filteredObats = _filterObats(obats);
+                              return _buildObatList(_filteredObats);
+                            },
+                            loading: () => const Center(
+                                child: CircularProgressIndicator()),
+                            error: (error, stack) =>
+                                Center(child: Text('Error: $error')),
+                          ),
+                  ],
+                ),
+              ),
+            ],
           ),
+          if (isVisible) popUpCart(cartProviderWatch, 25),
         ],
       ),
     );
@@ -231,20 +242,19 @@ class _CategoryObatPageState extends ConsumerState<CategoryObatPage> {
   }
 
   Widget _buildObatList(List<Obat> obats) {
-  return GridView.builder(
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    padding: const EdgeInsets.symmetric(horizontal: 24),
-    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 2,
-      crossAxisSpacing: 16.0,
-      childAspectRatio: 0.55,
-    ),
-    itemCount: obats.length,
-    itemBuilder: (context, index) {
-      return ObatCard(obat: obats[index]);
-    },
-  );
-}
-
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16.0,
+        childAspectRatio: 0.55,
+      ),
+      itemCount: obats.length,
+      itemBuilder: (context, index) {
+        return ObatCard(obat: obats[index]);
+      },
+    );
+  }
 }

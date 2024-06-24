@@ -1,22 +1,23 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PopupProvider extends ChangeNotifier {
-  bool _isVisible = false;
+class PopupState {
+  final bool isVisible;
 
-  bool get isVisible => _isVisible;
+  PopupState(this.isVisible);
+}
+
+class PopupNotifier extends StateNotifier<PopupState> {
+  PopupNotifier() : super(PopupState(false));
 
   void show() {
-    _isVisible = true;
-    notifyListeners();
+    state = PopupState(true);
   }
 
   void hide() {
-    _isVisible = false;
-    notifyListeners();
+    state = PopupState(false);
   }
 }
 
-final popupProvider = ChangeNotifierProvider<PopupProvider>((ref) {
-  return PopupProvider();
+final popupProvider = StateNotifierProvider<PopupNotifier, PopupState>((ref) {
+  return PopupNotifier();
 });

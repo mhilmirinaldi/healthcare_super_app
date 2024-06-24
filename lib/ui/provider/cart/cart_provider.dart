@@ -11,6 +11,8 @@ class CartProvider extends ChangeNotifier {
 
   List<Obat> get items => _items;
 
+  int get totalItems => _items.fold(0, (total, item) => total + item.jumlah!);
+
   void addItem(Obat obat) {
     final index = _items.indexWhere((item) => item.id == obat.id);
     if (index != -1) {

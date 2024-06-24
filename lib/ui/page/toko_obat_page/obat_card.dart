@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/obat.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
+import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/provider/cart/cart_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
@@ -84,49 +85,75 @@ class ObatCard extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   itemCount > 0
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.remove),
-                              onPressed: () {
-                                ref.read(cartProvider).removeItem(obat.id);
-                              },
-                            ),
-                            Text('$itemCount',
-                                style: const TextStyle(fontSize: 14)),
-                            IconButton(
-                              icon: const Icon(Icons.add),
-                              onPressed: () {
-                                ref.read(cartProvider).addItem(obat);
-                              },
-                            ),
-                          ],
-                        )
-                      : ElevatedButton(
-                          onPressed: () {
-                            ref.read(cartProvider).addItem(obat);
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color(0xFFE1004E)),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                      ? SizedBox(
+                          height: 35,
+                          width: 125,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                width: 32,
+                                height: 32,
+                                decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: IconButton(
+                                  icon: const Icon(Icons.remove,
+                                      size: 18, color: Colors.white),
+                                  onPressed: () {
+                                    ref.read(cartProvider).removeItem(obat.id);
+                                  },
+                                ),
                               ),
-                            ),
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 37)),
-                            minimumSize:
-                                MaterialStateProperty.all(const Size(0, 0)),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              Text('$itemCount',
+                                  style: const TextStyle(fontSize: 14)),
+                              Container(
+                                width: 32,
+                                height: 32,
+                                decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: IconButton(
+                                  icon: const Icon(Icons.add,
+                                      size: 18, color: Colors.white),
+                                  onPressed: () {
+                                    ref.read(cartProvider).addItem(obat);
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                          child: const Text(
-                            'Tambah',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                        )
+                      : SizedBox(
+                          height: 35,
+                          width: 125,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              ref.read(cartProvider).addItem(obat);
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color(0xFFE1004E)),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              padding: MaterialStateProperty.all<EdgeInsets>(
+                                  const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 37)),
+                              minimumSize:
+                                  MaterialStateProperty.all(const Size(0, 0)),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: const Text(
+                              'Tambah',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                 ],
