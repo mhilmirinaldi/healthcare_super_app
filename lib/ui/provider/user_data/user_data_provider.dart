@@ -15,6 +15,7 @@ import 'package:super_app_telemedicine/ui/provider/faskes/list_kategori_spesiali
 import 'package:super_app_telemedicine/ui/provider/faskes/list_rekomendasi_faskes_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/obat/list_kategori_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/obat/list_rekomendasi_obat_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/get_logged_in_user_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/login_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/logout_provider.dart';
