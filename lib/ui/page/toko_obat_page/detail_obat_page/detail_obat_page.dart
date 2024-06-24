@@ -52,7 +52,7 @@ class _DetailObatPageState extends ConsumerState<DetailObatPage> {
                     image: widget.obat.gambar == null ||
                             widget.obat.gambar!.isEmpty
                         ? const AssetImage(
-                            'assets/default_medicine_transparent.png')
+                            'assets/default_medicine_transparent 2.png')
                         : NetworkImage(widget.obat.gambar!) as ImageProvider,
                     fit: BoxFit.contain,
                   ),

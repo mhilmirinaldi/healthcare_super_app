@@ -145,7 +145,7 @@ class TokoObatPage extends ConsumerWidget {
             ],
           ),
           if (isVisible)
-            popUpCart(cartProviderWatch, 5),
+            popUpCart(cartProviderWatch, 5, ref),
         ],
       ),
     );

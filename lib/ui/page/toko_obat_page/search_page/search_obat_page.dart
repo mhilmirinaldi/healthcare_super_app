@@ -140,7 +140,7 @@ class _SearchObatPageState extends ConsumerState<SearchObatPage> {
                   error: (error, stack) => Center(child: Text('Error: $error')),
                 )
               : const Text(''),
-          if (isVisible) popUpCart(cartProviderWatch, 25),
+          if (isVisible) popUpCart(cartProviderWatch, 25, ref),
         ],
       ),
     );

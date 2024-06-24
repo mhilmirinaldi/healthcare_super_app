@@ -16,7 +16,8 @@ class CartProvider extends ChangeNotifier {
   void addItem(Obat obat) {
     final index = _items.indexWhere((item) => item.id == obat.id);
     if (index != -1) {
-      _items[index] = _items[index].copyWith(jumlah: (_items[index].jumlah ?? 0) + 1);
+      _items[index] =
+          _items[index].copyWith(jumlah: (_items[index].jumlah ?? 0) + 1);
     } else {
       _items.add(obat.copyWith(jumlah: 1));
     }
@@ -28,7 +29,8 @@ class CartProvider extends ChangeNotifier {
     final index = _items.indexWhere((item) => item.id == obatId);
     if (index != -1) {
       if (_items[index].jumlah! > 1) {
-        _items[index] = _items[index].copyWith(jumlah: _items[index].jumlah! - 1);
+        _items[index] =
+            _items[index].copyWith(jumlah: _items[index].jumlah! - 1);
       } else {
         _items.removeAt(index);
       }

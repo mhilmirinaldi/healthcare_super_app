@@ -165,7 +165,7 @@ class _CategoryObatPageState extends ConsumerState<CategoryObatPage> {
               ),
             ],
           ),
-          if (isVisible) popUpCart(cartProviderWatch, 25),
+          if (isVisible) popUpCart(cartProviderWatch, 25, ref),
         ],
       ),
     );
