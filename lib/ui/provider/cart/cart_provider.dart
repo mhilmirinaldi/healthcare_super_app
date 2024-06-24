@@ -41,6 +41,12 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
+  void removeAllItem(){
+    _items.clear();
+    _ref.read(popupProvider.notifier).hide();
+    notifyListeners();
+  }
+
   int getItemCount(String obatId) {
     final index = _items.indexWhere((item) => item.id == obatId);
     if (index != -1) {
