@@ -55,13 +55,13 @@ class FirebaseTransaksiRepository implements TransaksiRepository {
   }
 
   @override
-  Future<Result<List<Transaksi>>> getUserTransaksis(
+  Future<Result<List<Transaksi>>> getUserTransaksi(
       {required String idUser}) async {
-    firestore.CollectionReference<Map<String, dynamic>> transaksis =
+    firestore.CollectionReference<Map<String, dynamic>> transaksi =
         _firebaseFirestore.collection('transaksi');
 
     try {
-      var result = await transaksis.where('idUser', isEqualTo: idUser).get();
+      var result = await transaksi.where('idUser', isEqualTo: idUser).get();
 
       if (result.docs.isNotEmpty) {
         return Result.success(
