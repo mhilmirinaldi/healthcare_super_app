@@ -1,11 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:super_app_telemedicine/domain/entity/result.dart';
+import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
+import 'package:super_app_telemedicine/domain/usecase/create_transaksi/create_transaksi.dart';
+import 'package:super_app_telemedicine/domain/usecase/create_transaksi/create_transaksi_param.dart';
+import 'package:super_app_telemedicine/ui/extension/build_context_extension.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
 import 'package:super_app_telemedicine/ui/page/toko_obat_page/check_out_page/check_out_item_card.dart';
 import 'package:super_app_telemedicine/ui/provider/cart/cart_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/usecase/create_transaksi_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
 class CheckoutPage extends ConsumerWidget {
   const CheckoutPage({super.key});
@@ -14,7 +20,10 @@ class CheckoutPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cart = ref.watch(cartProvider);
     final cartProviderWatch = ref.watch(cartProvider);
-    final totalHargaBarang = cartProviderWatch.items.fold<int>(0, (previousValue, element) => previousValue + (element.harga * element.jumlah!));
+    final totalHargaBarang = cartProviderWatch.items.fold<int>(
+        0,
+        (previousValue, element) =>
+            previousValue + (element.harga * element.jumlah!));
 
     return Scaffold(
       appBar: PreferredSize(
@@ -174,8 +183,37 @@ class CheckoutPage extends ConsumerWidget {
               ],
             ),
             ElevatedButton(
-              onPressed: () {
-                log('Chat button on tap');
+              onPressed: () async {
+                int waktuTransaksi = DateTime.now().millisecondsSinceEpoch;
+
+                Transaksi transaksi = Transaksi(
+                    id: 'obat-$waktuTransaksi-${ref.read(userDataProvider).value!.id}',
+                    idUser: ref.read(userDataProvider).value!.id,
+                    judul: 'Pembelian obat',
+                    kategori: 'obat',
+                    waktuTransaksi: waktuTransaksi,
+                    totalHarga: (15000 + totalHargaBarang),
+                    listObat: cart.items);
+
+                CreateTransaksi createTransaksi =
+                    ref.read(createTransaksiProvider);
+
+                await createTransaksi(
+                        CreateTransaksiParam(transaksi: transaksi))
+                    .then((result) {
+                  switch (result) {
+                    case Success(value: _):
+                      ref
+                          .read(transaksiDataProvider.notifier)
+                          .refreshTransaksiData();
+                      ref.read(userDataProvider.notifier).refreshUserData();
+                      ref.read(cartProvider.notifier).removeAllItem();
+                    // Show popup selama 2 detik dan pindah ke halaman transaksi detail yang terdapat tracking petanya
+                    ref.read(routerProvider).pop();
+                    case Failed(:final message):
+                      context.showSnackBar(message);
+                  }
+                });
               },
               style: ButtonStyle(
                 backgroundColor:
