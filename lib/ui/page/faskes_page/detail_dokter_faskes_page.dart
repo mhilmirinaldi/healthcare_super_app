@@ -9,18 +9,21 @@ import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
 import 'package:super_app_telemedicine/ui/extension/str_extension.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/detail_dokter_page/info_row.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/detail_dokter_page/review_card.dart';
+import 'package:super_app_telemedicine/ui/page/faskes_page/jadwal_item.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
-class DetailDokterPage extends ConsumerStatefulWidget {
+class DetailDokterFaskesPage extends ConsumerStatefulWidget {
   final Dokter dokter;
 
-  const DetailDokterPage({super.key, required this.dokter});
+  const DetailDokterFaskesPage({super.key, required this.dokter});
 
   @override
-  ConsumerState<DetailDokterPage> createState() => _DetailDokterPageState();
+  ConsumerState<DetailDokterFaskesPage> createState() =>
+      _DetailDokterFaskesPageState();
 }
 
-class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
+class _DetailDokterFaskesPageState
+    extends ConsumerState<DetailDokterFaskesPage> {
   String selectedFilter = 'Urutkan';
   String selectedRating = 'Rating';
 
@@ -47,6 +50,19 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
 
     return reviews;
   }
+
+  final List<DateTime> dates = List.generate(5, (index) {
+    DateTime now = DateTime.now();
+    // convert to indonesia languange
+
+    DateTime date = DateTime(now.year, now.month, now.day);
+    return date.add(Duration(days: index));
+  });
+
+  final List<int> hours = List.generate(4, (index) => index + 12);
+
+  DateTime? selectedDate;
+  int? selectedHour;
 
   @override
   Widget build(BuildContext context) {
@@ -78,13 +94,14 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
                   color: const Color(0xFFCCD8EF),
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
-                    image: widget.dokter.gambar == null || widget.dokter.gambar!.isEmpty
-                            ? widget.dokter.jenisKelamin == 'Laki-laki'
-                                ? const AssetImage(
-                                    'assets/default_profile_doctor_male_transparent.png')
-                                : const AssetImage(
-                                    'assets/default_profile_doctor_female_transparent.png')
-                            : NetworkImage(widget.dokter.gambar!) as ImageProvider,
+                    image: widget.dokter.gambar == null ||
+                            widget.dokter.gambar!.isEmpty
+                        ? widget.dokter.jenisKelamin == 'Laki-laki'
+                            ? const AssetImage(
+                                'assets/default_profile_doctor_male_transparent.png')
+                            : const AssetImage(
+                                'assets/default_profile_doctor_female_transparent.png')
+                        : NetworkImage(widget.dokter.gambar!) as ImageProvider,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -143,6 +160,54 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
               const SizedBox(height: 8),
               infoRow(
                   'Nomor STR', widget.dokter.nomorStr, 'assets/nomor_str.png'),
+              const SizedBox(height: 12),
+              Container(
+                width: 380,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: Colors.grey[400]!),
+                  ),
+                ),
+                child: const Text(
+                  'Jadwal',
+                  style: TextStyle(fontSize: 17, color: Colors.black),
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Tanggal',
+                style: TextStyle(fontSize: 16, color: Colors.black),
+              ),
+              const SizedBox(height: 8),
+              ...jadwalItem(
+                jadwalItem: dates,
+                selectedItem: selectedDate,
+                converter: (date) => DateFormat('EEE, d MMM y').format(date),
+                onTap: (object) => setState(() {
+                  selectedDate = object;
+                }),
+                isDate: true,
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Waktu',
+                style: TextStyle(fontSize: 16, color: Colors.black),
+              ),
+              const SizedBox(height: 8),
+              ...jadwalItem(
+                jadwalItem: hours,
+                selectedItem: selectedHour,
+                converter: (object) => '$object:00',
+                isOptionEnable: (hour) =>
+                    selectedDate != null &&
+                    DateTime(selectedDate!.year, selectedDate!.month,
+                            selectedDate!.day, hour)
+                        .isAfter(DateTime.now()),
+                onTap: (object) => setState(() {
+                  selectedHour = object;
+                }),
+                isDate: false
+              ),
               const SizedBox(height: 12),
               Container(
                 width: 380,

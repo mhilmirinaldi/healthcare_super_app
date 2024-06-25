@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
@@ -16,7 +14,7 @@ class DokterFaskesCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        ref.read(routerProvider).pushNamed('detail_dokter', extra: dokter);
+        ref.read(routerProvider).pushNamed('detail_dokter_faskes', extra: dokter);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
@@ -98,7 +96,7 @@ class DokterFaskesCard extends ConsumerWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  log('Chat button on tap');
+                  ref.read(routerProvider).pushNamed('detail_dokter_faskes', extra: dokter);
                 },
                 style: ButtonStyle(
                   backgroundColor:

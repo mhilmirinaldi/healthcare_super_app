@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
@@ -34,9 +32,7 @@ class _DokterSpesialisCardState extends ConsumerState<DokterSpesialisCard> {
 
     return GestureDetector(
       onTap: () {
-        ref
-            .read(routerProvider)
-            .pushNamed('detail_dokter', extra: widget.dokter);
+        ref.read(routerProvider).pushNamed('detail_dokter_faskes', extra: widget.dokter);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
@@ -153,7 +149,7 @@ class _DokterSpesialisCardState extends ConsumerState<DokterSpesialisCard> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            log('Chat button on tap');
+                            ref.read(routerProvider).pushNamed('detail_dokter_faskes', extra: widget.dokter);
                           },
                           style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all(
