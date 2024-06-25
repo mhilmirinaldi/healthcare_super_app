@@ -30,7 +30,7 @@ class ProfilePage extends ConsumerWidget {
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(const Color(0xFFE1004E)),
+                        WidgetStateProperty.all(const Color(0xFFE1004E)),
                   ),
                   onPressed: () {
                     ref.read(userDataProvider.notifier).logout();

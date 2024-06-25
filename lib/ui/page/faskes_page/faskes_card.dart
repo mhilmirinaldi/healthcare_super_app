@@ -94,16 +94,16 @@ class FaskesCard extends ConsumerWidget {
               //       },
               //       style: ButtonStyle(
               //         backgroundColor:
-              //             MaterialStateProperty.all(const Color(0xFFE1004E)),
-              //         shape: MaterialStateProperty.all(
+              //             WidgetStateProperty.all(const Color(0xFFE1004E)),
+              //         shape: WidgetStateProperty.all(
               //           RoundedRectangleBorder(
               //             borderRadius: BorderRadius.circular(10),
               //           ),
               //         ),
-              //         padding: MaterialStateProperty.all<EdgeInsets>(
+              //         padding: WidgetStateProperty.all<EdgeInsets>(
               //             const EdgeInsets.symmetric(
               //                 vertical: 8, horizontal: 37)),
-              //         minimumSize: MaterialStateProperty.all(const Size(0, 0)),
+              //         minimumSize: WidgetStateProperty.all(const Size(0, 0)),
               //         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               //       ),
               //       child: const Text(
