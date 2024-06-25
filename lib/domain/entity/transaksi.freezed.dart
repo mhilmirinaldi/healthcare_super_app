@@ -20,11 +20,11 @@ Transaksi _$TransaksiFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Transaksi {
-  String get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   String get idUser => throw _privateConstructorUsedError;
   String get judul => throw _privateConstructorUsedError;
   String get kategori => throw _privateConstructorUsedError;
-  int get waktuTransaksi => throw _privateConstructorUsedError;
+  int? get waktuTransaksi => throw _privateConstructorUsedError;
   int get totalHarga => throw _privateConstructorUsedError;
   List<Obat>? get listObat => throw _privateConstructorUsedError;
   Dokter? get dokter => throw _privateConstructorUsedError;
@@ -44,11 +44,11 @@ abstract class $TransaksiCopyWith<$Res> {
       _$TransaksiCopyWithImpl<$Res, Transaksi>;
   @useResult
   $Res call(
-      {String id,
+      {String? id,
       String idUser,
       String judul,
       String kategori,
-      int waktuTransaksi,
+      int? waktuTransaksi,
       int totalHarga,
       List<Obat>? listObat,
       Dokter? dokter,
@@ -73,11 +73,11 @@ class _$TransaksiCopyWithImpl<$Res, $Val extends Transaksi>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? idUser = null,
     Object? judul = null,
     Object? kategori = null,
-    Object? waktuTransaksi = null,
+    Object? waktuTransaksi = freezed,
     Object? totalHarga = null,
     Object? listObat = freezed,
     Object? dokter = freezed,
@@ -86,10 +86,10 @@ class _$TransaksiCopyWithImpl<$Res, $Val extends Transaksi>
     Object? waktuJanji = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       idUser: null == idUser
           ? _value.idUser
           : idUser // ignore: cast_nullable_to_non_nullable
@@ -102,10 +102,10 @@ class _$TransaksiCopyWithImpl<$Res, $Val extends Transaksi>
           ? _value.kategori
           : kategori // ignore: cast_nullable_to_non_nullable
               as String,
-      waktuTransaksi: null == waktuTransaksi
+      waktuTransaksi: freezed == waktuTransaksi
           ? _value.waktuTransaksi
           : waktuTransaksi // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       totalHarga: null == totalHarga
           ? _value.totalHarga
           : totalHarga // ignore: cast_nullable_to_non_nullable
@@ -167,11 +167,11 @@ abstract class _$$TransaksiImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {String? id,
       String idUser,
       String judul,
       String kategori,
-      int waktuTransaksi,
+      int? waktuTransaksi,
       int totalHarga,
       List<Obat>? listObat,
       Dokter? dokter,
@@ -196,11 +196,11 @@ class __$$TransaksiImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? idUser = null,
     Object? judul = null,
     Object? kategori = null,
-    Object? waktuTransaksi = null,
+    Object? waktuTransaksi = freezed,
     Object? totalHarga = null,
     Object? listObat = freezed,
     Object? dokter = freezed,
@@ -209,10 +209,10 @@ class __$$TransaksiImplCopyWithImpl<$Res>
     Object? waktuJanji = freezed,
   }) {
     return _then(_$TransaksiImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       idUser: null == idUser
           ? _value.idUser
           : idUser // ignore: cast_nullable_to_non_nullable
@@ -225,10 +225,10 @@ class __$$TransaksiImplCopyWithImpl<$Res>
           ? _value.kategori
           : kategori // ignore: cast_nullable_to_non_nullable
               as String,
-      waktuTransaksi: null == waktuTransaksi
+      waktuTransaksi: freezed == waktuTransaksi
           ? _value.waktuTransaksi
           : waktuTransaksi // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       totalHarga: null == totalHarga
           ? _value.totalHarga
           : totalHarga // ignore: cast_nullable_to_non_nullable
@@ -261,11 +261,11 @@ class __$$TransaksiImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TransaksiImpl implements _Transaksi {
   const _$TransaksiImpl(
-      {required this.id,
+      {this.id,
       required this.idUser,
       required this.judul,
       required this.kategori,
-      required this.waktuTransaksi,
+      this.waktuTransaksi,
       required this.totalHarga,
       final List<Obat>? listObat,
       this.dokter,
@@ -278,7 +278,7 @@ class _$TransaksiImpl implements _Transaksi {
       _$$TransaksiImplFromJson(json);
 
   @override
-  final String id;
+  final String? id;
   @override
   final String idUser;
   @override
@@ -286,7 +286,7 @@ class _$TransaksiImpl implements _Transaksi {
   @override
   final String kategori;
   @override
-  final int waktuTransaksi;
+  final int? waktuTransaksi;
   @override
   final int totalHarga;
   final List<Obat>? _listObat;
@@ -368,11 +368,11 @@ class _$TransaksiImpl implements _Transaksi {
 
 abstract class _Transaksi implements Transaksi {
   const factory _Transaksi(
-      {required final String id,
+      {final String? id,
       required final String idUser,
       required final String judul,
       required final String kategori,
-      required final int waktuTransaksi,
+      final int? waktuTransaksi,
       required final int totalHarga,
       final List<Obat>? listObat,
       final Dokter? dokter,
@@ -384,7 +384,7 @@ abstract class _Transaksi implements Transaksi {
       _$TransaksiImpl.fromJson;
 
   @override
-  String get id;
+  String? get id;
   @override
   String get idUser;
   @override
@@ -392,7 +392,7 @@ abstract class _Transaksi implements Transaksi {
   @override
   String get kategori;
   @override
-  int get waktuTransaksi;
+  int? get waktuTransaksi;
   @override
   int get totalHarga;
   @override

@@ -9,11 +9,11 @@ part 'transaksi.g.dart';
 @freezed
 class Transaksi with _$Transaksi{
   const factory Transaksi({
-    required String id,
+    String? id,
     required String idUser,
     required String judul,
     required String kategori,
-    required int waktuTransaksi,
+    int? waktuTransaksi,
     required int totalHarga,
     List<Obat>? listObat,
     Dokter? dokter,

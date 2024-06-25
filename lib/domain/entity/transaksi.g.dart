@@ -8,11 +8,11 @@ part of 'transaksi.dart';
 
 _$TransaksiImpl _$$TransaksiImplFromJson(Map<String, dynamic> json) =>
     _$TransaksiImpl(
-      id: json['id'] as String,
+      id: json['id'] as String?,
       idUser: json['idUser'] as String,
       judul: json['judul'] as String,
       kategori: json['kategori'] as String,
-      waktuTransaksi: (json['waktuTransaksi'] as num).toInt(),
+      waktuTransaksi: (json['waktuTransaksi'] as num?)?.toInt(),
       totalHarga: (json['totalHarga'] as num).toInt(),
       listObat: (json['listObat'] as List<dynamic>?)
           ?.map((e) => Obat.fromJson(e as Map<String, dynamic>))

@@ -7,32 +7,28 @@ import 'package:super_app_telemedicine/domain/usecase/create_transaksi/create_tr
 import 'package:super_app_telemedicine/ui/extension/build_context_extension.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
 import 'package:super_app_telemedicine/ui/misc/colors.dart';
-import 'package:super_app_telemedicine/ui/page/toko_obat_page/check_out_page/check_out_item_card.dart';
-import 'package:super_app_telemedicine/ui/provider/cart/cart_provider.dart';
+import 'package:super_app_telemedicine/ui/page/faskes_page/check_out_fakses_page/check_out_faskes_card.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/create_transaksi_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
-class CheckoutPage extends ConsumerStatefulWidget {
-  const CheckoutPage({super.key});
+class CheckoutFaskesPage extends ConsumerStatefulWidget {
+  final Transaksi transaksi;
+
+  const CheckoutFaskesPage({super.key, required this.transaksi});
 
   @override
-  ConsumerState<CheckoutPage> createState() => _CheckoutPageState();
+  ConsumerState<CheckoutFaskesPage> createState() => _CheckoutFaskesPageState();
 }
 
-class _CheckoutPageState extends ConsumerState<CheckoutPage> {
+class _CheckoutFaskesPageState extends ConsumerState<CheckoutFaskesPage> {
   String _selectedPaymentCategory = 'Uang Elektronik';
   String _selectedPaymentMethod = 'Gopay';
 
   @override
   Widget build(BuildContext context) {
-    final cart = ref.watch(cartProvider);
-    final cartProviderWatch = ref.watch(cartProvider);
-    final totalHargaBarang = cartProviderWatch.items.fold<int>(
-        0,
-        (previousValue, element) =>
-            previousValue + (element.harga * element.jumlah!));
+    final totalHargaBarang = widget.transaksi.totalHarga;
 
     return Scaffold(
       appBar: PreferredSize(
@@ -71,9 +67,12 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         children: [
-          Column(
-            children: cart.items.map((e) => CheckoutItemCard(obat: e)).toList(),
-          ),
+          Column(children: [
+            CheckoutFaskesCard(
+              dokter: widget.transaksi.dokter!,
+              transaksi: widget.transaksi,
+            ),
+          ]),
           const SizedBox(height: 2),
           Container(
             width: 380,
@@ -92,25 +91,11 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Biaya Barang',
+                'Biaya Pendaftaran',
                 style: TextStyle(fontSize: 15),
               ),
               Text(
-                totalHargaBarang.toIDRCurrency(),
-                style: const TextStyle(fontSize: 15),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Biaya Pengiriman',
-                style: TextStyle(fontSize: 15),
-              ),
-              Text(
-                9000.toIDRCurrency(),
+                (totalHargaBarang - 6000).toIDRCurrency(),
                 style: const TextStyle(fontSize: 15),
               ),
             ],
@@ -138,7 +123,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                 style: TextStyle(fontSize: 15),
               ),
               Text(
-                (15000 + totalHargaBarang).toIDRCurrency(),
+                (totalHargaBarang).toIDRCurrency(),
                 style: const TextStyle(fontSize: 15),
               ),
             ],
@@ -184,7 +169,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                 const Text('Total Pembayaran'),
                 const SizedBox(height: 4),
                 Text(
-                  (15000 + totalHargaBarang).toIDRCurrency(),
+                  (totalHargaBarang).toIDRCurrency(),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -196,14 +181,10 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
               onPressed: () async {
                 int waktuTransaksi = DateTime.now().millisecondsSinceEpoch;
 
-                Transaksi transaksi = Transaksi(
-                    id: 'obat-$waktuTransaksi-${ref.read(userDataProvider).value!.id}',
-                    idUser: ref.read(userDataProvider).value!.id,
-                    judul: 'Pembelian obat',
-                    kategori: 'obat',
-                    waktuTransaksi: waktuTransaksi,
-                    totalHarga: (15000 + totalHargaBarang),
-                    listObat: cart.items);
+                final transaksi = widget.transaksi.copyWith(
+                  waktuTransaksi: waktuTransaksi,
+                  id: 'faskes-$waktuTransaksi-${ref.read(userDataProvider).value!.id}',
+                );
 
                 CreateTransaksi createTransaksi =
                     ref.read(createTransaksiProvider);
@@ -273,11 +254,8 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                           .read(transaksiDataProvider.notifier)
                           .refreshTransaksiData();
                       ref.read(userDataProvider.notifier).refreshUserData();
-                      ref.read(cartProvider.notifier).removeAllItem();
-                      // Show popup selama 2 detik dan pindah ke halaman transaksi detail yang terdapat tracking petanya
-                      ref
-                          .read(routerProvider)
-                          .pushNamed('detail_transaksi', extra: transaksi);
+                      // PINDAH HALAMAN
+                      ref.read(routerProvider).pushNamed('main');
 
                     case Failed(:final message):
                       context.showSnackBar(message);

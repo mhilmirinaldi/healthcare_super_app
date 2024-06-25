@@ -34,7 +34,13 @@ class FirebaseTransaksiRepository implements TransaksiRepository {
       }
 
       if (transaksi.dokter != null) {
+        List<Map<String, dynamic>> reviewListJson =
+            transaksi.dokter!.review.map((review) => review.toJson()).toList();
+
         var dokterJson = transaksi.dokter!.toJson();
+        dokterJson.remove('review');
+        dokterJson['review'] = reviewListJson;
+        
         var transaksiJson = transaksi.toJson();
         transaksiJson.remove('dokter');
 

@@ -5,12 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/domain/entity/review.dart';
+import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
 import 'package:super_app_telemedicine/ui/extension/str_extension.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/detail_dokter_page/info_row.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/detail_dokter_page/review_card.dart';
 import 'package:super_app_telemedicine/ui/page/faskes_page/jadwal_item.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
 class DetailDokterFaskesPage extends ConsumerStatefulWidget {
   final Dokter dokter;
@@ -365,9 +367,27 @@ class _DetailDokterFaskesPageState
             ),
             ElevatedButton(
               onPressed: () {
-                selectedDate != null && selectedHour != null
-                    ? log('Chat button on tap')
-                    : log('Chat button disabled');
+                if (selectedDate != null && selectedHour != null) {
+                  Transaksi transaksi = Transaksi(
+                    idUser: ref.read(userDataProvider).value!.id,
+                    judul: '',
+                    kategori: 'faskes',
+                    totalHarga: (6000 + widget.dokter.harga),
+                    dokter: widget.dokter,
+                    waktuJanji: DateTime(
+                      selectedDate!.year,
+                      selectedDate!.month,
+                      selectedDate!.day,
+                      selectedHour!,
+                    ).millisecondsSinceEpoch,
+                  );
+
+                  ref
+                      .read(routerProvider)
+                      .pushNamed('check_out_faskes', extra: transaksi);
+                } else {
+                  log('Chat button disabled');
+                }
               },
               style: selectedDate != null && selectedHour != null
                   ? ButtonStyle(
