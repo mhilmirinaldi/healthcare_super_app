@@ -273,7 +273,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                       // Show popup selama 2 detik dan pindah ke halaman transaksi detail yang terdapat tracking petanya
                       ref
                           .read(routerProvider)
-                          .pushNamed('main');
+                          .pushNamed('detail_transaksi', extra: transaksi);
 
                     case Failed(:final message):
                       context.showSnackBar(message);
@@ -391,7 +391,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
   List<Widget> _buildUangElektronikOptions() {
     return [
       ListTile(
-        title: Text('Gopay'),
+        title: const Text('Gopay'),
         onTap: () {
           setState(() {
             _selectedPaymentMethod = 'Gopay';
@@ -408,7 +408,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
         ),
       ),
       ListTile(
-        title: Text('OVO'),
+        title: const Text('OVO'),
         onTap: () {
           setState(() {
             _selectedPaymentMethod = 'OVO';
@@ -430,7 +430,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
   List<Widget> _buildBankTransferOptions() {
     return [
       ListTile(
-        title: Text('BCA'),
+        title: const Text('BCA'),
         onTap: () {
           setState(() {
             _selectedPaymentMethod = 'BCA';
@@ -447,7 +447,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
         ),
       ),
       ListTile(
-        title: Text('Mandiri'),
+        title: const Text('Mandiri'),
         onTap: () {
           setState(() {
             _selectedPaymentMethod = 'Mandiri';
