@@ -51,7 +51,7 @@ class _DetailDokterFaskesPageState
     return reviews;
   }
 
-  final List<DateTime> dates = List.generate(5, (index) {
+  final List<DateTime> dates = List.generate(4, (index) {
     DateTime now = DateTime.now();
     // convert to indonesia languange
 
@@ -170,45 +170,40 @@ class _DetailDokterFaskesPageState
                 ),
                 child: const Text(
                   'Jadwal',
-                  style: TextStyle(fontSize: 17, color: Colors.black),
+                  style: TextStyle(fontSize: 18, color: Colors.black),
                 ),
               ),
-              const SizedBox(height: 8),
-              const Text(
-                'Tanggal',
-                style: TextStyle(fontSize: 16, color: Colors.black),
-              ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 18),
               ...jadwalItem(
                 jadwalItem: dates,
                 selectedItem: selectedDate,
                 converter: (date) => DateFormat('EEE, d MMM y').format(date),
                 onTap: (object) => setState(() {
                   selectedDate = object;
+                  selectedHour = null;
                 }),
                 isDate: true,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 14),
               const Text(
                 'Waktu',
                 style: TextStyle(fontSize: 16, color: Colors.black),
               ),
               const SizedBox(height: 8),
               ...jadwalItem(
-                jadwalItem: hours,
-                selectedItem: selectedHour,
-                converter: (object) => '$object:00',
-                isOptionEnable: (hour) =>
-                    selectedDate != null &&
-                    DateTime(selectedDate!.year, selectedDate!.month,
-                            selectedDate!.day, hour)
-                        .isAfter(DateTime.now()),
-                onTap: (object) => setState(() {
-                  selectedHour = object;
-                }),
-                isDate: false
-              ),
-              const SizedBox(height: 12),
+                  jadwalItem: hours,
+                  selectedItem: selectedHour,
+                  converter: (object) => '$object:00',
+                  isOptionEnable: (hour) =>
+                      selectedDate != null &&
+                      DateTime(selectedDate!.year, selectedDate!.month,
+                              selectedDate!.day, hour)
+                          .isAfter(DateTime.now()),
+                  onTap: (object) => setState(() {
+                        selectedHour = object;
+                      }),
+                  isDate: false),
+              const SizedBox(height: 16),
               Container(
                 width: 380,
                 decoration: BoxDecoration(
@@ -218,7 +213,7 @@ class _DetailDokterFaskesPageState
                 ),
                 child: const Text(
                   'Review',
-                  style: TextStyle(fontSize: 17, color: Colors.black),
+                  style: TextStyle(fontSize: 18, color: Colors.black),
                 ),
               ),
               const SizedBox(height: 12),
@@ -370,27 +365,46 @@ class _DetailDokterFaskesPageState
             ),
             ElevatedButton(
               onPressed: () {
-                log('Chat button on tap');
+                selectedDate != null && selectedHour != null
+                    ? log('Chat button on tap')
+                    : log('Chat button disabled');
               },
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all(const Color(0xFFE1004E)),
-                shape: WidgetStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                padding: WidgetStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 24)),
-                minimumSize: WidgetStateProperty.all(const Size(0, 0)),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              child: const Text(
-                'Chat',
+              style: selectedDate != null && selectedHour != null
+                  ? ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all(const Color(0xFFE1004E)),
+                      shape: WidgetStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      padding: WidgetStateProperty.all<EdgeInsets>(
+                          const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 24)),
+                      minimumSize: WidgetStateProperty.all(const Size(0, 0)),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    )
+                  : ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(Colors.white),
+                      shape: WidgetStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      padding: WidgetStateProperty.all<EdgeInsets>(
+                          const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 24)),
+                      minimumSize: WidgetStateProperty.all(const Size(0, 0)),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+              child: Text(
+                'Pilih',
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                    color: selectedDate != null && selectedHour != null
+                        ? Colors.white
+                        : Colors.grey[300]),
               ),
             ),
           ],

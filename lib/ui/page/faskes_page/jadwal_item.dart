@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:super_app_telemedicine/ui/page/faskes_page/jadwal_card.dart';
 
@@ -17,14 +16,14 @@ List<Widget> jadwalItem<T>({
           children: jadwalItem
               .map(
                 (e) => Padding(
-                  padding: const EdgeInsets.only(
-                      left:  0,
-                      right: 10),
+                  padding: const EdgeInsets.only(left: 0, right: 10),
                   child: JadwalCard(
                     text: converter != null ? converter(e) : e.toString(),
                     isSelected: e == selectedItem,
                     isEnable: isOptionEnable?.call(e) ?? true,
                     onTap: () => onTap(e),
+                    isDate: isDate,
+                    date: isDate ? e as DateTime : null,
                   ),
                 ),
               )

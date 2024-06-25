@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:super_app_telemedicine/firebase_options.dart';
 import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +13,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  initializeDateFormatting('id', null);
 
   runApp(const ProviderScope(
     child: MainApp(),
