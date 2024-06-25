@@ -156,7 +156,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
               style: TextStyle(fontSize: 17, color: Colors.black),
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           // Pilih metode pembayaran
           _buildPaymentMethodContainer(),
         ],
@@ -310,8 +310,8 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
   Widget _buildPaymentMethodContainer() {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[400]!),
-        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[300]!),
+        borderRadius: BorderRadius.circular(10),   
       ),
       child: Column(
         children: [
@@ -323,57 +323,81 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
   }
 
   Widget _buildPaymentMethodHeader() {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Colors.grey[400]!),
-        ),
-        color: Colors.grey[200],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          GestureDetector(
+    return Row(
+      children: [
+        Expanded(
+          child: GestureDetector(
             onTap: () {
               setState(() {
                 _selectedPaymentCategory = 'Uang Elektronik';
                 _selectedPaymentMethod = 'Gopay';
               });
             },
-            child: Text(
-              'Uang Elektronik',
-              style: TextStyle(
-                fontWeight: _selectedPaymentCategory == 'Uang Elektronik'
-                    ? FontWeight.bold
-                    : FontWeight.normal,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                ),
                 color: _selectedPaymentCategory == 'Uang Elektronik'
-                    ? Theme.of(context).primaryColor
-                    : Colors.black,
+                    ? Colors.white
+                    : Colors.grey[200],
+                
+              ),
+              child: Center(
+                child: Text(
+                  'Uang Elektronik',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: _selectedPaymentCategory == 'Uang Elektronik'
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                    color: _selectedPaymentCategory == 'Uang Elektronik'
+                        ? primaryColor
+                        : Colors.grey[500],
+                  ),
+                ),
               ),
             ),
           ),
-          GestureDetector(
+        ),
+        Expanded(
+          child: GestureDetector(
             onTap: () {
               setState(() {
                 _selectedPaymentCategory = 'Bank Transfer';
                 _selectedPaymentMethod = 'BCA';
               });
             },
-            child: Text(
-              'Bank Transfer',
-              style: TextStyle(
-                fontWeight: _selectedPaymentCategory == 'Bank Transfer'
-                    ? FontWeight.bold
-                    : FontWeight.normal,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(10),
+                ),
                 color: _selectedPaymentCategory == 'Bank Transfer'
-                    ? Theme.of(context).primaryColor
-                    : Colors.black,
+                    ? Colors.white
+                    : Colors.grey[200],
+               
+              ),
+              child: Center(
+                child: Text(
+                  'Bank Transfer',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: _selectedPaymentCategory == 'Bank Transfer'
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                    color: _selectedPaymentCategory == 'Bank Transfer'
+                        ? primaryColor
+                        : Colors.grey[500],
+                  ),
+                ),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -390,79 +414,49 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
 
   List<Widget> _buildUangElektronikOptions() {
     return [
-      ListTile(
-        title: const Text('Gopay'),
-        onTap: () {
-          setState(() {
-            _selectedPaymentMethod = 'Gopay';
-          });
-        },
-        leading: Radio(
-          value: 'Gopay',
-          groupValue: _selectedPaymentMethod,
-          onChanged: (value) {
-            setState(() {
-              _selectedPaymentMethod = value as String;
-            });
-          },
-        ),
-      ),
-      ListTile(
-        title: const Text('OVO'),
-        onTap: () {
-          setState(() {
-            _selectedPaymentMethod = 'OVO';
-          });
-        },
-        leading: Radio(
-          value: 'OVO',
-          groupValue: _selectedPaymentMethod,
-          onChanged: (value) {
-            setState(() {
-              _selectedPaymentMethod = value as String;
-            });
-          },
-        ),
-      ),
+      _buildPaymentOption('Gopay', 'assets/logo_bank/gopay.png'),
+      _buildPaymentOption('Dana', 'assets/logo_bank/dana.png'),
+      _buildPaymentOption('ShopeePay', 'assets/logo_bank/shopeepay.png'),
+      _buildPaymentOption('OVO', 'assets/logo_bank/ovo.png'),
     ];
   }
 
   List<Widget> _buildBankTransferOptions() {
     return [
-      ListTile(
-        title: const Text('BCA'),
-        onTap: () {
-          setState(() {
-            _selectedPaymentMethod = 'BCA';
-          });
-        },
-        leading: Radio(
-          value: 'BCA',
-          groupValue: _selectedPaymentMethod,
-          onChanged: (value) {
-            setState(() {
-              _selectedPaymentMethod = value as String;
-            });
-          },
-        ),
-      ),
-      ListTile(
-        title: const Text('Mandiri'),
-        onTap: () {
-          setState(() {
-            _selectedPaymentMethod = 'Mandiri';
-          });
-        },
-        leading: Radio(
-          value: 'Mandiri',
-          groupValue: _selectedPaymentMethod,
-          onChanged: (value) {
-            setState(() {
-              _selectedPaymentMethod = value as String;
-            });
-          },
-        ),
-      ),
+      _buildPaymentOption('BCA', 'assets/logo_bank/bca.png'),
+      _buildPaymentOption('BNI', 'assets/logo_bank/bni.png'),
+      _buildPaymentOption('BRI', 'assets/logo_bank/bri.png'),
+      _buildPaymentOption('Mandiri', 'assets/logo_bank/mandiri.png'),
     ];
+  }
+
+  Widget _buildPaymentOption(String method, String assetPath) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.grey[300]!),
+        ),
+      ),
+      child: ListTile(
+        leading:
+            Image.asset(assetPath, width: 40), // Assuming the logos are 40x40
+        title: Text(method),
+        trailing: Radio(
+          activeColor: primaryColor,
+          value: method,
+          groupValue: _selectedPaymentMethod,
+          onChanged: (value) {
+            setState(() {
+              _selectedPaymentMethod = value as String;
+            });
+          },
+        ),
+        onTap: () {
+          setState(() {
+            _selectedPaymentMethod = method;
+          });
+        },
+      ),
+    );
   }
 }
