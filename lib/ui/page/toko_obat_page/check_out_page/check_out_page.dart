@@ -6,6 +6,7 @@ import 'package:super_app_telemedicine/domain/usecase/create_transaksi/create_tr
 import 'package:super_app_telemedicine/domain/usecase/create_transaksi/create_transaksi_param.dart';
 import 'package:super_app_telemedicine/ui/extension/build_context_extension.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
+import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/page/toko_obat_page/check_out_page/check_out_item_card.dart';
 import 'package:super_app_telemedicine/ui/provider/cart/cart_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
@@ -207,6 +208,58 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                 CreateTransaksi createTransaksi =
                     ref.read(createTransaksiProvider);
 
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    bool paymentProcessed = false;
+
+                    return StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        Future.delayed(const Duration(seconds: 1), () {
+                          if (context.mounted) {
+                            setState(() {
+                              paymentProcessed = true;
+                            });
+                          }
+                        });
+
+                        return AlertDialog(
+                          surfaceTintColor: Colors.white,
+                          content: SizedBox(
+                            height: 125,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: paymentProcessed
+                                  ? [
+                                      const SizedBox(
+                                        height: 50,
+                                        width: 50,
+                                        child: Icon(Icons.check_circle_rounded,
+                                            color: primaryColor, size: 55),
+                                      ),
+                                      const Text('Pembayaran berhasil'),
+                                    ]
+                                  : [
+                                      const SizedBox(
+                                          height: 50,
+                                          width: 50,
+                                          child: CircularProgressIndicator()),
+                                      const Text('Memproses pembayaran...'),
+                                    ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
+
+                await Future.delayed(const Duration(seconds: 2));
+                // if (context.mounted) {
+                //   Navigator.pop(context);
+                // }
+
                 await createTransaksi(
                         CreateTransaksiParam(transaksi: transaksi))
                     .then((result) {
@@ -220,7 +273,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                       // Show popup selama 2 detik dan pindah ke halaman transaksi detail yang terdapat tracking petanya
                       ref
                           .read(routerProvider)
-                          .pushNamed('detail_transaksi', extra: transaksi);
+                          .pushNamed('main');
 
                     case Failed(:final message):
                       context.showSnackBar(message);
