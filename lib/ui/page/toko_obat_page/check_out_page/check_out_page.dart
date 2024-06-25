@@ -13,11 +13,19 @@ import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data
 import 'package:super_app_telemedicine/ui/provider/usecase/create_transaksi_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
-class CheckoutPage extends ConsumerWidget {
+class CheckoutPage extends ConsumerStatefulWidget {
   const CheckoutPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CheckoutPage> createState() => _CheckoutPageState();
+}
+
+class _CheckoutPageState extends ConsumerState<CheckoutPage> {
+  String _selectedPaymentCategory = 'Uang Elektronik';
+  String _selectedPaymentMethod = 'Gopay';
+
+  @override
+  Widget build(BuildContext context) {
     final cart = ref.watch(cartProvider);
     final cartProviderWatch = ref.watch(cartProvider);
     final totalHargaBarang = cartProviderWatch.items.fold<int>(
@@ -147,8 +155,9 @@ class CheckoutPage extends ConsumerWidget {
               style: TextStyle(fontSize: 17, color: Colors.black),
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 12),
           // Pilih metode pembayaran
+          _buildPaymentMethodContainer(),
         ],
       ),
       bottomNavigationBar: Container(
@@ -208,8 +217,11 @@ class CheckoutPage extends ConsumerWidget {
                           .refreshTransaksiData();
                       ref.read(userDataProvider.notifier).refreshUserData();
                       ref.read(cartProvider.notifier).removeAllItem();
-                    // Show popup selama 2 detik dan pindah ke halaman transaksi detail yang terdapat tracking petanya
-                    ref.read(routerProvider).pop();
+                      // Show popup selama 2 detik dan pindah ke halaman transaksi detail yang terdapat tracking petanya
+                      ref
+                          .read(routerProvider)
+                          .pushNamed('detail_transaksi', extra: transaksi);
+
                     case Failed(:final message):
                       context.showSnackBar(message);
                   }
@@ -240,5 +252,164 @@ class CheckoutPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildPaymentMethodContainer() {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey[400]!),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: [
+          _buildPaymentMethodHeader(),
+          ..._buildPaymentMethodOptions(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPaymentMethodHeader() {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.grey[400]!),
+        ),
+        color: Colors.grey[200],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedPaymentCategory = 'Uang Elektronik';
+                _selectedPaymentMethod = 'Gopay';
+              });
+            },
+            child: Text(
+              'Uang Elektronik',
+              style: TextStyle(
+                fontWeight: _selectedPaymentCategory == 'Uang Elektronik'
+                    ? FontWeight.bold
+                    : FontWeight.normal,
+                color: _selectedPaymentCategory == 'Uang Elektronik'
+                    ? Theme.of(context).primaryColor
+                    : Colors.black,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedPaymentCategory = 'Bank Transfer';
+                _selectedPaymentMethod = 'BCA';
+              });
+            },
+            child: Text(
+              'Bank Transfer',
+              style: TextStyle(
+                fontWeight: _selectedPaymentCategory == 'Bank Transfer'
+                    ? FontWeight.bold
+                    : FontWeight.normal,
+                color: _selectedPaymentCategory == 'Bank Transfer'
+                    ? Theme.of(context).primaryColor
+                    : Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildPaymentMethodOptions() {
+    switch (_selectedPaymentCategory) {
+      case 'Uang Elektronik':
+        return _buildUangElektronikOptions();
+      case 'Bank Transfer':
+        return _buildBankTransferOptions();
+      default:
+        return [];
+    }
+  }
+
+  List<Widget> _buildUangElektronikOptions() {
+    return [
+      ListTile(
+        title: Text('Gopay'),
+        onTap: () {
+          setState(() {
+            _selectedPaymentMethod = 'Gopay';
+          });
+        },
+        leading: Radio(
+          value: 'Gopay',
+          groupValue: _selectedPaymentMethod,
+          onChanged: (value) {
+            setState(() {
+              _selectedPaymentMethod = value as String;
+            });
+          },
+        ),
+      ),
+      ListTile(
+        title: Text('OVO'),
+        onTap: () {
+          setState(() {
+            _selectedPaymentMethod = 'OVO';
+          });
+        },
+        leading: Radio(
+          value: 'OVO',
+          groupValue: _selectedPaymentMethod,
+          onChanged: (value) {
+            setState(() {
+              _selectedPaymentMethod = value as String;
+            });
+          },
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _buildBankTransferOptions() {
+    return [
+      ListTile(
+        title: Text('BCA'),
+        onTap: () {
+          setState(() {
+            _selectedPaymentMethod = 'BCA';
+          });
+        },
+        leading: Radio(
+          value: 'BCA',
+          groupValue: _selectedPaymentMethod,
+          onChanged: (value) {
+            setState(() {
+              _selectedPaymentMethod = value as String;
+            });
+          },
+        ),
+      ),
+      ListTile(
+        title: Text('Mandiri'),
+        onTap: () {
+          setState(() {
+            _selectedPaymentMethod = 'Mandiri';
+          });
+        },
+        leading: Radio(
+          value: 'Mandiri',
+          groupValue: _selectedPaymentMethod,
+          onChanged: (value) {
+            setState(() {
+              _selectedPaymentMethod = value as String;
+            });
+          },
+        ),
+      ),
+    ];
   }
 }
