@@ -369,7 +369,7 @@ class _DetailDokterFaskesPageState
                 if (selectedDate != null && selectedHour != null) {
                   Transaksi transaksi = Transaksi(
                     idUser: ref.read(userDataProvider).value!.id,
-                    judul: '',
+                    judul: 'Buat Janji Temu',
                     kategori: 'faskes',
                     totalHarga: (6000 + widget.dokter.harga),
                     dokter: widget.dokter,

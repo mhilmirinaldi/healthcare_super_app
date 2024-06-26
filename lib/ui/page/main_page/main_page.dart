@@ -5,6 +5,7 @@ import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_page.dart';
 import 'package:super_app_telemedicine/ui/page/faskes_page/faskes_page.dart';
 import 'package:super_app_telemedicine/ui/page/profile_page/profile_page.dart';
+import 'package:super_app_telemedicine/ui/page/riwayat_page/riwayat_page.dart';
 import 'package:super_app_telemedicine/ui/page/toko_obat_page/toko_obat_page.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
@@ -22,7 +23,7 @@ class _MainPageState extends ConsumerState<MainPage> {
     const ChatPage(),
     const TokoObatPage(),
     const FaskesPage(),
-    const Center(child: Text('Riwayat Kesehatan'),),
+    const RiwayatPage(),
     const ProfilePage(),
   ];
 

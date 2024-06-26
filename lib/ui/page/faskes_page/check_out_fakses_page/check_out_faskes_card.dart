@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
+import 'package:super_app_telemedicine/ui/extension/constant.dart';
 import 'package:super_app_telemedicine/ui/provider/faskes/search_faskes_provider.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 class CheckoutFaskesCard extends ConsumerStatefulWidget {
   final Dokter dokter;
@@ -170,17 +169,5 @@ class _CheckoutFaskesCardState extends ConsumerState<CheckoutFaskesCard> {
         ],
       ),
     );
-  }
-
-  String formatDate(DateTime date) {
-    // Menginisialisasi lokal bahasa Indonesia
-    initializeDateFormatting('id', null);
-    final DateFormat dayShortFormat = DateFormat('EEEE, d MMMM y', 'id');
-    return dayShortFormat.format(date);
-  }
-
-  String formateTime(DateTime date) {
-    final DateFormat timeFormat = DateFormat('HH:mm', 'id');
-    return timeFormat.format(date);
   }
 }
