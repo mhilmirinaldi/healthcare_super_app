@@ -254,7 +254,7 @@ class _CheckoutChatPageState extends ConsumerState<CheckoutChatPage> {
                           .refreshTransaksiData();
                       ref.read(userDataProvider.notifier).refreshUserData();
                       // PINDAH HALAMAN
-                      ref.read(routerProvider).pushNamed('main');
+                      ref.read(routerProvider).pushNamed('chat_room', extra: transaksi);
 
                     case Failed(:final message):
                       context.showSnackBar(message);
