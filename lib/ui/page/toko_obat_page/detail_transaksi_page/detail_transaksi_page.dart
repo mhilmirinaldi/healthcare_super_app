@@ -6,7 +6,9 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/ui/extension/constant.dart';
+import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
 import 'package:super_app_telemedicine/ui/misc/colors.dart';
+import 'package:super_app_telemedicine/ui/page/toko_obat_page/detail_transaksi_page/detail_transaksi_obat_card.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
 class DetailTransaksiPage extends ConsumerStatefulWidget {
@@ -35,6 +37,12 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
   void initState() {
     super.initState();
     _setPolyline();
+    // delay to simulate driver assignment
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        _currentStep = 2;
+      });
+    });
   }
 
   @override
@@ -110,12 +118,12 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
 
     if (_distanceBetween(currentPosition, _pickupPosition) < marginError) {
       setState(() {
-        _currentStep = 2;
+        _currentStep = 3;
       });
     } else if (_distanceBetween(currentPosition, _destinationPosition) <
         marginError) {
       setState(() {
-        _currentStep = 3;
+        _currentStep = 4;
       });
     }
   }
@@ -167,7 +175,7 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
             child: GoogleMap(
               initialCameraPosition: const CameraPosition(
                 target: _destinationPosition,
-                zoom: 14.0,
+                zoom: 15.0,
               ),
               polylines: {
                 Polyline(
@@ -211,7 +219,7 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
           ),
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(24.0),
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -222,8 +230,87 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
                     _buildStepIndicator(4, "Pesanan \nDiterima"),
                   ],
                 ),
-                const SizedBox(height: 16),
-                _buildOrderDetails(),
+                const SizedBox(height: 10),
+                const Divider(color: Colors.grey),
+                const SizedBox(height: 2),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Pesanan',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    Column(
+                      children: widget.transaksi.listObat!
+                          .map((e) => DetailTransaksiObatCard(obat: e))
+                          .toList(),
+                    ),
+                    const SizedBox(height: 0),
+                    const Divider(color: Colors.grey),
+                    const SizedBox(height: 2),
+                    const Text(
+                      'Pembayaran',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Biaya Barang',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        Text(
+                          (widget.transaksi.totalHarga-15000).toIDRCurrency(),
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Biaya Pengiriman',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        Text(
+                          9000.toIDRCurrency(),
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Biaya Layanan',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        Text(
+                          6000.toIDRCurrency(),
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Jumlah Pembayaran',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          (widget.transaksi.totalHarga).toIDRCurrency(),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -237,7 +324,7 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
       children: [
         CircleAvatar(
           radius: 20,
-          backgroundColor: _currentStep >= step ? Colors.green : Colors.grey,
+          backgroundColor: _currentStep >= step ? primaryColor : Colors.grey,
           child: Text(
             step.toString(),
             style: const TextStyle(color: Colors.white),
@@ -245,41 +332,17 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
         ),
         const SizedBox(height: 4),
         Text(title,
-            textAlign: TextAlign.center, style: const TextStyle(fontSize: 12)),
+            textAlign: TextAlign.center, style: const TextStyle(fontSize: 13)),
       ],
     );
   }
 
-  Widget _buildOrderDetails() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Pesanan',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        const SizedBox(height: 8),
-        Text(widget.transaksi.toString()),
-        const SizedBox(height: 16),
-        const Text(
-          'Pembayaran',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        const SizedBox(height: 8),
-        const Text('Barang: Rp10.000'),
-        const Text('Biaya Pengiriman: Rp9.000'),
-        const Text('Biaya Layanan: Rp5.000'),
-        const Text('Jumlah Pembayaran: Rp24.000'),
-      ],
+  double _distanceBetween(LatLng start, LatLng end) {
+    return Geolocator.distanceBetween(
+      start.latitude,
+      start.longitude,
+      end.latitude,
+      end.longitude,
     );
   }
-}
-
-double _distanceBetween(LatLng start, LatLng end) {
-  return Geolocator.distanceBetween(
-    start.latitude,
-    start.longitude,
-    end.latitude,
-    end.longitude,
-  );
 }
