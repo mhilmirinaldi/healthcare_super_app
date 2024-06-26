@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:super_app_telemedicine/domain/entity/obat.dart';
 import 'package:super_app_telemedicine/domain/entity/result.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/domain/usecase/create_transaksi/create_transaksi.dart';
@@ -33,6 +34,8 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
         0,
         (previousValue, element) =>
             previousValue + (element.harga * element.jumlah!));
+
+    List<Obat> listObat = cart.items.map((e) => e).toList();
 
     return Scaffold(
       appBar: PreferredSize(
@@ -203,7 +206,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                     kategori: 'obat',
                     waktuTransaksi: waktuTransaksi,
                     totalHarga: (15000 + totalHargaBarang),
-                    listObat: cart.items);
+                    listObat: listObat);
 
                 CreateTransaksi createTransaksi =
                     ref.read(createTransaksiProvider);
@@ -260,9 +263,6 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                 );
 
                 await Future.delayed(const Duration(seconds: 2));
-                // if (context.mounted) {
-                //   Navigator.pop(context);
-                // }
 
                 await createTransaksi(
                         CreateTransaksiParam(transaksi: transaksi))
@@ -270,14 +270,14 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                   switch (result) {
                     case Success(value: _):
                       ref
+                          .read(routerProvider)
+                          .pushNamed('detail_transaksi', extra: transaksi);
+
+                      ref
                           .read(transaksiDataProvider.notifier)
                           .refreshTransaksiData();
                       ref.read(userDataProvider.notifier).refreshUserData();
                       ref.read(cartProvider.notifier).removeAllItem();
-                      // Show popup selama 2 detik dan pindah ke halaman transaksi detail yang terdapat tracking petanya
-                      ref
-                          .read(routerProvider)
-                          .pushNamed('detail_transaksi', extra: transaksi);
 
                     case Failed(:final message):
                       context.showSnackBar(message);
