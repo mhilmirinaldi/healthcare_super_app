@@ -7,7 +7,6 @@ import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/domain/entity/review.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
-import 'package:super_app_telemedicine/ui/extension/str_extension.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/detail_dokter_page/info_row.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/detail_dokter_page/review_card.dart';
 import 'package:super_app_telemedicine/ui/page/faskes_page/jadwal_item.dart';
@@ -110,7 +109,7 @@ class _DetailDokterFaskesPageState
               ),
               const SizedBox(height: 16),
               Text(
-                widget.dokter.nama.capitalize(),
+                widget.dokter.nama,
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),

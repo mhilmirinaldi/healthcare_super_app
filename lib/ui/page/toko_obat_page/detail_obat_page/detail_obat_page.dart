@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/obat.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
-import 'package:super_app_telemedicine/ui/extension/str_extension.dart';
 import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/page/toko_obat_page/detail_obat_page/info_row.dart';
 import 'package:super_app_telemedicine/ui/provider/cart/cart_provider.dart';
@@ -60,7 +59,7 @@ class _DetailObatPageState extends ConsumerState<DetailObatPage> {
               ),
               const SizedBox(height: 16),
               Text(
-                widget.obat.nama.capitalize(),
+                widget.obat.nama,
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),

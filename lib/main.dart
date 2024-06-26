@@ -30,6 +30,7 @@ class MainApp extends ConsumerWidget {
       theme: ThemeData.from(
           colorScheme: ColorScheme.fromSeed(
               seedColor: primaryColor,
+              primary: primaryColor,
               background: backgroundColor,
               brightness: Brightness.light),
           useMaterial3: true,

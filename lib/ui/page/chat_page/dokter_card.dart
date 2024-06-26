@@ -1,11 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
+import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
-import 'package:super_app_telemedicine/ui/extension/str_extension.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
 class DokterCard extends ConsumerWidget {
   final Dokter dokter;
@@ -61,7 +60,7 @@ class DokterCard extends ConsumerWidget {
                   children: [
                     const SizedBox(height: 3),
                     Text(
-                      dokter.nama.capitalize(),
+                      dokter.nama,
                       style: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w500),
                     ),
@@ -98,7 +97,16 @@ class DokterCard extends ConsumerWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  log('Chat button on tap');
+                  Transaksi transaksi = Transaksi(
+                      idUser: ref.read(userDataProvider).value!.id,
+                      judul: 'Konsultasi Online',
+                      kategori: 'chat',
+                      totalHarga: (dokter.harga + 6000),
+                      dokter: dokter);
+
+                  ref
+                      .read(routerProvider)
+                      .pushNamed('check_out_chat', extra: transaksi);
                 },
                 style: ButtonStyle(
                   backgroundColor:

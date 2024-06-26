@@ -1,15 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/domain/entity/review.dart';
+import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
-import 'package:super_app_telemedicine/ui/extension/str_extension.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/detail_dokter_page/info_row.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/detail_dokter_page/review_card.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
 class DetailDokterPage extends ConsumerStatefulWidget {
   final Dokter dokter;
@@ -78,20 +77,21 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
                   color: const Color(0xFFCCD8EF),
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
-                    image: widget.dokter.gambar == null || widget.dokter.gambar!.isEmpty
-                            ? widget.dokter.jenisKelamin == 'Laki-laki'
-                                ? const AssetImage(
-                                    'assets/default_profile_doctor_male_transparent.png')
-                                : const AssetImage(
-                                    'assets/default_profile_doctor_female_transparent.png')
-                            : NetworkImage(widget.dokter.gambar!) as ImageProvider,
+                    image: widget.dokter.gambar == null ||
+                            widget.dokter.gambar!.isEmpty
+                        ? widget.dokter.jenisKelamin == 'Laki-laki'
+                            ? const AssetImage(
+                                'assets/default_profile_doctor_male_transparent.png')
+                            : const AssetImage(
+                                'assets/default_profile_doctor_female_transparent.png')
+                        : NetworkImage(widget.dokter.gambar!) as ImageProvider,
                     fit: BoxFit.contain,
                   ),
                 ),
               ),
               const SizedBox(height: 16),
               Text(
-                widget.dokter.nama.capitalize(),
+                widget.dokter.nama,
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
@@ -305,7 +305,16 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                log('Chat button on tap');
+                Transaksi transaksi = Transaksi(
+                    idUser: ref.read(userDataProvider).value!.id,
+                    judul: 'Konsultasi Online',
+                    kategori: 'chat',
+                    totalHarga: (widget.dokter.harga + 6000),
+                    dokter: widget.dokter);
+
+                ref
+                    .read(routerProvider)
+                    .pushNamed('check_out_chat', extra: transaksi);
               },
               style: ButtonStyle(
                 backgroundColor:

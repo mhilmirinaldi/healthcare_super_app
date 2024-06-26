@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
@@ -108,7 +110,7 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
               ),
               const SizedBox(height: 16),
               Text(
-                widget.faskes.nama.capitalize(),
+                widget.faskes.nama,
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
