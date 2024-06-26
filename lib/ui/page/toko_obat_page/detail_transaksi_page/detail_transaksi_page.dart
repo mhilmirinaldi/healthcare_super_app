@@ -130,7 +130,7 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
 
   LatLng get _driverPosition => _polylineIndex < polylineCoordinates.length
       ? polylineCoordinates[_polylineIndex]
-      : _destinationPosition;
+      : _initialPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +168,7 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
           ),
         ),
       ),
-      body: Column(
+      body: Stack(
         children: [
           SizedBox(
             height: 400,
@@ -217,122 +217,177 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
               rotateGesturesEnabled: true,
             ),
           ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(24.0),
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildStepIndicator(1, "Pesanan \nTerkonfirmasi"),
-                    _buildStepIndicator(2, "Driver \nDitugaskan"),
-                    _buildStepIndicator(3, "Dalam \nPerjalanan"),
-                    _buildStepIndicator(4, "Pesanan \nDiterima"),
-                  ],
+          DraggableScrollableSheet(
+            initialChildSize: 0.5,
+            minChildSize: 0.5,
+            maxChildSize: 1.0,
+            builder: (context, scrollController) {
+              return Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
                 ),
-                const SizedBox(height: 10),
-                const Divider(color: Colors.grey),
-                const SizedBox(height: 2),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Pesanan',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 8),
-                    Column(
-                      children: widget.transaksi.listObat!
-                          .map((e) => DetailTransaksiObatCard(obat: e))
-                          .toList(),
-                    ),
-                    const SizedBox(height: 0),
-                    const Divider(color: Colors.grey),
-                    const SizedBox(height: 2),
-                    const Text(
-                      'Pembayaran',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+                    child: Column(
                       children: [
-                        const Text(
-                          'Biaya Barang',
-                          style: TextStyle(fontSize: 14),
+                        const SizedBox(height: 4),
+                        Container(
+                          height: 2,
+                          width: 34,
+                          color: Colors.grey[400],
                         ),
-                        Text(
-                          (widget.transaksi.totalHarga-15000).toIDRCurrency(),
-                          style: const TextStyle(fontSize: 14),
+                        const SizedBox(height: 1),
+                        Container(
+                          height: 2,
+                          width: 34,
+                          color: Colors.grey[400],
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _stepItem(1, "Pesanan \nTerkonfirmasi"),
+                            _stepItem(2, "Driver \nDitugaskan"),
+                            _stepItem(3, "Dalam \nPerjalanan"),
+                            _stepItem(4, "Pesanan \nDiterima"),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        const Divider(color: Colors.grey),
+                        const SizedBox(height: 2),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Pesanan',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            const SizedBox(height: 8),
+                            Column(
+                              children: widget.transaksi.listObat!
+                                  .map((e) => DetailTransaksiObatCard(obat: e))
+                                  .toList(),
+                            ),
+                            const SizedBox(height: 0),
+                            const Divider(color: Colors.grey),
+                            const SizedBox(height: 2),
+                            const Text(
+                              'Pembayaran',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Biaya Barang',
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                                Text(
+                                  (widget.transaksi.totalHarga - 15000)
+                                      .toIDRCurrency(),
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 6),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Biaya Pengiriman',
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                                Text(
+                                  9000.toIDRCurrency(),
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 6),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Biaya Layanan',
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                                Text(
+                                  6000.toIDRCurrency(),
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 6),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Jumlah Pembayaran',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Text(
+                                  (widget.transaksi.totalHarga).toIDRCurrency(),
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    const SizedBox(height: 6),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Biaya Pengiriman',
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        Text(
-                          9000.toIDRCurrency(),
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Biaya Layanan',
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        Text(
-                          6000.toIDRCurrency(),
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Jumlah Pembayaran',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          (widget.transaksi.totalHarga).toIDRCurrency(),
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
-              ],
-            ),
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget _buildStepIndicator(int step, String title) {
-    return Column(
+  Widget _stepItem(int step, String title) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CircleAvatar(
-          radius: 20,
-          backgroundColor: _currentStep >= step ? primaryColor : Colors.grey,
-          child: Text(
-            step.toString(),
-            style: const TextStyle(color: Colors.white),
-          ),
+        Column(
+          children: [
+            CircleAvatar(
+              radius: 20,
+              backgroundColor:
+                  _currentStep >= step ? primaryColor : Colors.grey,
+              child: Text(
+                step.toString(),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 13)),
+          ],
         ),
-        const SizedBox(height: 4),
-        Text(title,
-            textAlign: TextAlign.center, style: const TextStyle(fontSize: 13)),
+        if (step < 4) ...[
+          Column(
+            children: [
+              const SizedBox(height: 16),
+              Container(
+                height: 2,
+                width: 32,
+                color: _currentStep >= step + 1 ? primaryColor : Colors.grey,
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }
