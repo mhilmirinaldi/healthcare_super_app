@@ -62,7 +62,7 @@ class _RiwayatPageState extends ConsumerState<RiwayatPage> {
                           Icon(Icons.search, color: Colors.grey[500]),
                           const SizedBox(width: 8),
                           Text(
-                            'Cari nama dokter atau spesialis',
+                            'Cari transaksi',
                             style: TextStyle(color: Colors.grey[800]),
                           ),
                         ],

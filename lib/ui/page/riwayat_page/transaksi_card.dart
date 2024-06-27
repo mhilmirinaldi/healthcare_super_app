@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
@@ -32,7 +30,6 @@ class _TransaksiCardState extends ConsumerState<TransaksiCard> {
   @override
   Widget build(BuildContext context) {
     final searchResults = ref.watch(searchFaskesProvider);
-    log(searchResults.toString());
 
     return GestureDetector(
       onTap: () {
@@ -160,7 +157,28 @@ class _TransaksiCardState extends ConsumerState<TransaksiCard> {
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500),
                                 ),
-                                
+                                searchResults.when(
+                                  data: (dokters) {
+                                    if (dokters.isEmpty) {
+                                      return const Center(
+                                          child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: 220),
+                                              child: Text(
+                                                  'Tidak ada hasil ditemukan')));
+                                    }
+                                    return Text(
+                                      dokters[0].kategori,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey[800]),
+                                    );
+                                  },
+                                  loading: () => const Center(
+                                      child: CircularProgressIndicator()),
+                                  error: (error, stack) =>
+                                      Center(child: Text('Error: $error')),
+                                ),
                                 Row(
                                   children: [
                                     Icon(Icons.date_range,

@@ -61,15 +61,15 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
     ImageConfiguration configuration = createLocalImageConfiguration(context);
     BitmapDescriptor driverIcon = await BitmapDescriptor.fromAssetImage(
       configuration,
-      'assets/alumnus.png',
+      'assets/icon_driver.png',
     );
     BitmapDescriptor pickupIcon = await BitmapDescriptor.fromAssetImage(
       configuration,
-      'assets/nomor_str.png',
+      'assets/icon_location.png',
     );
     BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
       configuration,
-      'assets/nomor_str.png',
+      'assets/icon_location.png',
     );
 
     setState(() {

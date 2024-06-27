@@ -24,6 +24,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   bool isChatEnabled = true;
   bool isAttachmentVisible = false;
   int duration = 30 * 60; // Duration in seconds
+  bool isKeyboardVisible = true;
 
   @override
   void initState() {
@@ -31,6 +32,12 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     startTimer();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
+    });
+
+    _focusNode.addListener(() {
+      setState(() {
+        isKeyboardVisible = _focusNode.hasFocus;
+      });
     });
   }
 
@@ -123,9 +130,41 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   }
 
   Future<void> pickImage() async {
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          messages.add({
+            'text': 'Mengirim gambar...',
+            'sender': 'user',
+            'time': DateFormat('HH:mm').format(DateTime.now())
+          });
+        });
+        _scrollToBottom();
+      }
+    } catch (e) {
+      print('Error picking image: $e');
+    }
   }
 
   Future<void> captureImage() async {
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.camera);
+      if (pickedFile != null) {
+        setState(() {
+          messages.add({
+            'text': 'Mengirim gambar...',
+            'sender': 'user',
+            'time': DateFormat('HH:mm').format(DateTime.now())
+          });
+        });
+        _scrollToBottom();
+      }
+    } catch (e) {
+      print('Error capturing image: $e');
+    }
   }
 
   void showAttachmentOptions() {
@@ -206,13 +245,14 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                 CircleAvatar(
                   radius: 20,
                   backgroundImage: widget.transaksi.dokter!.gambar == null ||
-                            widget.transaksi.dokter!.gambar!.isEmpty
-                        ? widget.transaksi.dokter!.jenisKelamin == 'Laki-laki'
-                            ? const AssetImage(
-                                'assets/default_profile_doctor_male.png')
-                            : const AssetImage(
-                                'assets/default_profile_doctor_female.png')
-                        : NetworkImage(widget.transaksi.dokter!.gambar!) as ImageProvider,
+                          widget.transaksi.dokter!.gambar!.isEmpty
+                      ? widget.transaksi.dokter!.jenisKelamin == 'Laki-laki'
+                          ? const AssetImage(
+                              'assets/default_profile_doctor_male.png')
+                          : const AssetImage(
+                              'assets/default_profile_doctor_female.png')
+                      : NetworkImage(widget.transaksi.dokter!.gambar!)
+                          as ImageProvider,
                 ),
                 const SizedBox(width: 12),
                 Column(
@@ -244,7 +284,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Column(
           children: [
             if (duration > 0)
@@ -266,8 +306,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                       constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width * 0.6),
                       padding: const EdgeInsets.all(10),
-                      margin:
-                          const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 10),
                       decoration: BoxDecoration(
                         color: messages[index]['sender'] == 'user'
                             ? Colors.blue[100]
@@ -281,8 +321,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                           const SizedBox(height: 5),
                           Text(
                             messages[index]['time'] ?? '',
-                            style:
-                                const TextStyle(fontSize: 10, color: Colors.grey),
+                            style: const TextStyle(
+                                fontSize: 10, color: Colors.grey),
                           ),
                         ],
                       ),
@@ -321,13 +361,10 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                       ),
                     ),
                   Padding(
-                    padding: const EdgeInsets.all(0.0),
+                    padding:
+                        EdgeInsets.only(bottom: isKeyboardVisible ? 2 : 24),
                     child: Row(
                       children: [
-                        IconButton(
-                          icon: const Icon(Icons.camera_alt),
-                          onPressed: captureImage,
-                        ),
                         IconButton(
                           icon: const Icon(Icons.attach_file),
                           onPressed: showAttachmentOptions,
@@ -336,14 +373,28 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                           child: TextField(
                             focusNode: _focusNode,
                             controller: _chatController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               hintText: "Ketik pesan...",
-                              border: OutlineInputBorder(),
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    const BorderSide(color: Colors.grey),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    const BorderSide(color: Colors.grey),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    const BorderSide(color: Colors.grey),
+                              ),
                             ),
                             onSubmitted: (value) {
-                              // newline in textfield
-
-                          
+                              sendMessage();
                             },
                             style: const TextStyle(fontSize: 14),
                           ),
