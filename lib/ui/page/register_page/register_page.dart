@@ -129,6 +129,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ? SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor: WidgetStateProperty.all(
+                                      const Color(0xFFE1004E)),
+                                ),
                                 onPressed: () {
                                   if (passwordController.text ==
                                       confirmPasswordController.text) {
@@ -145,7 +149,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 },
                                 child: const Text(
                                   'Register',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             )

@@ -18,7 +18,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   bool passToggle = true;
 
-@override
+  @override
   Widget build(BuildContext context) {
     ref.listen(userDataProvider, (previous, next) {
       if (next is AsyncData) {
@@ -73,9 +73,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           setState(() {});
                         },
                         child: Icon(
-                          passToggle
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                          passToggle ? Icons.visibility_off : Icons.visibility,
                         ),
                       ),
                     )),
@@ -95,6 +93,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ? SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all(
+                                  const Color(0xFFE1004E)),
+                            ),
                             onPressed: () {
                               ref.read(userDataProvider.notifier).login(
                                     email: emailController.text,
@@ -103,7 +105,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             },
                             child: const Text(
                               'Login',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                             ),
                           ),
                         )
