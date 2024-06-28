@@ -15,6 +15,7 @@ import 'package:super_app_telemedicine/ui/provider/faskes/list_kategori_spesiali
 import 'package:super_app_telemedicine/ui/provider/faskes/list_rekomendasi_faskes_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/obat/list_kategori_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/obat/list_rekomendasi_obat_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/get_logged_in_user_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/login_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/logout_provider.dart';
@@ -49,6 +50,8 @@ class UserData extends _$UserData {
     if (result.isSuccess) {
       _getListDokterAndKategori();
       state = AsyncData(result.resultValue);
+
+      await ref.read(transaksiDataProvider.notifier).refreshTransaksiData();
     } else {
       state =
           AsyncError(FlutterError(result.errorMessage!), StackTrace.current);
@@ -71,6 +74,7 @@ class UserData extends _$UserData {
     if (result.isSuccess) {
       _getListDokterAndKategori();
       state = AsyncData(result.resultValue);
+      await ref.read(transaksiDataProvider.notifier).refreshTransaksiData();
     } else {
       state =
           AsyncError(FlutterError(result.errorMessage!), StackTrace.current);

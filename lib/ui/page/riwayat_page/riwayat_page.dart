@@ -14,15 +14,6 @@ class RiwayatPage extends ConsumerStatefulWidget {
 }
 
 class _RiwayatPageState extends ConsumerState<RiwayatPage> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // Refresh data transaksi saat halaman dibuka pertama kali
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     ref.read(transaksiDataProvider.notifier).refreshTransaksiData();
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     final listTransaksi = ref.watch(transaksiDataProvider);
