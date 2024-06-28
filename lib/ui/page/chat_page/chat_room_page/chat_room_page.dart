@@ -362,8 +362,19 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                                   ),
                                 ),
                               if (messages[index].containsKey('file'))
-                                Text(
-                                    'File selected: ${messages[index]['file'].path}'),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Icon(Icons.insert_drive_file,
+                                        color: Colors.white),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      messages[index]['file'].path,
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
                               const SizedBox(height: 5),
                               Text(
                                 messages[index]['time'] ?? '',
@@ -379,8 +390,12 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                 ),
                 if (isChatEnabled)
                   Padding(
-                    padding:
-                        EdgeInsets.only(bottom: isKeyboardVisible ? 2 : 24),
+                    padding: EdgeInsets.only(
+                        bottom: isAttachmentVisible
+                            ? 200.0
+                            : isKeyboardVisible
+                                ? 0
+                                : 24.0),
                     child: Row(
                       children: [
                         IconButton(
@@ -428,10 +443,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
             ),
           ),
           if (isAttachmentVisible)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: isKeyboardVisible ? 58 : 100,
+            Align(
+              alignment: Alignment.bottomCenter,
               child: Container(
                 color: Colors.grey[200],
                 height: 200,
