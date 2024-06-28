@@ -119,7 +119,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
 
     setState(() {
       String time = DateFormat('HH:mm').format(DateTime.now());
-      messages.add({'text': _chatController.text, 'sender': 'user', 'time': time});
+      messages
+          .add({'text': _chatController.text, 'sender': 'user', 'time': time});
       if (_chatController.text.toLowerCase() == 'halo') {
         messages.add({
           'text': 'Ada yang bisa dibantu?',
@@ -310,102 +311,76 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          children: [
-            if (duration > 0)
-              Padding(
-                padding: const EdgeInsets.only(top: 1, bottom: 6),
-                child: Text(
-                    'Durasi waktu: ${duration ~/ 60}:${(duration % 60).toString().padLeft(2, '0')}'),
-              ),
-            Expanded(
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  return Align(
-                    alignment: messages[index]['sender'] == 'user'
-                        ? Alignment.centerRight
-                        : Alignment.centerLeft,
-                    child: Container(
-                      constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width * 0.6),
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: messages[index]['sender'] == 'user'
-                            ? Colors.blue[100]
-                            : Colors.grey[300],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (messages[index].containsKey('text'))
-                            SelectableText(messages[index]['text'] ?? ''),
-                          if (messages[index].containsKey('image'))
-                            GestureDetector(
-                              onTap: () => _openImage(context, messages[index]['image']),
-                              child: Image.file(
-                                messages[index]['image'],
-                                width: 150,
-                                height: 150,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          if (messages[index].containsKey('file'))
-                            Text('File selected: ${messages[index]['file'].path}'),
-                          const SizedBox(height: 5),
-                          Text(
-                            messages[index]['time'] ?? '',
-                            style: const TextStyle(
-                                fontSize: 10, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            if (isChatEnabled)
-              Column(
-                children: [
-                  if (isAttachmentVisible)
-                    Container(
-                      color: Colors.grey[200],
-                      height: 60,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.history),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => RekamMedisPage(),
-                              ));
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.image),
-                            onPressed: _pickImageFromGallery,
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.camera_alt),
-                            onPressed: _takeImageFromCamera,
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.attach_file),
-                            onPressed: _pickFile,
-                          ),
-                        ],
-                      ),
-                    ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: [
+                if (duration > 0)
                   Padding(
-                    padding: EdgeInsets.only(bottom: isKeyboardVisible ? 2 : 24),
+                    padding: const EdgeInsets.only(top: 1, bottom: 6),
+                    child: Text(
+                        'Durasi waktu: ${duration ~/ 60}:${(duration % 60).toString().padLeft(2, '0')}'),
+                  ),
+                Expanded(
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      return Align(
+                        alignment: messages[index]['sender'] == 'user'
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        child: Container(
+                          constraints: BoxConstraints(
+                              maxWidth:
+                                  MediaQuery.of(context).size.width * 0.6),
+                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: messages[index]['sender'] == 'user'
+                                ? Colors.blue[100]
+                                : Colors.grey[300],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (messages[index].containsKey('text'))
+                                SelectableText(messages[index]['text'] ?? ''),
+                              if (messages[index].containsKey('image'))
+                                GestureDetector(
+                                  onTap: () => _openImage(
+                                      context, messages[index]['image']),
+                                  child: Image.file(
+                                    messages[index]['image'],
+                                    width: 150,
+                                    height: 150,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              if (messages[index].containsKey('file'))
+                                Text(
+                                    'File selected: ${messages[index]['file'].path}'),
+                              const SizedBox(height: 5),
+                              Text(
+                                messages[index]['time'] ?? '',
+                                style: const TextStyle(
+                                    fontSize: 10, color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                if (isChatEnabled)
+                  Padding(
+                    padding:
+                        EdgeInsets.only(bottom: isKeyboardVisible ? 2 : 24),
                     child: Row(
                       children: [
                         IconButton(
@@ -422,15 +397,18 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(color: Colors.grey),
+                                borderSide:
+                                    const BorderSide(color: Colors.grey),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(color: Colors.grey),
+                                borderSide:
+                                    const BorderSide(color: Colors.grey),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(color: Colors.grey),
+                                borderSide:
+                                    const BorderSide(color: Colors.grey),
                               ),
                             ),
                             onSubmitted: (value) {
@@ -446,10 +424,62 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                       ],
                     ),
                   ),
-                ],
+              ],
+            ),
+          ),
+          if (isAttachmentVisible)
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: isKeyboardVisible ? 58 : 100,
+              child: Container(
+                color: Colors.grey[200],
+                height: 200,
+                child: GridView.count(
+                  crossAxisCount: 4,
+                  children: [
+                    _buildAttachmentOption(
+                        icon: Icons.history,
+                        label: 'History',
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => RekamMedisPage(),
+                          ));
+                        }),
+                    _buildAttachmentOption(
+                        icon: Icons.image,
+                        label: 'Gallery',
+                        onTap: _pickImageFromGallery),
+                    _buildAttachmentOption(
+                        icon: Icons.camera_alt,
+                        label: 'Camera',
+                        onTap: _takeImageFromCamera),
+                    _buildAttachmentOption(
+                        icon: Icons.attach_file,
+                        label: 'File',
+                        onTap: _pickFile),
+                  ],
+                ),
               ),
-          ],
-        ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAttachmentOption(
+      {required IconData icon,
+      required String label,
+      required Function() onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 40),
+          const SizedBox(height: 10),
+          Text(label, textAlign: TextAlign.center),
+        ],
       ),
     );
   }
