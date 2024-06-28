@@ -49,5 +49,9 @@
 	<string>We need your location to provide personalized services and relevant information.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We need your location to provide personalized services and relevant information even when the app is in the background.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need your permission to use the camera to take pictures.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need your permission to access your photo library.</string>
 </dict>
 </plist>

@@ -65,7 +65,7 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
     );
     BitmapDescriptor pickupIcon = await BitmapDescriptor.fromAssetImage(
       configuration,
-      'assets/icon_location.png',
+      'assets/icon_medicine.png',
     );
     BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
       configuration,
@@ -181,7 +181,7 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
                 Polyline(
                   polylineId: const PolylineId('route'),
                   points: polylineCoordinates,
-                  color: primaryColor,
+                  color: primaryColor.withOpacity(0.5),
                   width: 5,
                 ),
               },

@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/rekam_medis_page.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
@@ -20,7 +23,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   final TextEditingController _chatController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final FocusNode _focusNode = FocusNode();
-  List<Map<String, String>> messages = [];
+  final ImagePicker _picker = ImagePicker();
+  List<Map<String, dynamic>> messages = [];
   bool isChatEnabled = true;
   bool isAttachmentVisible = false;
   int duration = 30 * 60; // Duration in seconds
@@ -115,8 +119,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
 
     setState(() {
       String time = DateFormat('HH:mm').format(DateTime.now());
-      messages
-          .add({'text': _chatController.text, 'sender': 'user', 'time': time});
+      messages.add({'text': _chatController.text, 'sender': 'user', 'time': time});
       if (_chatController.text.toLowerCase() == 'halo') {
         messages.add({
           'text': 'Ada yang bisa dibantu?',
@@ -129,41 +132,49 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     _scrollToBottom();
   }
 
-  Future<void> pickImage() async {
-    try {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        setState(() {
-          messages.add({
-            'text': 'Mengirim gambar...',
-            'sender': 'user',
-            'time': DateFormat('HH:mm').format(DateTime.now())
-          });
+  Future<void> _pickImageFromGallery() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        String time = DateFormat('HH:mm').format(DateTime.now());
+        messages.add({
+          'image': File(image.path),
+          'sender': 'user',
+          'time': time,
         });
-        _scrollToBottom();
-      }
-    } catch (e) {
-      print('Error picking image: $e');
+      });
+      _scrollToBottom();
     }
   }
 
-  Future<void> captureImage() async {
-    try {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: ImageSource.camera);
-      if (pickedFile != null) {
-        setState(() {
-          messages.add({
-            'text': 'Mengirim gambar...',
-            'sender': 'user',
-            'time': DateFormat('HH:mm').format(DateTime.now())
-          });
+  Future<void> _takeImageFromCamera() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      setState(() {
+        String time = DateFormat('HH:mm').format(DateTime.now());
+        messages.add({
+          'image': File(image.path),
+          'sender': 'user',
+          'time': time,
         });
-        _scrollToBottom();
-      }
-    } catch (e) {
-      print('Error capturing image: $e');
+      });
+      _scrollToBottom();
+    }
+  }
+
+  Future<void> _pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      setState(() {
+        String time = DateFormat('HH:mm').format(DateTime.now());
+        messages.add({
+          'file': file,
+          'sender': 'user',
+          'time': time,
+        });
+      });
+      _scrollToBottom();
     }
   }
 
@@ -214,6 +225,22 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
           ],
         );
       },
+    );
+  }
+
+  void _openImage(BuildContext context, File imageFile) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => Scaffold(
+          appBar: AppBar(),
+          body: Center(
+            child: PhotoView(
+              imageProvider: FileImage(imageFile),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -317,7 +344,20 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(messages[index]['text'] ?? ''),
+                          if (messages[index].containsKey('text'))
+                            SelectableText(messages[index]['text'] ?? ''),
+                          if (messages[index].containsKey('image'))
+                            GestureDetector(
+                              onTap: () => _openImage(context, messages[index]['image']),
+                              child: Image.file(
+                                messages[index]['image'],
+                                width: 150,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          if (messages[index].containsKey('file'))
+                            Text('File selected: ${messages[index]['file'].path}'),
                           const SizedBox(height: 5),
                           Text(
                             messages[index]['time'] ?? '',
@@ -351,18 +391,21 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                           ),
                           IconButton(
                             icon: const Icon(Icons.image),
-                            onPressed: pickImage,
+                            onPressed: _pickImageFromGallery,
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.camera_alt),
+                            onPressed: _takeImageFromCamera,
                           ),
                           IconButton(
                             icon: const Icon(Icons.attach_file),
-                            onPressed: pickImage,
+                            onPressed: _pickFile,
                           ),
                         ],
                       ),
                     ),
                   Padding(
-                    padding:
-                        EdgeInsets.only(bottom: isKeyboardVisible ? 2 : 24),
+                    padding: EdgeInsets.only(bottom: isKeyboardVisible ? 2 : 24),
                     child: Row(
                       children: [
                         IconButton(
@@ -379,18 +422,15 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey),
+                                borderSide: const BorderSide(color: Colors.grey),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey),
+                                borderSide: const BorderSide(color: Colors.grey),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey),
+                                borderSide: const BorderSide(color: Colors.grey),
                               ),
                             ),
                             onSubmitted: (value) {

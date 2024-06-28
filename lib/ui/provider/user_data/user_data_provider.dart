@@ -9,6 +9,7 @@ import 'package:super_app_telemedicine/domain/usecase/register/register.dart';
 import 'package:super_app_telemedicine/domain/usecase/register/register_param.dart';
 import 'package:super_app_telemedicine/domain/usecase/upload_profile_picture/upload_profile_picture.dart';
 import 'package:super_app_telemedicine/domain/usecase/upload_profile_picture/upload_profile_picture_param.dart';
+import 'package:super_app_telemedicine/ui/provider/cart/cart_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/list_kategori_dokter_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/list_rekomendasi_dokter_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/faskes/list_kategori_spesialis_provider.dart';
@@ -98,6 +99,7 @@ class UserData extends _$UserData {
 
     if (result.isSuccess) {
       state = const AsyncData(null);
+      ref.read(cartProvider.notifier).removeAllItem();
     } else {
       state =
           AsyncError(FlutterError(result.errorMessage!), StackTrace.current);
