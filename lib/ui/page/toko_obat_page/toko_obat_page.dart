@@ -36,26 +36,26 @@ class TokoObatPage extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Toko Obat',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      const Spacer(),
-                      SizedBox(
-                        height: 29,
-                        child: IconButton(
-                          padding: const EdgeInsets.only(top: 3),
-                          icon: const Icon(Icons.history, size: 24),
-                          onPressed: () {
-                            ref.read(routerProvider).pushNamed('detail_riwayat_page', extra: 'obat');
-                          },
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Toko Obat',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            // const Spacer(),
+                            // SizedBox(
+                            //   height: 29,
+                            //   child: IconButton(
+                            //     padding: const EdgeInsets.only(top: 3),
+                            //     icon: const Icon(Icons.history, size: 24),
+                            //     onPressed: () {
+                            //       ref.read(routerProvider).pushNamed('detail_riwayat_page', extra: 'obat');
+                            //     },
+                            //   ),
+                            // ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
                         const Divider(
                           color: Colors.grey,
                         ),
@@ -83,7 +83,7 @@ class TokoObatPage extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        verticalSpaces(18),
+                        verticalSpaces(14),
                         const Text('Rekomendasi Obat',
                             style: TextStyle(fontSize: 18)),
                         listObat.maybeWhen(
@@ -160,8 +160,7 @@ class TokoObatPage extends ConsumerWidget {
               )
             ],
           ),
-          if (isVisible)
-            popUpCart(cartProviderWatch, 5, ref),
+          if (isVisible) popUpCart(cartProviderWatch, 5, ref),
         ],
       ),
     );

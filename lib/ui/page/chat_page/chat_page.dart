@@ -28,24 +28,24 @@ class ChatPage extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  const Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Chat Dengan Dokter',
                         style: TextStyle(fontSize: 20),
                       ),
-                      const Spacer(),
-                      SizedBox(
-                        height: 29,
-                        child: IconButton(
-                          padding: const EdgeInsets.only(top: 3),
-                          icon: const Icon(Icons.history, size: 24),
-                          onPressed: () {
-                            ref.read(routerProvider).pushNamed('detail_riwayat_page', extra: 'chat');
-                          },
-                        ),
-                      ),
+                      Spacer(),
+                      // SizedBox(
+                      //   height: 29,
+                      //   child: IconButton(
+                      //     padding: const EdgeInsets.only(top: 3),
+                      //     icon: const Icon(Icons.history, size: 24),
+                      //     onPressed: () {
+                      //       ref.read(routerProvider).pushNamed('detail_riwayat_page', extra: 'chat');
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   ),
                   const Divider(color: Colors.grey,),
@@ -73,7 +73,7 @@ class ChatPage extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  verticalSpaces(18),
+                  verticalSpaces(14),
                   const Text('Rekomendasi Dokter',
                       style: TextStyle(fontSize: 18)),
                   ...listDokter.maybeWhen(

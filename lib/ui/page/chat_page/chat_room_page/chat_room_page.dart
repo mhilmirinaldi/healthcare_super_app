@@ -63,7 +63,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
           isChatEnabled = false;
         });
         timer.cancel();
-      } else if (duration == 290) {
+      } else if (duration == 60 * 5) {
         showExtendTimePopup();
       }
     });
@@ -74,10 +74,16 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Pengingat Waktu"),
+          title: const Text("Pengingat Waktu", style: TextStyle(fontSize: 20),),
           content: const Text(
               "Waktu konsultasi tersisa 5 menit lagi, apakah anda ingin menambah durasi waktu konsultasi?"),
           actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("No"),
+            ),
             TextButton(
               onPressed: () {
                 ref.read(routerProvider).pushNamed('checkout_additional_time',
@@ -85,12 +91,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                 Navigator.of(context).pop();
               },
               child: const Text("Yes"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("No"),
             ),
           ],
         );
@@ -208,10 +208,16 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Konfirmasi Selesai"),
+          title: const Text("Konfirmasi Selesai", style: TextStyle(fontSize: 20)),
           content:
               const Text("Apakah Anda yakin ingin mengakhiri sesi chat ini?"),
           actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Tidak"),
+            ),
             TextButton(
               onPressed: () {
                 setState(() {
@@ -222,12 +228,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                 Navigator.of(context).pop();
               },
               child: const Text("Ya"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Tidak"),
             ),
           ],
         );
@@ -418,8 +418,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                               const SizedBox(height: 5),
                               Text(
                                 messages[index]['time'] ?? '',
-                                style: const TextStyle(
-                                    fontSize: 10, color: Colors.grey),
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.grey[800]),
                               ),
                             ],
                           ),

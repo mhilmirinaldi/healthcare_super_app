@@ -28,24 +28,24 @@ class FaskesPage extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  const Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Buat Janji Offline ',
                         style: TextStyle(fontSize: 20),
                       ),
-                      const Spacer(),
-                      SizedBox(
-                        height: 29,
-                        child: IconButton(
-                          padding: const EdgeInsets.only(top: 3),
-                          icon: const Icon(Icons.history, size: 24),
-                          onPressed: () {
-                            ref.read(routerProvider).pushNamed('detail_riwayat_page', extra: 'faskes');
-                          },
-                        ),
-                      ),
+                      // const Spacer(),
+                      // SizedBox(
+                      //   height: 29,
+                      //   child: IconButton(
+                      //     padding: const EdgeInsets.only(top: 3),
+                      //     icon: const Icon(Icons.history, size: 24),
+                      //     onPressed: () {
+                      //       ref.read(routerProvider).pushNamed('detail_riwayat_page', extra: 'faskes');
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   ),
                   const Divider(color: Colors.grey,),
@@ -73,7 +73,7 @@ class FaskesPage extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  verticalSpaces(18),
+                  verticalSpaces(14),
                   const Text('Fasilitas Kesehatan Terdekat',
                       style: TextStyle(fontSize: 18)),
                   listFaskes.maybeWhen(
