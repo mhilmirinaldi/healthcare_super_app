@@ -69,7 +69,7 @@ class _MainPageState extends ConsumerState<MainPage> {
               label: 'Buat Janji',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.history),
+              icon: Icon(Icons.medical_information),
               label: 'Riwayat',
             ),
             BottomNavigationBarItem(

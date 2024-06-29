@@ -9,7 +9,7 @@ Widget attachmentItem(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 40),
+          Icon(icon, size: 40, color: Colors.grey[700]),
           const SizedBox(height: 8),
           Text(label, textAlign: TextAlign.center, style: const TextStyle(fontSize: 13)),
         ],

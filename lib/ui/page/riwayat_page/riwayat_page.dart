@@ -86,7 +86,7 @@ class _RiwayatPageState extends ConsumerState<RiwayatPage> {
                     },
                     error: (error, stackTrace) =>
                         Center(child: Text("Error: $error")),
-                    loading: () => Center(child: CircularProgressIndicator()),
+                    loading: () => const Center(child: CircularProgressIndicator()),
                   )
                 ],
               ),

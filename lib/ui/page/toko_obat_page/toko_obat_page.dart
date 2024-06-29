@@ -36,10 +36,25 @@ class TokoObatPage extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Toko Obat',
-                          style: TextStyle(fontSize: 20),
+                        Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Toko Obat',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        height: 29,
+                        child: IconButton(
+                          padding: const EdgeInsets.only(top: 3),
+                          icon: const Icon(Icons.history, size: 24),
+                          onPressed: () {
+                          },
                         ),
+                      ),
+                    ],
+                  ),
                         const Divider(
                           color: Colors.grey,
                         ),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/ui/extension/constant.dart';
+import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
 import 'package:super_app_telemedicine/ui/misc/colors.dart';
-import 'package:super_app_telemedicine/ui/provider/faskes/list_rekomendasi_faskes_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
 class TransaksiCard extends ConsumerStatefulWidget {
@@ -18,11 +18,23 @@ class TransaksiCard extends ConsumerStatefulWidget {
 class _TransaksiCardState extends ConsumerState<TransaksiCard> {
   @override
   Widget build(BuildContext context) {
-    final kategoriFaskes = ref.watch(listRekomendasiFaskesProvider);
+    // final kategoriFaskes = ref.watch(listRekomendasiFaskesProvider);
 
     return GestureDetector(
       onTap: () {
-        ref.read(routerProvider).pushNamed('');
+        if (widget.transaksi.kategori == 'chat') {
+          ref
+              .read(routerProvider)
+              .pushNamed('chat_room', extra: widget.transaksi);
+        } else if (widget.transaksi.kategori == 'faskes') {
+          ref
+              .read(routerProvider)
+              .pushNamed('detail_pesanan_faskes', extra: widget.transaksi);
+        } else {
+          ref
+              .read(routerProvider)
+              .pushNamed('detail_transaksi', extra: widget.transaksi);
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
@@ -56,7 +68,7 @@ class _TransaksiCardState extends ConsumerState<TransaksiCard> {
                                 ? Icons.add_location_rounded
                                 : Icons.medical_services,
                         color: primaryColor,
-                        size: 17,
+                        size: widget.transaksi.kategori == 'obat' ? 15 : 17,
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -78,8 +90,8 @@ class _TransaksiCardState extends ConsumerState<TransaksiCard> {
               Row(
                 children: [
                   Container(
-                    width: 70,
-                    height: 70,
+                    width: 75,
+                    height: 80,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.grey[200],
@@ -134,6 +146,11 @@ class _TransaksiCardState extends ConsumerState<TransaksiCard> {
                                 ),
                               ],
                             ),
+                            const SizedBox(height: 4),
+                            Text(
+                              widget.transaksi.totalHarga.toIDRCurrency(),
+                              style: const TextStyle(fontSize: 14),
+                            ),
                           ],
                         )
                       : widget.transaksi.kategori == 'faskes'
@@ -146,35 +163,36 @@ class _TransaksiCardState extends ConsumerState<TransaksiCard> {
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500),
                                 ),
-                                kategoriFaskes.when(
-                                  data: (faskes) {
-                                    if (faskes.isEmpty) {
-                                      return const Center(
-                                          child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: 220),
-                                              child: Text(
-                                                  'Tidak ada hasil ditemukan')));
-                                    } else{
-                                      // filter faskes by name
-                                      final faskesSort = faskes
-                                          .where((element) =>
-                                              element.nama ==
-                                              widget.transaksi.dokter!.tempatPraktik)
-                                          .toList();
-                                      return Text(
-                                        faskesSort[0].kategori,
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey[800]),
-                                      );
-                                    }
-                                  },
-                                  loading: () => const Center(
-                                      child: CircularProgressIndicator()),
-                                  error: (error, stack) =>
-                                      Center(child: Text('Error: $error')),
-                                ),
+                                // kategoriFaskes.when(
+                                //   data: (faskes) {
+                                //     if (faskes.isEmpty) {
+                                //       return const Center(
+                                //           child: Padding(
+                                //               padding:
+                                //                   EdgeInsets.only(top: 220),
+                                //               child: Text(
+                                //                   'Tidak ada hasil ditemukan')));
+                                //     } else {
+                                //       // filter faskes by name
+                                //       final faskesSort = faskes
+                                //           .where((element) =>
+                                //               element.nama ==
+                                //               widget.transaksi.dokter!
+                                //                   .tempatPraktik)
+                                //           .toList();
+                                //       return Text(
+                                //         faskesSort[0].kategori,
+                                //         style: TextStyle(
+                                //             fontSize: 14,
+                                //             color: Colors.grey[800]),
+                                //       );
+                                //     }
+                                //   },
+                                //   loading: () => const Center(
+                                //       child: CircularProgressIndicator()),
+                                //   error: (error, stack) =>
+                                //       Center(child: Text('Error: $error')),
+                                // ),
                                 Row(
                                   children: [
                                     Icon(Icons.date_range,
@@ -200,10 +218,46 @@ class _TransaksiCardState extends ConsumerState<TransaksiCard> {
                                         ),
                                         style: const TextStyle(fontSize: 13)),
                                   ],
-                                )
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  widget.transaksi.totalHarga.toIDRCurrency(),
+                                  style: const TextStyle(fontSize: 14),
+                                ),
                               ],
                             )
-                          : Text('data'),
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 247,
+                                  child: Text(
+                                    widget.transaksi.listObat!
+                                        .map((e) => e.nama)
+                                        .join(', '),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  // total all pcs of obat
+                                  '${widget.transaksi.listObat!
+                                          .map((e) => e.jumlah)
+                                          .reduce((a, b) => a! + b!)} pcs',
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.grey[800]),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  widget.transaksi.totalHarga.toIDRCurrency(),
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              ],
+                            ),
                 ],
               ),
             ],

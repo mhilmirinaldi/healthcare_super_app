@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/domain/entity/dokter.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/ui/extension/constant.dart';
-import 'package:super_app_telemedicine/ui/provider/faskes/search_faskes_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/faskes/list_rekomendasi_faskes_provider.dart';
 
 class CheckoutFaskesCard extends ConsumerStatefulWidget {
   final Dokter dokter;
@@ -18,19 +18,8 @@ class CheckoutFaskesCard extends ConsumerStatefulWidget {
 
 class _CheckoutFaskesCardState extends ConsumerState<CheckoutFaskesCard> {
   @override
-  void initState() {
-    super.initState();
-    // search faskes by dokter
-    Future.delayed(Duration.zero, () {
-      ref
-          .read(searchFaskesProvider.notifier)
-          .searchFaskes(widget.dokter.tempatPraktik);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final searchResults = ref.watch(searchFaskesProvider);
+    final kategoriFaskes = ref.watch(listRekomendasiFaskesProvider);
 
     return Container(
       padding: const EdgeInsets.only(bottom: 16),
@@ -120,18 +109,26 @@ class _CheckoutFaskesCardState extends ConsumerState<CheckoutFaskesCard> {
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w500),
                   ),
-                  searchResults.when(
-                    data: (dokters) {
-                      if (dokters.isEmpty) {
+                  kategoriFaskes.when(
+                    data: (faskes) {
+                      if (faskes.isEmpty) {
                         return const Center(
                             child: Padding(
                                 padding: EdgeInsets.only(top: 220),
                                 child: Text('Tidak ada hasil ditemukan')));
+                      } else {
+                        // filter faskes by name
+                        final faskesSort = faskes
+                            .where((element) =>
+                                element.nama ==
+                                widget.transaksi.dokter!.tempatPraktik)
+                            .toList();
+                        return Text(
+                          faskesSort[0].kategori,
+                          style:
+                              TextStyle(fontSize: 14, color: Colors.grey[800]),
+                        );
                       }
-                      return Text(
-                        dokters[0].kategori,
-                        style: TextStyle(fontSize: 14, color: Colors.grey[800]),
-                      );
                     },
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),

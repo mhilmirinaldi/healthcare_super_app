@@ -216,6 +216,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                 setState(() {
                   isChatEnabled = false;
                   duration = 0;
+                  isAttachmentVisible = false;
                 });
                 Navigator.of(context).pop();
               },
@@ -471,7 +472,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                         label: 'File',
                         onTap: _pickFile),
                     attachmentItem(
-                        icon: Icons.history,
+                        icon: Icons.medical_information,
                         label: 'Riwayat Rekam Medis',
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
