@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
+import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/attachment_item.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/rekam_medis_page.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
@@ -453,50 +454,34 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
               child: Container(
                 color: Colors.grey[200],
                 height: 300,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: GridView.count(
-                  crossAxisCount: 4,
+                  crossAxisCount: 3,
                   children: [
-                    _buildAttachmentOption(
+                    attachmentItem(
+                        icon: Icons.camera_alt,
+                        label: 'Kamera',
+                        onTap: _takeImageFromCamera),
+                    attachmentItem(
+                        icon: Icons.image,
+                        label: 'Galeri',
+                        onTap: _pickImageFromGallery),
+                    attachmentItem(
+                        icon: Icons.attach_file,
+                        label: 'File',
+                        onTap: _pickFile),
+                    attachmentItem(
                         icon: Icons.history,
-                        label: 'History',
+                        label: 'Riwayat Rekam Medis',
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => RekamMedisPage(),
                           ));
                         }),
-                    _buildAttachmentOption(
-                        icon: Icons.image,
-                        label: 'Gallery',
-                        onTap: _pickImageFromGallery),
-                    _buildAttachmentOption(
-                        icon: Icons.camera_alt,
-                        label: 'Camera',
-                        onTap: _takeImageFromCamera),
-                    _buildAttachmentOption(
-                        icon: Icons.attach_file,
-                        label: 'File',
-                        onTap: _pickFile),
                   ],
                 ),
               ),
             ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAttachmentOption(
-      {required IconData icon,
-      required String label,
-      required Function() onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 40),
-          const SizedBox(height: 10),
-          Text(label, textAlign: TextAlign.center),
         ],
       ),
     );
