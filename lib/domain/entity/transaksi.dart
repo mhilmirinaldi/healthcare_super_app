@@ -19,7 +19,7 @@ class Transaksi with _$Transaksi{
     Dokter? dokter,
     Faskes? faskes,
     String? diagnosa,
-    String? resep,
+    List<Obat>? resep,
     int? waktuJanji,
     String? status,
   }) = _Transaksi;

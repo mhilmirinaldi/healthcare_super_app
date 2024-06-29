@@ -7,4 +7,5 @@ abstract interface class ObatRepository{
   Future<Result<Obat>> getObatDetail({required String id});
   Future<Result<List<Obat>>> searchObat(String query);
   Future<Result<List<Obat>>> searchObatWithKategori(String query, String idKategori);
+  Future<Result<List<Obat>>> getResepObat();
 }

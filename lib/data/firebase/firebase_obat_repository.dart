@@ -150,4 +150,30 @@ Future<Result<List<Obat>>> getRekomendasiObat() async {
       return Result.failed(e.toString());
     }
   }
+
+  Future<Result<List<Obat>>> getResepObat() async {
+  firestore.CollectionReference<Map<String, dynamic>> documentReference =
+      _firebaseFirestore.collection('obat');
+
+  try {
+    var result = await documentReference.get();
+
+    if (result.docs.isNotEmpty) {
+      List<Obat> selectedObats = [];
+      List<int> indices = [0, 1];
+      
+      for (int index in indices) {
+        if (index < result.docs.length) {
+          selectedObats.add(Obat.fromJson(result.docs[index].data()));
+        }
+      }
+
+      return Result.success(selectedObats);
+    } else {
+      return const Result.success([]);
+    }
+  } catch (e) {
+    return Result.failed(e.toString());
+  }
+}
 }

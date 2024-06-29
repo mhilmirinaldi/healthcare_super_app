@@ -30,7 +30,7 @@ mixin _$Transaksi {
   Dokter? get dokter => throw _privateConstructorUsedError;
   Faskes? get faskes => throw _privateConstructorUsedError;
   String? get diagnosa => throw _privateConstructorUsedError;
-  String? get resep => throw _privateConstructorUsedError;
+  List<Obat>? get resep => throw _privateConstructorUsedError;
   int? get waktuJanji => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
 
@@ -56,7 +56,7 @@ abstract class $TransaksiCopyWith<$Res> {
       Dokter? dokter,
       Faskes? faskes,
       String? diagnosa,
-      String? resep,
+      List<Obat>? resep,
       int? waktuJanji,
       String? status});
 
@@ -135,7 +135,7 @@ class _$TransaksiCopyWithImpl<$Res, $Val extends Transaksi>
       resep: freezed == resep
           ? _value.resep
           : resep // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<Obat>?,
       waktuJanji: freezed == waktuJanji
           ? _value.waktuJanji
           : waktuJanji // ignore: cast_nullable_to_non_nullable
@@ -191,7 +191,7 @@ abstract class _$$TransaksiImplCopyWith<$Res>
       Dokter? dokter,
       Faskes? faskes,
       String? diagnosa,
-      String? resep,
+      List<Obat>? resep,
       int? waktuJanji,
       String? status});
 
@@ -268,9 +268,9 @@ class __$$TransaksiImplCopyWithImpl<$Res>
           : diagnosa // ignore: cast_nullable_to_non_nullable
               as String?,
       resep: freezed == resep
-          ? _value.resep
+          ? _value._resep
           : resep // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<Obat>?,
       waktuJanji: freezed == waktuJanji
           ? _value.waktuJanji
           : waktuJanji // ignore: cast_nullable_to_non_nullable
@@ -297,10 +297,11 @@ class _$TransaksiImpl implements _Transaksi {
       this.dokter,
       this.faskes,
       this.diagnosa,
-      this.resep,
+      final List<Obat>? resep,
       this.waktuJanji,
       this.status})
-      : _listObat = listObat;
+      : _listObat = listObat,
+        _resep = resep;
 
   factory _$TransaksiImpl.fromJson(Map<String, dynamic> json) =>
       _$$TransaksiImplFromJson(json);
@@ -333,8 +334,16 @@ class _$TransaksiImpl implements _Transaksi {
   final Faskes? faskes;
   @override
   final String? diagnosa;
+  final List<Obat>? _resep;
   @override
-  final String? resep;
+  List<Obat>? get resep {
+    final value = _resep;
+    if (value == null) return null;
+    if (_resep is EqualUnmodifiableListView) return _resep;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final int? waktuJanji;
   @override
@@ -364,7 +373,7 @@ class _$TransaksiImpl implements _Transaksi {
             (identical(other.faskes, faskes) || other.faskes == faskes) &&
             (identical(other.diagnosa, diagnosa) ||
                 other.diagnosa == diagnosa) &&
-            (identical(other.resep, resep) || other.resep == resep) &&
+            const DeepCollectionEquality().equals(other._resep, _resep) &&
             (identical(other.waktuJanji, waktuJanji) ||
                 other.waktuJanji == waktuJanji) &&
             (identical(other.status, status) || other.status == status));
@@ -384,7 +393,7 @@ class _$TransaksiImpl implements _Transaksi {
       dokter,
       faskes,
       diagnosa,
-      resep,
+      const DeepCollectionEquality().hash(_resep),
       waktuJanji,
       status);
 
@@ -414,7 +423,7 @@ abstract class _Transaksi implements Transaksi {
       final Dokter? dokter,
       final Faskes? faskes,
       final String? diagnosa,
-      final String? resep,
+      final List<Obat>? resep,
       final int? waktuJanji,
       final String? status}) = _$TransaksiImpl;
 
@@ -442,7 +451,7 @@ abstract class _Transaksi implements Transaksi {
   @override
   String? get diagnosa;
   @override
-  String? get resep;
+  List<Obat>? get resep;
   @override
   int? get waktuJanji;
   @override

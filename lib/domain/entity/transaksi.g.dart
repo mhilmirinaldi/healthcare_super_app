@@ -24,7 +24,9 @@ _$TransaksiImpl _$$TransaksiImplFromJson(Map<String, dynamic> json) =>
           ? null
           : Faskes.fromJson(json['faskes'] as Map<String, dynamic>),
       diagnosa: json['diagnosa'] as String?,
-      resep: json['resep'] as String?,
+      resep: (json['resep'] as List<dynamic>?)
+          ?.map((e) => Obat.fromJson(e as Map<String, dynamic>))
+          .toList(),
       waktuJanji: (json['waktuJanji'] as num?)?.toInt(),
       status: json['status'] as String?,
     );
