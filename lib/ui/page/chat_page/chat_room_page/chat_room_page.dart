@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/attachment_item.dart';
+import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/chat_rekam_medis_card.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/chat_rekam_medis_page.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
@@ -250,6 +251,20 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     );
   }
 
+  void addSelectedTransaksi(List<Transaksi> selectedTransaksi) {
+    setState(() {
+      String time = DateFormat('HH:mm').format(DateTime.now());
+      for (var transaksi in selectedTransaksi) {
+        messages.add({
+          'transaksi': transaksi,
+          'sender': 'user',
+          'time': time,
+        });
+      }
+    });
+    _scrollToBottom();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -333,6 +348,20 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                     controller: _scrollController,
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
+                      if (messages[index].containsKey('transaksi')){
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+                          child: ChatRekamMedisCard(
+                            transaksi: messages[index]['transaksi'],
+                            showCheckbox: false,
+                            onChanged: (bool? value) {
+                              if (value == true) {
+                              } else {}
+                              ;
+                            },
+                          ),
+                        );
+                      }
                       return Align(
                         alignment: messages[index]['sender'] == 'user'
                             ? Alignment.centerRight
@@ -383,6 +412,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                                     ),
                                   ],
                                 ),
+                              
                               const SizedBox(height: 5),
                               Text(
                                 messages[index]['time'] ?? '',
@@ -475,9 +505,13 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                         icon: Icons.medical_information,
                         label: 'Riwayat Rekam Medis',
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ChatRekamMedisPage(),
-                          ));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ChatRekamMedisPage(
+                                onSelectedTransaksi: addSelectedTransaksi,
+                              ),
+                            ),
+                          );
                         }),
                   ],
                 ),

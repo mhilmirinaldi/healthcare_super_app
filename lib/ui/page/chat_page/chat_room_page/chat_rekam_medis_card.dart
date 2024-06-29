@@ -7,8 +7,17 @@ import 'package:super_app_telemedicine/ui/provider/obat/list_resep_obat_provider
 
 class ChatRekamMedisCard extends ConsumerStatefulWidget {
   final Transaksi transaksi;
+  final bool showCheckbox;
+  final ValueChanged<bool?> onChanged;
+  final bool isSelected;
 
-  const ChatRekamMedisCard({super.key, required this.transaksi});
+  const ChatRekamMedisCard({
+    super.key,
+    required this.transaksi,
+    this.showCheckbox = true,
+    required this.onChanged,
+    this.isSelected = false,
+  });
 
   @override
   ConsumerState<ChatRekamMedisCard> createState() => _ChatRekamMedisCardState();
@@ -73,6 +82,11 @@ class _ChatRekamMedisCardState extends ConsumerState<ChatRekamMedisCard> {
                               widget.transaksi.waktuTransaksi!),
                         ),
                 ),
+                if (widget.showCheckbox)
+                  Checkbox(
+                    value: widget.isSelected,
+                    onChanged: widget.onChanged,
+                  ),
               ],
             ),
             const SizedBox(height: 6),
