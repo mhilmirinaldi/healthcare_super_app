@@ -202,7 +202,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                 Transaksi transaksi = Transaksi(
                   id: 'obat-$waktuTransaksi-${ref.read(userDataProvider).value!.id}',
                   idUser: ref.read(userDataProvider).value!.id,
-                  judul: 'Pembelian obat',
+                  judul: 'Pembelian Obat',
                   kategori: 'obat',
                   waktuTransaksi: waktuTransaksi,
                   totalHarga: (15000 + totalHargaBarang),

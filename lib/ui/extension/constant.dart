@@ -16,7 +16,12 @@ String formateTime(DateTime date) {
 }
 
 String formatTransaksi(DateTime date){
-  final DateFormat dateFormat = DateFormat('d MMMM');
+  final DateFormat dateFormat = DateFormat('d MMMM', 'id');
   final DateFormat timeFormat = DateFormat('HH:mm', 'id');
   return '${dateFormat.format(date)}, ${timeFormat.format(date)}';
+}
+
+String formatRiwayatChat(DateTime date){
+  final DateFormat dateFormat = DateFormat('dd/MM/y');
+  return dateFormat.format(date);
 }
