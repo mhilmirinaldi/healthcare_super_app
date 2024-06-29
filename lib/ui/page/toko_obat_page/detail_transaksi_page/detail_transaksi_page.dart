@@ -38,24 +38,24 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
   BitmapDescriptor? _destinationIcon;
   int _currentStep = 1;
   int _polylineIndex = 0;
-  late Timer _timer;
+  late Timer _timer = Timer(Duration.zero, () {});
 
   @override
   void initState() {
     super.initState();
     _setPolyline();
     // delay to simulate driver assignment
-    
-    if (widget.transaksi.status == 'selesai'){
+
+    if (widget.transaksi.status == 'selesai') {
       setState(() {
         _currentStep = 4;
       });
     } else {
       Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        _currentStep = 2;
+        setState(() {
+          _currentStep = 2;
+        });
       });
-    });
     }
   }
 
@@ -107,7 +107,7 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
         polylineCoordinates = result.points
             .map((point) => LatLng(point.latitude, point.longitude))
             .toList();
-        if(widget.transaksi.status == 'belum selesai'){
+        if (widget.transaksi.status == 'belum selesai') {
           _startSimulation();
         }
       });
@@ -143,18 +143,18 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
       });
       final transaksi = widget.transaksi.copyWith(status: 'selesai');
 
-        UpdateTransaksi updateTransaksi = ref.read(updateTransaksiProvider);
+      UpdateTransaksi updateTransaksi = ref.read(updateTransaksiProvider);
 
-        await updateTransaksi(UpdateTransaksiParam(transaksi: transaksi))
-            .then((result) {
-          switch (result) {
-            case Success(value: _):
-              ref.read(transaksiDataProvider.notifier).refreshTransaksiData();
-              ref.read(userDataProvider.notifier).refreshUserData();
-            case Failed(:final message):
-              context.showSnackBar(message);
-          }
-        });
+      await updateTransaksi(UpdateTransaksiParam(transaksi: transaksi))
+          .then((result) {
+        switch (result) {
+          case Success(value: _):
+            ref.read(transaksiDataProvider.notifier).refreshTransaksiData();
+            ref.read(userDataProvider.notifier).refreshUserData();
+          case Failed(:final message):
+            context.showSnackBar(message);
+        }
+      });
     }
   }
 
@@ -179,7 +179,7 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
               padding: const EdgeInsets.only(left: 8),
               child: IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () => ref.read(routerProvider).pushNamed('main'),
+                onPressed: () => ref.read(routerProvider).pop(),
               ),
             ),
             elevation: 2,
