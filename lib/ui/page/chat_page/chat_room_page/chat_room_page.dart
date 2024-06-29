@@ -31,11 +31,11 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   bool isChatEnabled = true;
   bool isAttachmentVisible = false;
   bool isKeyboardVisible = true;
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    startTimer(ref);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
     });
@@ -48,10 +48,24 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
         }
       });
     });
+
+    if (_timer == null) {
+      startTimer(ref);
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _focusNode.dispose();
+    _chatController.dispose();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   void startTimer(WidgetRef ref) {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final duration = ref.watch(durationProvider);
 
       if (mounted && duration > 0) {
@@ -63,7 +77,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
           isChatEnabled = false;
         });
         timer.cancel();
-      } else if (duration == 60 * 5) {
+      } else if (duration == 60 * 14) {
         showExtendTimePopup();
       }
     });
@@ -74,7 +88,10 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Pengingat Waktu", style: TextStyle(fontSize: 20),),
+          title: const Text(
+            "Pengingat Waktu",
+            style: TextStyle(fontSize: 20),
+          ),
           content: const Text(
               "Waktu konsultasi tersisa 5 menit lagi, apakah anda ingin menambah durasi waktu konsultasi?"),
           actions: [
@@ -208,7 +225,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Konfirmasi Selesai", style: TextStyle(fontSize: 20)),
+          title:
+              const Text("Konfirmasi Selesai", style: TextStyle(fontSize: 20)),
           content:
               const Text("Apakah Anda yakin ingin mengakhiri sesi chat ini?"),
           actions: [
@@ -220,9 +238,11 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
             ),
             TextButton(
               onPressed: () {
+                ref
+                    .read(durationProvider.notifier)
+                    .setDuration(0); // Ubah durasi menjadi 0
                 setState(() {
                   isChatEnabled = false;
-                  ref.read(durationProvider.notifier).setDuration(0);
                   isAttachmentVisible = false;
                 });
                 Navigator.of(context).pop();
@@ -284,7 +304,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
               padding: const EdgeInsets.only(left: 8),
               child: IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () => ref.read(routerProvider).pushNamed('main'),
+                onPressed: () => ref.read(routerProvider).goNamed('main', extra: 3)
               ),
             ),
             elevation: 2,

@@ -179,7 +179,7 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
               padding: const EdgeInsets.only(left: 8),
               child: IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () => ref.read(routerProvider).pop(),
+                onPressed: () => ref.read(routerProvider).goNamed('main', extra: 3)
               ),
             ),
             elevation: 2,
