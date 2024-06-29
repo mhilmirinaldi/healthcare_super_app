@@ -183,6 +183,7 @@ class _CheckoutChatPageState extends ConsumerState<CheckoutChatPage> {
                 final transaksi = widget.transaksi.copyWith(
                   waktuTransaksi: waktuTransaksi,
                   id: 'chat-$waktuTransaksi-${ref.read(userDataProvider).value!.id}',
+                  status: 'belum selesai',
                 );
 
                 CreateTransaksi createTransaksi =

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:super_app_telemedicine/data/repository/transaksi_repository.dart';
 import 'package:super_app_telemedicine/domain/entity/result.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
@@ -40,7 +41,7 @@ class FirebaseTransaksiRepository implements TransaksiRepository {
         var dokterJson = transaksi.dokter!.toJson();
         dokterJson.remove('review');
         dokterJson['review'] = reviewListJson;
-        
+
         var transaksiJson = transaksi.toJson();
         transaksiJson.remove('dokter');
 
@@ -77,6 +78,70 @@ class FirebaseTransaksiRepository implements TransaksiRepository {
       }
     } catch (e) {
       return Result.failed(e.toString());
+    }
+  }
+
+  @override
+  Future<Result<Transaksi>> updateTransaksi(
+      {required Transaksi transaksi}) async {
+    try {
+      DocumentReference<Map<String, dynamic>> documentReference =
+          _firebaseFirestore.doc('transaksi/${transaksi.id}');
+
+      if (transaksi.listObat != null) {
+        List<Map<String, dynamic>> obatListJson =
+            transaksi.listObat!.map((obat) {
+          var obatJson = obat.toJson();
+
+          return obatJson;
+        }).toList();
+
+        var transaksiJson = transaksi.toJson();
+        transaksiJson.remove('listObat');
+
+        transaksiJson['listObat'] = obatListJson;
+
+        await documentReference.update(transaksiJson);
+      }
+
+      if (transaksi.dokter != null) {
+        List<Map<String, dynamic>> reviewListJson =
+            transaksi.dokter!.review.map((review) => review.toJson()).toList();
+
+        var dokterJson = transaksi.dokter!.toJson();
+        dokterJson.remove('review');
+        dokterJson['review'] = reviewListJson;
+
+        var transaksiJson = transaksi.toJson();
+        transaksiJson.remove('dokter');
+
+        transaksiJson['dokter'] = dokterJson;
+
+        await documentReference.update(transaksiJson);
+      }
+
+      if (transaksi.listObat == null &&
+          transaksi.dokter == null &&
+          transaksi.faskes == null) {
+        await documentReference.update(transaksi.toJson());
+      }
+      
+
+      DocumentSnapshot<Map<String, dynamic>> result =
+          await documentReference.get();
+
+      if (result.exists) {
+        Transaksi updatedTransaksi = Transaksi.fromJson(result.data()!);
+        if (updatedTransaksi == transaksi) {
+          return Result.success(updatedTransaksi);
+        } else {
+          return const Result.failed('Failed to update transaksi');
+        }
+      } else {
+        return const Result.failed('Failed to update transaksi');
+      }
+    } on FirebaseException catch (e) {
+      return Result.failed(e.message ?? 'Failed to update transaksi');
     }
   }
 }

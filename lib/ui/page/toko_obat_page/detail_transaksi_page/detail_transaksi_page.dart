@@ -3,13 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:super_app_telemedicine/domain/entity/result.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:super_app_telemedicine/domain/usecase/update_transaksi/update_transaksi.dart';
+import 'package:super_app_telemedicine/domain/usecase/update_transaksi/update_transaksi_param.dart';
+import 'package:super_app_telemedicine/ui/extension/build_context_extension.dart';
 import 'package:super_app_telemedicine/ui/extension/constant.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
 import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/page/toko_obat_page/detail_transaksi_page/detail_transaksi_obat_card.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/usecase/update_transaksi_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
 class DetailTransaksiPage extends ConsumerStatefulWidget {
   final Transaksi transaksi;
@@ -38,11 +45,18 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
     super.initState();
     _setPolyline();
     // delay to simulate driver assignment
-    Future.delayed(const Duration(seconds: 1), () {
+    
+    if (widget.transaksi.status == 'selesai'){
+      setState(() {
+        _currentStep = 4;
+      });
+    } else {
+      Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         _currentStep = 2;
       });
     });
+    }
   }
 
   @override
@@ -93,7 +107,9 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
         polylineCoordinates = result.points
             .map((point) => LatLng(point.latitude, point.longitude))
             .toList();
-        _startSimulation();
+        if(widget.transaksi.status == 'belum selesai'){
+          _startSimulation();
+        }
       });
     }
   }
@@ -112,7 +128,7 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
     });
   }
 
-  void _updateDriverStep() {
+  void _updateDriverStep() async {
     LatLng currentPosition = polylineCoordinates[_polylineIndex];
     const double marginError = 50;
 
@@ -125,6 +141,20 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
       setState(() {
         _currentStep = 4;
       });
+      final transaksi = widget.transaksi.copyWith(status: 'selesai');
+
+        UpdateTransaksi updateTransaksi = ref.read(updateTransaksiProvider);
+
+        await updateTransaksi(UpdateTransaksiParam(transaksi: transaksi))
+            .then((result) {
+          switch (result) {
+            case Success(value: _):
+              ref.read(transaksiDataProvider.notifier).refreshTransaksiData();
+              ref.read(userDataProvider.notifier).refreshUserData();
+            case Failed(:final message):
+              context.showSnackBar(message);
+          }
+        });
     }
   }
 
@@ -232,7 +262,8 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
                 child: SingleChildScrollView(
                   controller: scrollController,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+                    padding:
+                        const EdgeInsets.only(left: 24, right: 24, bottom: 24),
                     child: Column(
                       children: [
                         const SizedBox(height: 4),

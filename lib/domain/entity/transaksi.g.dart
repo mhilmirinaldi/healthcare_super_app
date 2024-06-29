@@ -24,7 +24,9 @@ _$TransaksiImpl _$$TransaksiImplFromJson(Map<String, dynamic> json) =>
           ? null
           : Faskes.fromJson(json['faskes'] as Map<String, dynamic>),
       diagnosa: json['diagnosa'] as String?,
+      resep: json['resep'] as String?,
       waktuJanji: (json['waktuJanji'] as num?)?.toInt(),
+      status: json['status'] as String?,
     );
 
 Map<String, dynamic> _$$TransaksiImplToJson(_$TransaksiImpl instance) =>
@@ -39,5 +41,7 @@ Map<String, dynamic> _$$TransaksiImplToJson(_$TransaksiImpl instance) =>
       'dokter': instance.dokter,
       'faskes': instance.faskes,
       'diagnosa': instance.diagnosa,
+      'resep': instance.resep,
       'waktuJanji': instance.waktuJanji,
+      'status': instance.status,
     };

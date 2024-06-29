@@ -184,6 +184,7 @@ class _CheckoutFaskesPageState extends ConsumerState<CheckoutFaskesPage> {
                 final transaksi = widget.transaksi.copyWith(
                   waktuTransaksi: waktuTransaksi,
                   id: 'faskes-$waktuTransaksi-${ref.read(userDataProvider).value!.id}',
+                  status: 'belum selesai',
                 );
 
                 CreateTransaksi createTransaksi =

@@ -19,7 +19,9 @@ class Transaksi with _$Transaksi{
     Dokter? dokter,
     Faskes? faskes,
     String? diagnosa,
+    String? resep,
     int? waktuJanji,
+    String? status,
   }) = _Transaksi;
 
   factory Transaksi.fromJson(Map<String, dynamic> json) => _$TransaksiFromJson(json);
