@@ -50,6 +50,7 @@ class TokoObatPage extends ConsumerWidget {
                           padding: const EdgeInsets.only(top: 3),
                           icon: const Icon(Icons.history, size: 24),
                           onPressed: () {
+                            ref.read(routerProvider).pushNamed('detail_riwayat_page', extra: 'obat');
                           },
                         ),
                       ),

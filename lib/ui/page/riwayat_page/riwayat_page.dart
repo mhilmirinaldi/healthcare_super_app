@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/ui/misc/methods.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/user_info.dart';
 import 'package:super_app_telemedicine/ui/page/riwayat_page/transaksi_card.dart';
-import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data_provider.dart';
 
 class RiwayatPage extends ConsumerStatefulWidget {
@@ -36,31 +35,31 @@ class _RiwayatPageState extends ConsumerState<RiwayatPage> {
                   const Divider(
                     color: Colors.grey,
                   ),
-                  verticalSpaces(14),
-                  GestureDetector(
-                    onTap: () {
-                      ref.read(routerProvider).pushNamed('search_page');
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.search, color: Colors.grey[500]),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Cari transaksi',
-                            style: TextStyle(color: Colors.grey[800]),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  verticalSpaces(8),
+                  // verticalSpaces(14),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     ref.read(routerProvider).pushNamed('search_page');
+                  //   },
+                  //   child: Container(
+                  //     padding: const EdgeInsets.symmetric(
+                  //         horizontal: 16, vertical: 8),
+                  //     decoration: BoxDecoration(
+                  //       color: Colors.grey[200],
+                  //       borderRadius: BorderRadius.circular(8),
+                  //     ),
+                  //     child: Row(
+                  //       children: [
+                  //         Icon(Icons.search, color: Colors.grey[500]),
+                  //         const SizedBox(width: 8),
+                  //         Text(
+                  //           'Cari transaksi',
+                  //           style: TextStyle(color: Colors.grey[800]),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  verticalSpaces(4),
                   listTransaksi.when(
                     data: (transaksis) {
                       if (transaksis.isEmpty) {
