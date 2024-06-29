@@ -11,6 +11,7 @@ import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/attachme
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/chat_rekam_medis_card.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/chat_rekam_medis_page.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/user_data/additional_duration_provider.dart';
 
 class ChatRoomPage extends ConsumerStatefulWidget {
   final Transaksi transaksi;
@@ -29,13 +30,12 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   List<Map<String, dynamic>> messages = [];
   bool isChatEnabled = true;
   bool isAttachmentVisible = false;
-  int duration = 30 * 60; // Duration in seconds
   bool isKeyboardVisible = true;
 
   @override
   void initState() {
     super.initState();
-    startTimer();
+    startTimer(ref);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
     });
@@ -50,22 +50,21 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     });
   }
 
-  void startTimer() {
+  void startTimer(WidgetRef ref) {
     Timer.periodic(const Duration(seconds: 1), (timer) {
+      final duration = ref.watch(durationProvider);
+
       if (mounted && duration > 0) {
-        setState(() {
-          duration -= 1;
-        });
+        ref.read(durationProvider.notifier).extendDuration(-1);
       }
+
       if (duration == 0) {
         setState(() {
           isChatEnabled = false;
         });
         timer.cancel();
-      } else if (duration == 420) {
+      } else if (duration == 290) {
         showExtendTimePopup();
-      } else if (duration == 300) {
-        showReminderPopup();
       }
     });
   }
@@ -75,14 +74,14 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Extend Time"),
-          content: const Text("Do you want to extend the chat duration?"),
+          title: const Text("Pengingat Waktu"),
+          content: const Text(
+              "Waktu konsultasi tersisa 5 menit lagi, apakah anda ingin menambah durasi waktu konsultasi?"),
           actions: [
             TextButton(
               onPressed: () {
-                setState(() {
-                  duration += 600; // Extend time by 10 minutes
-                });
+                ref.read(routerProvider).pushNamed('checkout_additional_time',
+                    extra: widget.transaksi);
                 Navigator.of(context).pop();
               },
               child: const Text("Yes"),
@@ -104,8 +103,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Time Reminder"),
-          content: const Text("5 minutes remaining"),
+          title: const Text("Pengingat Waktu"),
+          content: const Text(
+              "Waktu konsultasi tersisa 5 menit lagi, Apakah anda ingin menambah durasi waktu konsultasi"),
           actions: [
             TextButton(
               onPressed: () {
@@ -216,7 +216,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
               onPressed: () {
                 setState(() {
                   isChatEnabled = false;
-                  duration = 0;
+                  ref.read(durationProvider.notifier).setDuration(0);
                   isAttachmentVisible = false;
                 });
                 Navigator.of(context).pop();
@@ -267,6 +267,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
 
   @override
   Widget build(BuildContext context) {
+    final duration = ref.watch(durationProvider);
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -348,9 +350,10 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                     controller: _scrollController,
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
-                      if (messages[index].containsKey('transaksi')){
+                      if (messages[index].containsKey('transaksi')) {
                         return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 12),
                           child: ChatRekamMedisCard(
                             transaksi: messages[index]['transaksi'],
                             showCheckbox: false,
@@ -412,7 +415,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                                     ),
                                   ],
                                 ),
-                              
                               const SizedBox(height: 5),
                               Text(
                                 messages[index]['time'] ?? '',
