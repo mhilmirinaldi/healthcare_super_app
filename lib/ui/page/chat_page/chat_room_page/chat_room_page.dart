@@ -41,6 +41,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     _focusNode.addListener(() {
       setState(() {
         isKeyboardVisible = _focusNode.hasFocus;
+        if (isKeyboardVisible) {
+          isAttachmentVisible = false;
+        }
       });
     });
   }
@@ -369,7 +372,10 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                                         color: Colors.white),
                                     const SizedBox(height: 5),
                                     Text(
-                                      messages[index]['file'].path,
+                                      messages[index]['file']
+                                          .path
+                                          .split('/')
+                                          .last,
                                       style:
                                           const TextStyle(color: Colors.white),
                                     ),
@@ -391,8 +397,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                 if (isChatEnabled)
                   Padding(
                     padding: EdgeInsets.only(
+                        top: 6.0,
                         bottom: isAttachmentVisible
-                            ? 200.0
+                            ? 300
                             : isKeyboardVisible
                                 ? 0
                                 : 24.0),
@@ -426,9 +433,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                                     const BorderSide(color: Colors.grey),
                               ),
                             ),
-                            onSubmitted: (value) {
-                              sendMessage();
-                            },
+                            maxLines: null,
                             style: const TextStyle(fontSize: 14),
                           ),
                         ),
@@ -447,7 +452,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 color: Colors.grey[200],
-                height: 200,
+                height: 300,
                 child: GridView.count(
                   crossAxisCount: 4,
                   children: [
