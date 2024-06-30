@@ -160,7 +160,7 @@ Future<Result<List<Obat>>> getRekomendasiObat() async {
 
     if (result.docs.isNotEmpty) {
       List<Obat> selectedObats = [];
-      List<int> indices = [0, 1];
+      List<int> indices = [18, 19];
       
       for (int index in indices) {
         if (index < result.docs.length) {

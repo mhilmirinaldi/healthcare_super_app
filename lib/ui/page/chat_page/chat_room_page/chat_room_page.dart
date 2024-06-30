@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/attachment_item.dart';
+import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/catetan_dokter_card.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/chat_rekam_medis_card.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/chat_rekam_medis_page.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
@@ -246,9 +247,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       // Kirim resep obat
       setState(() {
         messages.add({
-          'text': 'Terima kasih atas konsultasinya.',
+          'catatan': 'test',
           'sender': 'doctor',
-          'time': time
+          'time': time,
         });
         _scrollToBottom();
       });
@@ -480,9 +481,15 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                             onChanged: (bool? value) {
                               if (value == true) {
                               } else {}
-                              ;
                             },
                           ),
+                        );
+                      }
+                      if (messages[index].containsKey('catatan')) {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 12),
+                          child: CatetanDokerCard(),
                         );
                       }
                       return Align(

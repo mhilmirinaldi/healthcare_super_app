@@ -10,6 +10,7 @@ import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/category_page/category_page.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/category_page/lainnya_page.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/chat_room_page.dart';
+import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/check_out_obat_chat.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/checkout_additional_time.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/check_out_chat_page/check_out_chat_page.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/detail_dokter_page/detail_dokter_page.dart';
@@ -157,4 +158,9 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(routes: [
           name: 'checkout_additional_time',
           builder: (context, state) =>
               CheckoutAdditionalTimePage(transaksi: state.extra as Transaksi)),
+      GoRoute(
+          path: '/checkout_obat_chat',
+          name: 'checkout_obat_chat',
+          builder: (context, state) =>
+              CheckOutObatChatPage(obat: state.extra as List<Obat>)),
     ], initialLocation: '/login', debugLogDiagnostics: false);
