@@ -52,6 +52,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     if (_timer == null) {
       startTimer(ref);
     }
+
+    addInitialMessage();
   }
 
   @override
@@ -77,7 +79,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
           isChatEnabled = false;
         });
         timer.cancel();
-      } else if (duration == 60 * 14) {
+      } else if (duration == 60 * 5) {
         showExtendTimePopup();
       }
     });
@@ -143,16 +145,114 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       String time = DateFormat('HH:mm').format(DateTime.now());
       messages
           .add({'text': _chatController.text, 'sender': 'user', 'time': time});
-      if (_chatController.text.toLowerCase() == 'halo') {
+      _chatController.clear();
+    });
+
+    _scrollToBottom();
+    handleResponse();
+  }
+
+  Future<void> addInitialMessage() async {
+    String time = DateFormat('HH:mm').format(DateTime.now());
+    await Future.delayed(const Duration(seconds: 2));
+
+    setState(() {
+      messages.add({
+        'text':
+            'Halo, saya ${widget.transaksi.dokter!.nama} ada yang bisa saya bantu?',
+        'sender': 'doctor',
+        'time': time
+      });
+    });
+  }
+
+  Future<void> handleResponse() async {
+    String userMessage = messages.last['text'];
+    String time = DateFormat('HH:mm').format(DateTime.now());
+
+    await Future.delayed(const Duration(seconds: 15));
+
+    setState(() {
+      if (userMessage.toLowerCase().contains('gatal-gatal')) {
         messages.add({
-          'text': 'Ada yang bisa dibantu?',
+          'text': 'Sudah berapa lama Anda mengalami gejala gatal-gatal ini?',
+          'sender': 'doctor',
+          'time': time
+        });
+      } else if (userMessage.toLowerCase().contains('satu minggu')) {
+        messages.add({
+          'text':
+              'Apakah sebelumnya Anda pernah mengalami alergi atau kondisi kulit lainnya?',
+          'sender': 'doctor',
+          'time': time
+        });
+      } else if (userMessage.toLowerCase().contains('alergi makanan')) {
+        messages.add({
+          'text':
+              'Bisa tolong difotokan area yang gatal tersebut supaya saya bisa melihat kondisinya?',
+          'sender': 'doctor',
+          'time': time
+        });
+      } else if (messages.last.containsKey('image')) {
+        messages.add({
+          'text':
+              'Dari gambaran awal, kemungkinan besar ini adalah alergi. Apakah Anda sudah pernah konsultasi ke dokter terkait gatal-gatal yang mungkin pernah terjadi sebelumnya?',
+          'sender': 'doctor',
+          'time': time
+        });
+      } else if (messages.last.containsKey('transaksi')) {
+        messages.add({
+          'text':
+              'Dari catatan medis, terlihat bahwa Anda memiliki riwayat dermatitis kontak. Apakah ada perubahan produk perawatan kulit atau bahan yang sering Anda sentuh akhir-akhir ini?',
           'sender': 'doctor',
           'time': time
         });
       }
-      _chatController.clear();
+      _scrollToBottom();
     });
-    _scrollToBottom();
+
+    if (userMessage.toLowerCase().contains('sabun cuci piring')) {
+      setState(() {
+        messages.add({
+          'text':
+              'Kemungkinan besar, bahan kimia dalam sabun cuci piring tersebut dapat menyebabkan reaksi alergi pada kulit Anda yang sensitif. Saya sarankan Anda berhenti menggunakan sabun tersebut untuk sementara dan lihat apakah gejalanya berkurang.',
+          'sender': 'doctor',
+          'time': time
+        });
+        _scrollToBottom();
+      });
+      await Future.delayed(const Duration(seconds: 6));
+      setState(() {
+        messages.add({
+          'text': 'Adakah pertanyaan lain yang ingin Anda tanyakan?',
+          'sender': 'doctor',
+          'time': time
+        });
+        _scrollToBottom();
+      });
+    }
+
+    if (userMessage.toLowerCase().contains('terima kasih')) {
+      setState(() {
+        messages.add({
+          'text':
+              'Baik saya akan coba mengirim catetan medis dan obat yang diperlukan.',
+          'sender': 'doctor',
+          'time': time
+        });
+        _scrollToBottom();
+      });
+      await Future.delayed(const Duration(seconds: 8));
+      // Kirim resep obat
+      setState(() {
+        messages.add({
+          'text': 'Terima kasih atas konsultasinya.',
+          'sender': 'doctor',
+          'time': time
+        });
+        _scrollToBottom();
+      });
+    }
   }
 
   Future<void> _pickImageFromGallery() async {
@@ -303,9 +403,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
             leading: Padding(
               padding: const EdgeInsets.only(left: 8),
               child: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => ref.read(routerProvider).goNamed('main', extra: 3)
-              ),
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () =>
+                      ref.read(routerProvider).goNamed('main', extra: 3)),
             ),
             elevation: 2,
             backgroundColor: Colors.white,
