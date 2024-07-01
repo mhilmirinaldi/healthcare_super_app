@@ -256,7 +256,7 @@ class _CheckoutFaskesPageState extends ConsumerState<CheckoutFaskesPage> {
                           .refreshTransaksiData();
                       ref.read(userDataProvider.notifier).refreshUserData();
                       // PINDAH HALAMAN
-                      ref.read(routerProvider).pushNamed('main');
+                      ref.read(routerProvider).pushNamed('detail_pesanan_faskes', extra: transaksi);
 
                     case Failed(:final message):
                       context.showSnackBar(message);

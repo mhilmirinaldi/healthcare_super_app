@@ -107,7 +107,7 @@ class _ChatRekamMedisCardState extends ConsumerState<ChatRekamMedisCard> {
                             style: TextStyle(fontSize: 15),
                           ),
                           Text(
-                            'Demam, Flu, Sakit Kepala',
+                            'Alergi',
                             style: TextStyle(
                                 fontSize: 14, color: Colors.grey[800]),
                           ),

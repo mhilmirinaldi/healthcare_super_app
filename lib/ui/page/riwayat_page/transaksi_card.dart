@@ -23,9 +23,9 @@ class _TransaksiCardState extends ConsumerState<TransaksiCard> {
     return GestureDetector(
       onTap: () {
         if (widget.transaksi.kategori == 'chat') {
-          ref
-              .read(routerProvider)
-              .pushNamed('chat_room', extra: widget.transaksi);
+          // ref
+          //     .read(routerProvider)
+          //     .pushNamed('chat_room', extra: widget.transaksi);
         } else if (widget.transaksi.kategori == 'faskes') {
           ref
               .read(routerProvider)

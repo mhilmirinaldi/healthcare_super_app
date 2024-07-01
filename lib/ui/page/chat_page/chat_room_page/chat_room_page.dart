@@ -155,7 +155,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
 
   Future<void> addInitialMessage() async {
     String time = DateFormat('HH:mm').format(DateTime.now());
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
     setState(() {
       messages.add({

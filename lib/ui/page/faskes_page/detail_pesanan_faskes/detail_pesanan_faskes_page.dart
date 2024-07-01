@@ -38,7 +38,7 @@ class _CheckoutFaskesPageState extends ConsumerState<DetailPesananFaskesPage> {
               padding: const EdgeInsets.only(left: 8),
               child: IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () => ref.read(routerProvider).pop(),
+                onPressed: () => ref.read(routerProvider).goNamed('main', extra: 3)
               ),
             ),
             elevation: 2,
@@ -171,7 +171,7 @@ class _CheckoutFaskesPageState extends ConsumerState<DetailPesananFaskesPage> {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Demam, Flu, Sakit Kepala',
+                  'Alergi',
                   style: TextStyle(fontSize: 15),
                 ),
                 const SizedBox(height: 16),

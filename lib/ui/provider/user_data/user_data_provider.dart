@@ -2,7 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:super_app_telemedicine/domain/entity/dokter.dart';
+import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/domain/entity/user.dart';
+import 'package:super_app_telemedicine/domain/usecase/create_transaksi/create_transaksi.dart';
+import 'package:super_app_telemedicine/domain/usecase/create_transaksi/create_transaksi_param.dart';
 import 'package:super_app_telemedicine/domain/usecase/get_logged_in_user/get_logged_in_user.dart';
 import 'package:super_app_telemedicine/domain/usecase/login/login.dart';
 import 'package:super_app_telemedicine/domain/usecase/register/register.dart';
@@ -18,6 +22,7 @@ import 'package:super_app_telemedicine/ui/provider/obat/list_kategori_obat_provi
 import 'package:super_app_telemedicine/ui/provider/obat/list_rekomendasi_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/obat/list_resep_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/usecase/create_transaksi_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/get_logged_in_user_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/login_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/logout_provider.dart';
@@ -76,6 +81,32 @@ class UserData extends _$UserData {
     if (result.isSuccess) {
       _getListDokterAndKategori();
       state = AsyncData(result.resultValue);
+      Transaksi transaksi = Transaksi(
+        id: 'faskes-1719724195-${result.resultValue!.id}',
+        idUser: result.resultValue!.id,
+        judul: 'Buat Janji Temu',
+        kategori: 'faskes',
+        totalHarga: 66000,
+        waktuTransaksi: 1719740889011,
+        waktuJanji: 1719815608341,
+        dokter: const Dokter(
+            id: '03',
+            nama: 'dr. Rahmat Ardiansyah',
+            idKategori: '01',
+            lamaKerja: 7,
+            alumnus: 'Universitas Airlangga',
+            tempatPraktik: 'Klinik Mitra Sehat',
+            ratingTotal: 5,
+            harga: 60000,
+            kategori: 'Dokter Umum',
+            nomorStr: '124',
+            jenisKelamin: 'Laki-laki'),
+        status: 'selesai',
+      );
+      CreateTransaksi createTransaksi = ref.read(createTransaksiProvider);
+
+      await createTransaksi(CreateTransaksiParam(transaksi: transaksi));
+
       await ref.read(transaksiDataProvider.notifier).refreshTransaksiData();
     } else {
       state =
@@ -108,10 +139,13 @@ class UserData extends _$UserData {
     }
   }
 
-  Future<void> uploadProfilePicture({required User user , required File imageFile}) async{
-    UploadProfilePicture uploadProfilePicture = ref.read(uploadProfilePictureProvider);
+  Future<void> uploadProfilePicture(
+      {required User user, required File imageFile}) async {
+    UploadProfilePicture uploadProfilePicture =
+        ref.read(uploadProfilePictureProvider);
 
-    var result = await uploadProfilePicture(UploadProfilePictureParam(user: user, imageFile: imageFile));
+    var result = await uploadProfilePicture(
+        UploadProfilePictureParam(user: user, imageFile: imageFile));
 
     if (result.isSuccess) {
       state = AsyncData(result.resultValue);

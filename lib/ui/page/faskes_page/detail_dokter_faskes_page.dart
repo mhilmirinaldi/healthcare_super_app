@@ -417,7 +417,7 @@ class _DetailDokterFaskesPageState
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
               child: Text(
-                'Pilih',
+                'Daftar',
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
