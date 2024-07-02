@@ -168,7 +168,12 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   }
 
   Future<void> handleResponse() async {
-    String userMessage = messages.last['text'];
+    if (messages.isEmpty) {
+      return;
+    }
+
+    String userMessage =
+        messages.last.containsKey('text') ? messages.last['text'] ?? '' : '';
     String time = DateFormat('HH:mm').format(DateTime.now());
 
     await Future.delayed(const Duration(seconds: 15));
@@ -268,6 +273,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
         });
       });
       _scrollToBottom();
+      handleResponse();
     }
   }
 
@@ -283,6 +289,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
         });
       });
       _scrollToBottom();
+      handleResponse();
     }
   }
 
@@ -299,6 +306,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
         });
       });
       _scrollToBottom();
+      handleResponse();
     }
   }
 
@@ -384,6 +392,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       }
     });
     _scrollToBottom();
+    handleResponse();
   }
 
   @override
@@ -487,8 +496,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                       }
                       if (messages[index].containsKey('catatan')) {
                         return const Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 12),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 12),
                           child: CatetanDokerCard(),
                         );
                       }
