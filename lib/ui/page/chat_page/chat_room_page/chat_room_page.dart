@@ -432,8 +432,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   @override
   Widget build(BuildContext context) {
     final duration = ref.watch(durationProvider);
-    log('isChatEnabled: $isChatEnabled');
-    log('duration: $duration');
 
     return Scaffold(
       appBar: PreferredSize(

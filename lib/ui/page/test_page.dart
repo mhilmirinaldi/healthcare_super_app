@@ -1,9 +1,29 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:super_app_telemedicine/data/firebase/firebase_dokter_repository.dart';
+import 'package:super_app_telemedicine/data/firebase/firebase_faskes_repository.dart';
 import 'package:super_app_telemedicine/data/firebase/firebase_kategori_dokter_repository.dart';
+import 'package:super_app_telemedicine/data/firebase/firebase_kategori_obat_repository.dart';
+import 'package:super_app_telemedicine/data/firebase/firebase_kategori_spesialis_repository.dart';
+import 'package:super_app_telemedicine/data/firebase/firebase_obat_repository.dart';
+import 'package:super_app_telemedicine/data/firebase/firebase_transaksi_repository.dart';
+import 'package:super_app_telemedicine/domain/entity/dokter.dart';
+import 'package:super_app_telemedicine/domain/entity/faskes.dart';
+import 'package:super_app_telemedicine/domain/entity/kategori_dokter.dart';
+import 'package:super_app_telemedicine/domain/entity/kategori_obat.dart';
+import 'package:super_app_telemedicine/domain/entity/kategori_spesialis.dart';
+import 'package:super_app_telemedicine/domain/entity/obat.dart';
+import 'package:super_app_telemedicine/domain/entity/review.dart';
+import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/domain/usecase/get_kategori_dokter/get_kategori_dokter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:super_app_telemedicine/domain/usecase/get_kategori_obat/get_kategori_obat.dart';
+import 'package:super_app_telemedicine/ui/misc/colors.dart';
+import 'package:super_app_telemedicine/ui/provider/dokter/list_kategori_dokter_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/obat/list_kategori_obat_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/usecase/get_kategori_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
 class TestPage extends ConsumerWidget {
@@ -17,21 +37,110 @@ class TestPage extends ConsumerWidget {
         ),
         body: Row(
           children: [
+            Image.asset('assets/category_spesialis/1.png'),
             Center(
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      bool paymentProcessed = false;
+
+                      return StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          Future.delayed(const Duration(seconds: 1), () {
+                            if (context.mounted) {
+                              setState(() {
+                                paymentProcessed = true;
+                              });
+                            }
+                          });
+
+                          return AlertDialog(
+                            surfaceTintColor: Colors.white,
+                            content: SizedBox(
+                              height: 125,
+                              
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: paymentProcessed
+                                    ? [
+                                        const SizedBox(
+                                          height: 50,
+                                          width: 50,
+                                          child: Icon(
+                                              Icons.check_circle_rounded,
+                                              color: primaryColor,
+                                              size: 55),
+                                        ),
+                                        const Text('Pembayaran berhasil'),
+                                      ]
+                                    : [
+                                        const SizedBox(
+                                            height: 50,
+                                            width: 50,
+                                            child: CircularProgressIndicator(
+                                                
+                                            )),
+                                        const Text('Memproses pembayaran...'),
+                                      ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  );
+
+                  await Future.delayed(const Duration(seconds: 2));
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
+
+                  // Transaksi transaksi = const Transaksi(
+                  //     id: 'tlx-02',
+                  //     idUser: 'sdsdsd',
+                  //     judul: 'Toko Obat',
+                  //     kategori: 'Toko Obat',
+                  //     waktuTransaksi: 123,
+                  //     totalHarga: 123,
+                  //     listObat: [
+                  //       Obat(id: 'id', idKategori: 'idKategori', nama: 'nama', harga: 232323, satuan: 'satuan', deskripsi: 'deskripsi', dosis: 'dosis', komposisi: 'komposisi', aturan: 'aturan', jumlah: 2),
+                  //       Obat(id: '23', idKategori: 'idKategori', nama: 'nama', harga: 232323, satuan: 'satuan', deskripsi: 'deskripsi', dosis: 'dosis', komposisi: 'komposisi', aturan: 'aturan', jumlah: 2),
+                  //     ]);
+
+                  // transaksiRepository.getUserTransaksis(idUser: 'sdsdsd').then((result) {
+                  //   if (result.isSuccess) {
+                  //     log(result.resultValue.toString());
+                  //   } else {
+                  //     log('gagal');
+                  //     log(result.errorMessage.toString());
+                  //   }
+                  // });
+
+                  // GetKategoriObat getKategoriObat = ref.watch(getKategoriObatProvider);
+                  // getKategoriObat(null).then((result){
+                  //   if (result.isSuccess){
+                  //     log(result.resultValue.toString());
+                  //   } else {
+                  //     log('gagal');
+                  //     log(result.errorMessage.toString());
+                  //   }
+                  // });
+
                   // TANPA PROVIDER
-                  GetKategoriDokter getKategoriDokter = GetKategoriDokter(
-                      kategoriDokterRepository:
-                          FirebaseKategoriDokterRepository());
-                  getKategoriDokter(null).then((result) {
-                    if (result.isSuccess) {
-                      log(result.resultValue.toString());
-                    } else {
-                      log('gagal');
-                      log(result.errorMessage.toString());
-                    }
-                  });
+                  // GetKategoriDokter getKategoriDokter = GetKategoriDokter(
+                  //     kategoriDokterRepository:
+                  //         FirebaseKategoriDokterRepository());
+                  // getKategoriDokter(null).then((result) {
+                  //   if (result.isSuccess) {
+                  //     log(result.resultValue.toString());
+                  //   } else {
+                  //     log('gagal');
+                  //     log(result.errorMessage.toString());
+                  //   }
+                  // });
 
                   // DENGAN PROVIDER
                   // Login login = ref.watch(loginProvider);
@@ -52,18 +161,6 @@ class TestPage extends ConsumerWidget {
                   // dokterRepository.getRekomendasiDokter().then((result){
                   //   if (result.isSuccess){
                   //     // RekomendasiDokter rekomendasiDokter = result.resultValue![0];
-                  //     log(result.resultValue.toString());
-                  //   } else {
-                  //     log('gagal');
-                  //     log(result.errorMessage.toString());
-                  //   }
-                  // });
-
-                  // FirebaseKategoriDokterRepository kategoriDokterRepository = FirebaseKategoriDokterRepository();
-                  // KategoriDokter kategoriDokter = const KategoriDokter(id: '8', name: 'Spesialis Kandungan');
-
-                  // kategoriDokterRepository.createKategoriDokter(kategoriDokter: kategoriDokter).then((result){
-                  //   if (result.isSuccess){
                   //     log(result.resultValue.toString());
                   //   } else {
                   //     log('gagal');
@@ -102,23 +199,7 @@ class TestPage extends ConsumerWidget {
                   //   }
                   // });
                 },
-                child: Text("Login"),
-              ),
-            ),
-            Center(
-              child: Column(
-                children: [
-                  Text(ref.watch(userDataProvider).when(
-                        data: (data) => data.toString(),
-                        error: (error, stackTrace) => '',
-                        loading: () => 'Loading...',
-                      )),
-                  ElevatedButton(
-                      onPressed: () {
-                        ref.read(userDataProvider.notifier).logout();
-                      },
-                      child: const Text('Logout')),
-                ],
+                child: const Text("Create"),
               ),
             ),
           ],
