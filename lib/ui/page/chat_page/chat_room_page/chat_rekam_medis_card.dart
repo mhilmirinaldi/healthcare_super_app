@@ -71,26 +71,27 @@ class _ChatRekamMedisCardState extends ConsumerState<ChatRekamMedisCard> {
                     ),
                   ],
                 ),
-                Text(
-                  widget.transaksi.kategori == 'faskes'
-                      ? formatRiwayatChat(
-                          DateTime.fromMillisecondsSinceEpoch(
-                              widget.transaksi.waktuJanji!),
-                        )
-                      : formatRiwayatChat(
-                          DateTime.fromMillisecondsSinceEpoch(
-                              widget.transaksi.waktuTransaksi!),
-                        ),
+                Row(
+                  children: [
+                    Text(
+                      widget.transaksi.kategori == 'faskes'
+                          ? formatRiwayatChat(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                  widget.transaksi.waktuJanji!),
+                            )
+                          : formatRiwayatChat(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                  widget.transaksi.waktuTransaksi!),
+                            ),
+                    ),
+                    const SizedBox(width: 10),
+                  ],
                 ),
-                if (widget.showCheckbox)
-                  Checkbox(
-                    value: widget.isSelected,
-                    onChanged: widget.onChanged,
-                  ),
               ],
             ),
             const SizedBox(height: 6),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 widget.transaksi.kategori == 'chat'
                     ? Column(
@@ -163,7 +164,7 @@ class _ChatRekamMedisCardState extends ConsumerState<ChatRekamMedisCard> {
                                 style: TextStyle(fontSize: 15),
                               ),
                               Text(
-                                'Demam, Flu, Sakit Kepala',
+                                'Alergi Makanan',
                                 style: TextStyle(
                                     fontSize: 14, color: Colors.grey[800]),
                               ),
@@ -219,7 +220,12 @@ class _ChatRekamMedisCardState extends ConsumerState<ChatRekamMedisCard> {
                                   )
                                   .toList(),
                             ],
-                          )
+                          ),
+                if (widget.showCheckbox)
+                  Checkbox(
+                    value: widget.isSelected,
+                    onChanged: widget.onChanged,
+                  ),
               ],
             ),
           ],

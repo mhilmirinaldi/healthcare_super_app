@@ -6,13 +6,21 @@ import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:super_app_telemedicine/domain/entity/result.dart';
 import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
+import 'package:super_app_telemedicine/domain/usecase/update_transaksi/update_transaksi.dart';
+import 'package:super_app_telemedicine/domain/usecase/update_transaksi/update_transaksi_param.dart';
+import 'package:super_app_telemedicine/ui/extension/build_context_extension.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/attachment_item.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/catetan_dokter_card.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/chat_rekam_medis_card.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/chat_rekam_medis_page.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/user_data/additional_duration_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
+
+import '../../../provider/usecase/update_transaksi_provider.dart';
 
 class ChatRoomPage extends ConsumerStatefulWidget {
   final Transaksi transaksi;
@@ -346,13 +354,31 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
               child: const Text("Tidak"),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 ref
                     .read(durationProvider.notifier)
                     .setDuration(0); // Ubah durasi menjadi 0
                 setState(() {
                   isChatEnabled = false;
                   isAttachmentVisible = false;
+                });
+                final transaksi = widget.transaksi.copyWith(status: 'selesai');
+
+                UpdateTransaksi updateTransaksi =
+                    ref.read(updateTransaksiProvider);
+
+                await updateTransaksi(
+                        UpdateTransaksiParam(transaksi: transaksi))
+                    .then((result) {
+                  switch (result) {
+                    case Success(value: _):
+                      ref
+                          .read(transaksiDataProvider.notifier)
+                          .refreshTransaksiData();
+                      ref.read(userDataProvider.notifier).refreshUserData();
+                    case Failed(:final message):
+                      context.showSnackBar(message);
+                  }
                 });
                 Navigator.of(context).pop();
               },
