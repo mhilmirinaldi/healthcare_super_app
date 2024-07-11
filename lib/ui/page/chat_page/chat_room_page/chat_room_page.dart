@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
@@ -56,6 +58,10 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
           isAttachmentVisible = false;
         }
       });
+    });
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      ref.read(durationProvider.notifier).resetDuration();
     });
 
     if (_timer == null) {
@@ -185,6 +191,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     String time = DateFormat('HH:mm').format(DateTime.now());
 
     await Future.delayed(const Duration(seconds: 15));
+
+    if(!mounted) return;
 
     setState(() {
       if (userMessage.toLowerCase().contains('gatal-gatal')) {
@@ -424,6 +432,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   @override
   Widget build(BuildContext context) {
     final duration = ref.watch(durationProvider);
+    log('isChatEnabled: $isChatEnabled');
+    log('duration: $duration');
 
     return Scaffold(
       appBar: PreferredSize(

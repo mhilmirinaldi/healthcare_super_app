@@ -10,7 +10,7 @@ class DurationController extends StateNotifier<int> {
   }
 
   void resetDuration() {
-    state = 60 * 5; // Reset to default duration
+    state = 60 * 10; // Reset to default duration
   }
 
   void setDuration(int seconds) {
