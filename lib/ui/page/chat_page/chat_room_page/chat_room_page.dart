@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -33,7 +32,8 @@ class ChatRoomPage extends ConsumerStatefulWidget {
   ConsumerState<ChatRoomPage> createState() => _ChatRoomPageState();
 }
 
-class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
+class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
+    with WidgetsBindingObserver {
   final TextEditingController _chatController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final FocusNode _focusNode = FocusNode();
@@ -47,6 +47,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this); // Add this line
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
     });
@@ -56,6 +58,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
         isKeyboardVisible = _focusNode.hasFocus;
         if (isKeyboardVisible) {
           isAttachmentVisible = false;
+          // _scrollToBottom();
         }
       });
     });
@@ -77,6 +80,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     _focusNode.dispose();
     _chatController.dispose();
     _scrollController.dispose();
+    WidgetsBinding.instance.removeObserver(this); // Add this line
     super.dispose();
   }
 
@@ -98,6 +102,13 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
         showExtendTimePopup();
       }
     });
+  }
+
+  @override
+  void didChangeMetrics() {
+    if (_focusNode.hasFocus) {
+      _scrollToBottom();
+    }
   }
 
   void showExtendTimePopup() {
@@ -192,7 +203,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
 
     await Future.delayed(const Duration(seconds: 15));
 
-    if(!mounted) return;
+    if (!mounted) return;
 
     setState(() {
       if (userMessage.toLowerCase().contains('gatal-gatal')) {
