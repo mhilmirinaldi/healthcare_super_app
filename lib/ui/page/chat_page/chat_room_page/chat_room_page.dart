@@ -521,92 +521,102 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
                         'Durasi waktu: ${duration ~/ 60}:${(duration % 60).toString().padLeft(2, '0')}'),
                   ),
                 Expanded(
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      if (messages[index].containsKey('transaksi')) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 12),
-                          child: ChatRekamMedisCard(
-                            transaksi: messages[index]['transaksi'],
-                            showCheckbox: false,
-                            onChanged: (bool? value) {
-                              if (value == true) {
-                              } else {}
-                            },
-                          ),
-                        );
-                      }
-                      if (messages[index].containsKey('catatan')) {
-                        return const Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 12),
-                          child: CatetanDokerCard(),
-                        );
-                      }
-                      return Align(
-                        alignment: messages[index]['sender'] == 'user'
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        child: Container(
-                          constraints: BoxConstraints(
-                              maxWidth:
-                                  MediaQuery.of(context).size.width * 0.6),
-                          padding: const EdgeInsets.all(10),
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10),
-                          decoration: BoxDecoration(
-                            color: messages[index]['sender'] == 'user'
-                                ? Colors.blue[100]
-                                : Colors.grey[300],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (messages[index].containsKey('text'))
-                                SelectableText(messages[index]['text'] ?? ''),
-                              if (messages[index].containsKey('image'))
-                                GestureDetector(
-                                  onTap: () => _openImage(
-                                      context, messages[index]['image']),
-                                  child: Image.file(
-                                    messages[index]['image'],
-                                    width: 150,
-                                    height: 150,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              if (messages[index].containsKey('file'))
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Icon(Icons.insert_drive_file,
-                                        color: Colors.white),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      messages[index]['file']
-                                          .path
-                                          .split('/')
-                                          .last,
-                                      style:
-                                          const TextStyle(color: Colors.white),
+                  child: GestureDetector(
+                    // onTap: () {
+                    //   setState(() {
+                    //     isAttachmentVisible = false;
+                    //     _focusNode.unfocus();
+                    //   });
+                    // },
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.only(bottom: 0),
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        if (messages[index].containsKey('transaksi')) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 12),
+                            child: ChatRekamMedisCard(
+                              transaksi: messages[index]['transaksi'],
+                              showCheckbox: false,
+                              onChanged: (bool? value) {
+                                if (value == true) {
+                                } else {}
+                              },
+                            ),
+                          );
+                        }
+                        if (messages[index].containsKey('catatan')) {
+                          return const Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 12),
+                            child: CatetanDokerCard(),
+                          );
+                        }
+                        return Align(
+                          alignment: messages[index]['sender'] == 'user'
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Container(
+                            constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * 0.6),
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            decoration: BoxDecoration(
+                              color: messages[index]['sender'] == 'user'
+                                  ? Colors.blue[100]
+                                  : Colors.grey[300],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (messages[index].containsKey('text'))
+                                  SelectableText(messages[index]['text'] ?? ''),
+                                if (messages[index].containsKey('image'))
+                                  GestureDetector(
+                                    onTap: () => _openImage(
+                                        context, messages[index]['image']),
+                                    child: Image.file(
+                                      messages[index]['image'],
+                                      width: 150,
+                                      height: 150,
+                                      fit: BoxFit.cover,
                                     ),
-                                  ],
+                                  ),
+                                if (messages[index].containsKey('file'))
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Icon(Icons.insert_drive_file,
+                                          color: Colors.white),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        messages[index]['file']
+                                            .path
+                                            .split('/')
+                                            .last,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  messages[index]['time'] ?? '',
+                                  style: TextStyle(
+                                      fontSize: 10, color: Colors.grey[800]),
                                 ),
-                              const SizedBox(height: 5),
-                              Text(
-                                messages[index]['time'] ?? '',
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.grey[800]),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
                 if (isChatEnabled)
