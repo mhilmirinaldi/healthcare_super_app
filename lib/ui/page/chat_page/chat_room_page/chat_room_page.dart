@@ -140,6 +140,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
           ],
         );
       },
+      barrierDismissible: false,
     );
   }
 
@@ -161,6 +162,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
           ],
         );
       },
+      barrierDismissible: false,
     );
   }
 
@@ -406,6 +408,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
           ],
         );
       },
+      barrierDismissible: false,
     );
   }
 
