@@ -127,7 +127,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text("No"),
+              child: const Text("Tidak"),
             ),
             TextButton(
               onPressed: () {
@@ -135,7 +135,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
                     extra: widget.transaksi);
                 Navigator.of(context).pop();
               },
-              child: const Text("Yes"),
+              child: const Text("Ya"),
             ),
           ],
         );
