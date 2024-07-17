@@ -4,6 +4,7 @@ import 'package:super_app_telemedicine/domain/entity/obat.dart';
 import 'package:super_app_telemedicine/ui/extension/int_extension.dart';
 import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/provider/cart/cart_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/obat/list_kategori_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
 class ObatCard extends ConsumerWidget {
@@ -15,6 +16,7 @@ class ObatCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cart = ref.watch(cartProvider);
     final itemCount = cart.getItemCount(obat.id);
+    final kategoriObat = ref.watch(listKategoriObatProvider);
 
     return GestureDetector(
       onTap: () {
@@ -23,7 +25,7 @@ class ObatCard extends ConsumerWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
         width: 155,
-        height: 290,
+        height: 292,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -69,10 +71,29 @@ class ObatCard extends ConsumerWidget {
                           fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(obat.satuan,
-                      style: TextStyle(fontSize: 14, color: Colors.grey[800])),
                   const SizedBox(height: 2),
+                  kategoriObat.when(
+                    data: (kategori) {
+                      if (kategori.isEmpty) {
+                        return const Text('Tidak ada hasil ditemukan');
+                      } else {
+                        // filter faskes by name
+                        final kategoriSort = kategori
+                            .where((element) => element.id == obat.idKategori)
+                            .toList();
+                        return Text(kategoriSort[0].nama,
+                            style: TextStyle(
+                                fontSize: 14, color: Colors.grey[800]));
+                      }
+                    },
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (error, stack) =>
+                        Center(child: Text('Error: $error')),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(obat.satuan,
+                      style: const TextStyle(fontSize: 12.8)),
                   Text(
                     obat.harga.toIDRCurrency(),
                     style: const TextStyle(

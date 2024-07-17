@@ -1,30 +1,8 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:super_app_telemedicine/data/firebase/firebase_dokter_repository.dart';
-import 'package:super_app_telemedicine/data/firebase/firebase_faskes_repository.dart';
-import 'package:super_app_telemedicine/data/firebase/firebase_kategori_dokter_repository.dart';
-import 'package:super_app_telemedicine/data/firebase/firebase_kategori_obat_repository.dart';
-import 'package:super_app_telemedicine/data/firebase/firebase_kategori_spesialis_repository.dart';
-import 'package:super_app_telemedicine/data/firebase/firebase_obat_repository.dart';
-import 'package:super_app_telemedicine/data/firebase/firebase_transaksi_repository.dart';
-import 'package:super_app_telemedicine/domain/entity/dokter.dart';
-import 'package:super_app_telemedicine/domain/entity/faskes.dart';
-import 'package:super_app_telemedicine/domain/entity/kategori_dokter.dart';
-import 'package:super_app_telemedicine/domain/entity/kategori_obat.dart';
-import 'package:super_app_telemedicine/domain/entity/kategori_spesialis.dart';
-import 'package:super_app_telemedicine/domain/entity/obat.dart';
-import 'package:super_app_telemedicine/domain/entity/review.dart';
-import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
-import 'package:super_app_telemedicine/domain/usecase/get_kategori_dokter/get_kategori_dokter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:super_app_telemedicine/domain/usecase/get_kategori_obat/get_kategori_obat.dart';
 import 'package:super_app_telemedicine/ui/misc/colors.dart';
-import 'package:super_app_telemedicine/ui/provider/dokter/list_kategori_dokter_provider.dart';
-import 'package:super_app_telemedicine/ui/provider/obat/list_kategori_obat_provider.dart';
-import 'package:super_app_telemedicine/ui/provider/usecase/get_kategori_obat_provider.dart';
-import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
 class TestPage extends ConsumerWidget {
   const TestPage({super.key});
