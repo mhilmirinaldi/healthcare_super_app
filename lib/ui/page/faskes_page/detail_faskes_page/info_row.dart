@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -61,7 +59,6 @@ class MapPreview extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                log('open map');
                 _openMap();
               },
             ),
@@ -94,14 +91,19 @@ Widget infoRow(String title, String value, double latitude, double longitude) {
             ),
             const SizedBox(height: 6),
             Row(
-              
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Text(
-                    value,
-                    style: TextStyle(fontSize: 14, color: Colors.grey[800]),
-                    softWrap: true,
-                    textAlign: TextAlign.justify,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 8),
+                      Text(
+                        value,
+                        style: TextStyle(fontSize: 14, color: Colors.grey[800]),
+                        softWrap: true,
+                        textAlign: TextAlign.justify,
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(width: 16),
