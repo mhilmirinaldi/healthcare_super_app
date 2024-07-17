@@ -193,7 +193,7 @@ class _CategoryObatPageState extends ConsumerState<CategoryObatPage> {
                   _filteredObats = _filterObats(_filteredObats);
                 });
               }
-            }, 130),
+            }, 145),
           ],
         ),
       ),
