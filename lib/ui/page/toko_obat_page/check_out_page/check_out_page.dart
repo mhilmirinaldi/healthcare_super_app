@@ -29,6 +29,8 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     final cart = ref.watch(cartProvider);
+    final totalItems = ref.watch(cartProvider).totalItems;
+
     final cartProviderWatch = ref.watch(cartProvider);
     final totalHargaBarang = cartProviderWatch.items.fold<int>(
         0,
@@ -71,245 +73,271 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
           ),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        children: [
-          Column(
-            children: cart.items.map((e) => CheckoutItemCard(obat: e)).toList(),
-          ),
-          const SizedBox(height: 2),
-          Container(
-            width: 380,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: Colors.grey[400]!),
+      body: totalItems == 0
+          ? const Center(
+              child: Column(
+                children: [
+                  const SizedBox(height: 250),
+                  Icon(Icons.shopping_cart, size: 100, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text('Silahkan tambahkan obat',
+                      style: TextStyle(fontSize: 16)),
+                ],
               ),
-            ),
-            child: const Text(
-              'Total Pembayaran',
-              style: TextStyle(fontSize: 17, color: Colors.black),
-            ),
-          ),
-          const SizedBox(height: 6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Biaya Barang',
-                style: TextStyle(fontSize: 15),
-              ),
-              Text(
-                totalHargaBarang.toIDRCurrency(),
-                style: const TextStyle(fontSize: 15),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Biaya Pengiriman',
-                style: TextStyle(fontSize: 15),
-              ),
-              Text(
-                9000.toIDRCurrency(),
-                style: const TextStyle(fontSize: 15),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Biaya Layanan',
-                style: TextStyle(fontSize: 15),
-              ),
-              Text(
-                6000.toIDRCurrency(),
-                style: const TextStyle(fontSize: 15),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Jumlah Pembayaran',
-                style: TextStyle(fontSize: 15),
-              ),
-              Text(
-                (15000 + totalHargaBarang).toIDRCurrency(),
-                style: const TextStyle(fontSize: 15),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Container(
-            width: 380,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: Colors.grey[400]!),
-              ),
-            ),
-            child: const Text(
-              'Metode Pembayaran',
-              style: TextStyle(fontSize: 17, color: Colors.black),
-            ),
-          ),
-          const SizedBox(height: 16),
-          // Pilih metode pembayaran
-          _buildPaymentMethodContainer(),
-        ],
-      ),
-      bottomNavigationBar: Container(
-        padding:
-            const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 24),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 6,
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+            )
+          : ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               children: [
-                const Text('Total Pembayaran'),
-                const SizedBox(height: 4),
-                Text(
-                  (15000 + totalHargaBarang).toIDRCurrency(),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                Column(
+                  children:
+                      cart.items.map((e) => CheckoutItemCard(obat: e)).toList(),
+                ),
+                const SizedBox(height: 2),
+                Container(
+                  width: 380,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey[400]!),
+                    ),
+                  ),
+                  child: const Text(
+                    'Total Pembayaran',
+                    style: TextStyle(fontSize: 17, color: Colors.black),
                   ),
                 ),
+                const SizedBox(height: 6),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Biaya Barang',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(
+                      totalHargaBarang.toIDRCurrency(),
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Biaya Pengiriman',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(
+                      9000.toIDRCurrency(),
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Biaya Layanan',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(
+                      6000.toIDRCurrency(),
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Jumlah Pembayaran',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(
+                      (15000 + totalHargaBarang).toIDRCurrency(),
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  width: 380,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey[400]!),
+                    ),
+                  ),
+                  child: const Text(
+                    'Metode Pembayaran',
+                    style: TextStyle(fontSize: 17, color: Colors.black),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Pilih metode pembayaran
+                _buildPaymentMethodContainer(),
               ],
             ),
-            ElevatedButton(
-              onPressed: () async {
-                int waktuTransaksi = DateTime.now().millisecondsSinceEpoch;
-
-                Transaksi transaksi = Transaksi(
-                  id: 'obat-$waktuTransaksi-${ref.read(userDataProvider).value!.id}',
-                  idUser: ref.read(userDataProvider).value!.id,
-                  judul: 'Pembelian Obat',
-                  kategori: 'obat',
-                  waktuTransaksi: waktuTransaksi,
-                  totalHarga: (15000 + totalHargaBarang),
-                  listObat: listObat,
-                  status: 'belum selesai',
-                );
-
-                CreateTransaksi createTransaksi =
-                    ref.read(createTransaksiProvider);
-
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    bool paymentProcessed = false;
-
-                    return StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
-                        Future.delayed(const Duration(seconds: 1), () {
-                          if (context.mounted) {
-                            setState(() {
-                              paymentProcessed = true;
-                            });
-                          }
-                        });
-
-                        return AlertDialog(
-                          surfaceTintColor: Colors.white,
-                          content: SizedBox(
-                            height: 125,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: paymentProcessed
-                                  ? [
-                                      const SizedBox(
-                                        height: 50,
-                                        width: 50,
-                                        child: Icon(Icons.check_circle_rounded,
-                                            color: primaryColor, size: 55),
-                                      ),
-                                      const Text('Pembayaran berhasil'),
-                                    ]
-                                  : [
-                                      const SizedBox(
-                                          height: 50,
-                                          width: 50,
-                                          child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                            primaryColor,
-                                          ))),
-                                      const Text('Memproses pembayaran...'),
-                                    ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                );
-
-                await Future.delayed(const Duration(seconds: 2));
-
-                await createTransaksi(
-                        CreateTransaksiParam(transaksi: transaksi))
-                    .then((result) {
-                  switch (result) {
-                    case Success(value: _):
-                      ref
-                          .read(routerProvider)
-                          .pushNamed('detail_transaksi', extra: transaksi);
-
-                      ref
-                          .read(transaksiDataProvider.notifier)
-                          .refreshTransaksiData();
-                      ref.read(userDataProvider.notifier).refreshUserData();
-                      ref.read(cartProvider.notifier).removeAllItem();
-
-                    case Failed(:final message):
-                      context.showSnackBar(message);
-                  }
-                });
-              },
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all(const Color(0xFFE1004E)),
-                shape: WidgetStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+      bottomNavigationBar: totalItems == 0
+          ? null
+          : Container(
+              padding: const EdgeInsets.only(
+                  left: 24, right: 24, top: 16, bottom: 24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 6,
                   ),
-                ),
-                padding: WidgetStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 24)),
-                minimumSize: WidgetStateProperty.all(const Size(0, 0)),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ],
               ),
-              child: const Text(
-                'Bayar',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text('Total Pembayaran'),
+                      const SizedBox(height: 4),
+                      Text(
+                        (15000 + totalHargaBarang).toIDRCurrency(),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      int waktuTransaksi =
+                          DateTime.now().millisecondsSinceEpoch;
+
+                      Transaksi transaksi = Transaksi(
+                        id: 'obat-$waktuTransaksi-${ref.read(userDataProvider).value!.id}',
+                        idUser: ref.read(userDataProvider).value!.id,
+                        judul: 'Pembelian Obat',
+                        kategori: 'obat',
+                        waktuTransaksi: waktuTransaksi,
+                        totalHarga: (15000 + totalHargaBarang),
+                        listObat: listObat,
+                        status: 'belum selesai',
+                      );
+
+                      CreateTransaksi createTransaksi =
+                          ref.read(createTransaksiProvider);
+
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          bool paymentProcessed = false;
+
+                          return StatefulBuilder(
+                            builder:
+                                (BuildContext context, StateSetter setState) {
+                              Future.delayed(const Duration(seconds: 1), () {
+                                if (context.mounted) {
+                                  setState(() {
+                                    paymentProcessed = true;
+                                  });
+                                }
+                              });
+
+                              return AlertDialog(
+                                surfaceTintColor: Colors.white,
+                                content: SizedBox(
+                                  height: 125,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: paymentProcessed
+                                        ? [
+                                            const SizedBox(
+                                              height: 50,
+                                              width: 50,
+                                              child: Icon(
+                                                  Icons.check_circle_rounded,
+                                                  color: primaryColor,
+                                                  size: 55),
+                                            ),
+                                            const Text('Pembayaran berhasil'),
+                                          ]
+                                        : [
+                                            const SizedBox(
+                                                height: 50,
+                                                width: 50,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        valueColor:
+                                                            AlwaysStoppedAnimation<
+                                                                Color>(
+                                                  primaryColor,
+                                                ))),
+                                            const Text(
+                                                'Memproses pembayaran...'),
+                                          ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+
+                      await Future.delayed(const Duration(seconds: 2));
+
+                      await createTransaksi(
+                              CreateTransaksiParam(transaksi: transaksi))
+                          .then((result) {
+                        switch (result) {
+                          case Success(value: _):
+                            ref.read(routerProvider).pushNamed(
+                                'detail_transaksi',
+                                extra: transaksi);
+
+                            ref
+                                .read(transaksiDataProvider.notifier)
+                                .refreshTransaksiData();
+                            ref
+                                .read(userDataProvider.notifier)
+                                .refreshUserData();
+                            ref.read(cartProvider.notifier).removeAllItem();
+
+                          case Failed(:final message):
+                            context.showSnackBar(message);
+                        }
+                      });
+                    },
+                    style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all(const Color(0xFFE1004E)),
+                      shape: WidgetStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      padding: WidgetStateProperty.all<EdgeInsets>(
+                          const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 24)),
+                      minimumSize: WidgetStateProperty.all(const Size(0, 0)),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: const Text(
+                      'Bayar',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 
