@@ -10,8 +10,8 @@ _$FaskesImpl _$$FaskesImplFromJson(Map<String, dynamic> json) => _$FaskesImpl(
       id: json['id'] as String,
       nama: json['nama'] as String,
       jarak: (json['jarak'] as num).toDouble(),
-      latitude: json['latitude'] as String,
-      longitude: json['longitude'] as String,
+      latitude: (json['latitude'] as num).toDouble(),
+      longitude: (json['longitude'] as num).toDouble(),
       alamat: json['alamat'] as String,
       kategori: json['kategori'] as String,
       listDokter: (json['listDokter'] as List<dynamic>?)

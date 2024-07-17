@@ -53,5 +53,11 @@
 	<string>We need your permission to use the camera to take pictures.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need your permission to access your photo library.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+  		<string>googlemaps</string>
+  		<string>maps</string>
+	</array>
+
 </dict>
 </plist>

@@ -23,8 +23,8 @@ mixin _$Faskes {
   String get id => throw _privateConstructorUsedError;
   String get nama => throw _privateConstructorUsedError;
   double get jarak => throw _privateConstructorUsedError;
-  String get latitude => throw _privateConstructorUsedError;
-  String get longitude => throw _privateConstructorUsedError;
+  double get latitude => throw _privateConstructorUsedError;
+  double get longitude => throw _privateConstructorUsedError;
   String get alamat => throw _privateConstructorUsedError;
   String get kategori => throw _privateConstructorUsedError;
   List<Dokter> get listDokter => throw _privateConstructorUsedError;
@@ -44,8 +44,8 @@ abstract class $FaskesCopyWith<$Res> {
       {String id,
       String nama,
       double jarak,
-      String latitude,
-      String longitude,
+      double latitude,
+      double longitude,
       String alamat,
       String kategori,
       List<Dokter> listDokter,
@@ -91,11 +91,11 @@ class _$FaskesCopyWithImpl<$Res, $Val extends Faskes>
       latitude: null == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
       longitude: null == longitude
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
       alamat: null == alamat
           ? _value.alamat
           : alamat // ignore: cast_nullable_to_non_nullable
@@ -127,8 +127,8 @@ abstract class _$$FaskesImplCopyWith<$Res> implements $FaskesCopyWith<$Res> {
       {String id,
       String nama,
       double jarak,
-      String latitude,
-      String longitude,
+      double latitude,
+      double longitude,
       String alamat,
       String kategori,
       List<Dokter> listDokter,
@@ -172,11 +172,11 @@ class __$$FaskesImplCopyWithImpl<$Res>
       latitude: null == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
       longitude: null == longitude
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
       alamat: null == alamat
           ? _value.alamat
           : alamat // ignore: cast_nullable_to_non_nullable
@@ -222,9 +222,9 @@ class _$FaskesImpl implements _Faskes {
   @override
   final double jarak;
   @override
-  final String latitude;
+  final double latitude;
   @override
-  final String longitude;
+  final double longitude;
   @override
   final String alamat;
   @override
@@ -299,8 +299,8 @@ abstract class _Faskes implements Faskes {
       {required final String id,
       required final String nama,
       required final double jarak,
-      required final String latitude,
-      required final String longitude,
+      required final double latitude,
+      required final double longitude,
       required final String alamat,
       required final String kategori,
       final List<Dokter> listDokter,
@@ -315,9 +315,9 @@ abstract class _Faskes implements Faskes {
   @override
   double get jarak;
   @override
-  String get latitude;
+  double get latitude;
   @override
-  String get longitude;
+  double get longitude;
   @override
   String get alamat;
   @override

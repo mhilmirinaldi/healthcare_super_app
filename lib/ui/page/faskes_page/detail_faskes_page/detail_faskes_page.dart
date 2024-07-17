@@ -32,7 +32,10 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
   }
 
   void _extractKategoriList() {
-    kategoriList = widget.faskes.listDokter.map((dokter) => dokter.kategori).toSet().toList();
+    kategoriList = widget.faskes.listDokter
+        .map((dokter) => dokter.kategori)
+        .toSet()
+        .toList();
     kategoriList.insert(0, 'Spesialis');
   }
 
@@ -140,7 +143,12 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
                 ],
               ),
               const SizedBox(height: 16),
-              infoRow('Alamat', widget.faskes.alamat, ''),
+              infoRow(
+                'Alamat',
+                widget.faskes.alamat,
+                widget.faskes.latitude,
+                widget.faskes.longitude,
+              ),
               const SizedBox(height: 8),
               Container(
                 width: 380,
@@ -169,7 +177,8 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
                       isExpanded: true,
                       underline: const SizedBox(),
                       value: selectedSpesialis,
-                      items: kategoriList.map<DropdownMenuItem<String>>((value) {
+                      items:
+                          kategoriList.map<DropdownMenuItem<String>>((value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(
@@ -265,7 +274,6 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
               ...filteredList.map((rev) => DokterFaskesCard(
                     dokter: rev,
                   )),
-
               const SizedBox(height: 8),
             ],
           ),
@@ -274,4 +282,3 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
     );
   }
 }
-
