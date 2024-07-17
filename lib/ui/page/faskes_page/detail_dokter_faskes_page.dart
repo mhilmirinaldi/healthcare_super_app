@@ -66,6 +66,12 @@ class _DetailDokterFaskesPageState
   int? selectedHour;
 
   @override
+  void initState() {
+    super.initState();
+    selectedDate = dates.first;
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Review> filteredReviews = getFilteredReviews();
 
@@ -334,6 +340,7 @@ class _DetailDokterFaskesPageState
         ],
       ),
       bottomNavigationBar: Container(
+        height: 87,
         padding:
             const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 24),
         decoration: BoxDecoration(
@@ -349,21 +356,30 @@ class _DetailDokterFaskesPageState
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text('Biaya Konsultasi'),
-                const SizedBox(height: 4),
-                Text(
-                  widget.dokter.harga.toIDRCurrency(),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+            selectedDate != null && selectedHour != null
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text('Biaya Konsultasi'),
+                      const SizedBox(height: 4),
+                      Text(
+                        widget.dokter.harga.toIDRCurrency(),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  )
+                : const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('Silahkan pilih waktu'),
+                      SizedBox(height: 4),
+                    ],
                   ),
-                ),
-              ],
-            ),
             ElevatedButton(
               onPressed: () {
                 if (selectedDate != null && selectedHour != null) {
