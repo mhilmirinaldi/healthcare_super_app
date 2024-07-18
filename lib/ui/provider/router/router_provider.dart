@@ -25,6 +25,7 @@ import 'package:super_app_telemedicine/ui/page/faskes_page/search_faskes_page/se
 import 'package:super_app_telemedicine/ui/page/login_page/login_page.dart';
 import 'package:super_app_telemedicine/ui/page/main_page/main_page.dart';
 import 'package:super_app_telemedicine/ui/page/register_page/register_page.dart';
+import 'package:super_app_telemedicine/ui/page/riwayat_page/detail_pesanan_chat.dart';
 import 'package:super_app_telemedicine/ui/page/riwayat_page/detail_riwayat_page.dart';
 import 'package:super_app_telemedicine/ui/page/test_page.dart';
 import 'package:super_app_telemedicine/ui/page/toko_obat_page/category_obat_page/category_obat_page.dart';
@@ -148,6 +149,11 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(routes: [
           name: 'detail_pesanan_faskes',
           builder: (context, state) =>
               DetailPesananFaskesPage(transaksi: state.extra as Transaksi)),
+      GoRoute(
+          path: '/detail_pesanan_chat',
+          name: 'detail_pesanan_chat',
+          builder: (context, state) =>
+              DetailPesananChatPage(transaksi: state.extra as Transaksi)),
       GoRoute(
           path: '/detail_riwayat_page',
           name: 'detail_riwayat_page',
