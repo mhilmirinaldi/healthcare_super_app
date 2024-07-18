@@ -12,6 +12,7 @@ import 'package:super_app_telemedicine/domain/entity/transaksi.dart';
 import 'package:super_app_telemedicine/domain/usecase/update_transaksi/update_transaksi.dart';
 import 'package:super_app_telemedicine/domain/usecase/update_transaksi/update_transaksi_param.dart';
 import 'package:super_app_telemedicine/ui/extension/build_context_extension.dart';
+import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/attachment_item.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/catetan_dokter_card.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/chat_room_page/chat_rekam_medis_card.dart';
@@ -98,8 +99,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
           isChatEnabled = false;
         });
         timer.cancel();
-      } else if (duration == 60 * 5) {
-        showExtendTimePopup();
+      } else if (duration == 60 * 3) {
+        showReminderTimePopup();
       }
     });
   }
@@ -111,7 +112,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
     }
   }
 
-  void showExtendTimePopup() {
+  void showReminderTimePopup() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -122,6 +123,39 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
           ),
           content: const Text(
               "Waktu konsultasi tersisa 5 menit lagi, apakah anda ingin menambah durasi waktu konsultasi?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Tidak"),
+            ),
+            TextButton(
+              onPressed: () {
+                ref.read(routerProvider).pushNamed('checkout_additional_time',
+                    extra: widget.transaksi);
+                Navigator.of(context).pop();
+              },
+              child: const Text("Ya"),
+            ),
+          ],
+        );
+      },
+      barrierDismissible: false,
+    );
+  }
+
+  void showExtendTimePopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            "Perpanjang Durasi Waktu",
+            style: TextStyle(fontSize: 20),
+          ),
+          content:
+              const Text("Apakah anda ingin menambah durasi waktu konsultasi?"),
           actions: [
             TextButton(
               onPressed: () {
@@ -520,8 +554,21 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
                 if (duration > 0)
                   Padding(
                     padding: const EdgeInsets.only(top: 1, bottom: 6),
-                    child: Text(
-                        'Durasi waktu: ${duration ~/ 60}:${(duration % 60).toString().padLeft(2, '0')}'),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                            'Durasi waktu: ${duration ~/ 60}:${(duration % 60).toString().padLeft(2, '0')}'),
+                        const SizedBox(width: 20),
+                        GestureDetector(
+                          onTap: showExtendTimePopup,
+                          child: const Text(
+                            'Tambah durasi',
+                            style: TextStyle(color: primaryColor),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 Expanded(
                   child: GestureDetector(
