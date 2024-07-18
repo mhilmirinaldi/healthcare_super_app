@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
@@ -62,13 +61,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
         isKeyboardVisible = _focusNode.hasFocus;
         if (isKeyboardVisible) {
           isAttachmentVisible = false;
-          // _scrollToBottom();
         }
       });
-    });
-
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      ref.read(durationProvider.notifier).resetDuration();
     });
 
     if (widget.transaksi.status == 'selesai') {
@@ -540,7 +534,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
             ),
             TextButton(
               onPressed: () async {
-                ref.read(durationProvider.notifier).setDuration(0);
+                ref.read(durationProvider.notifier).resetDuration();
                 setState(() {
                   isChatEnabled = false;
                   isAttachmentVisible = false;
