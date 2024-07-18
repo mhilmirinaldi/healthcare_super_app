@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +23,7 @@ import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/user_data/additional_duration_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
+import 'package:path/path.dart' as path;
 
 import '../../../provider/usecase/update_transaksi_provider.dart';
 
@@ -83,6 +86,18 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
     _scrollController.dispose();
     WidgetsBinding.instance.removeObserver(this); // Add this line
     super.dispose();
+  }
+
+  Future<void> fetchMessages() async {
+    final CollectionReference messagesCollection = FirebaseFirestore.instance
+        .collection('chats/${widget.transaksi.id}/messages');
+
+    QuerySnapshot querySnapshot = await messagesCollection.get();
+    setState(() {
+      messages = querySnapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    });
   }
 
   void startTimer(WidgetRef ref) {
@@ -200,16 +215,22 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
     );
   }
 
-  void sendMessage() {
+  void sendMessage() async {
     if (_chatController.text.isEmpty) return;
 
+    String time = DateFormat('HH:mm').format(DateTime.now());
+    Map<String, dynamic> message = {
+      'text': _chatController.text,
+      'sender': 'user',
+      'time': time
+    };
+
     setState(() {
-      String time = DateFormat('HH:mm').format(DateTime.now());
-      messages
-          .add({'text': _chatController.text, 'sender': 'user', 'time': time});
+      messages.add(message);
       _chatController.clear();
     });
 
+    await saveMessageToFirestore(message);
     _scrollToBottom();
     handleResponse();
   }
@@ -218,14 +239,18 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
     String time = DateFormat('HH:mm').format(DateTime.now());
     await Future.delayed(const Duration(seconds: 1));
 
+    Map<String, dynamic> message = {
+      'text':
+          'Halo, saya ${widget.transaksi.dokter!.nama} ada yang bisa saya bantu?',
+      'sender': 'doctor',
+      'time': time
+    };
+
     setState(() {
-      messages.add({
-        'text':
-            'Halo, saya ${widget.transaksi.dokter!.nama} ada yang bisa saya bantu?',
-        'sender': 'doctor',
-        'time': time
-      });
+      messages.add(message);
     });
+
+    await saveMessageToFirestore(message);
   }
 
   Future<void> handleResponse() async {
@@ -241,100 +266,151 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
 
     if (!mounted) return;
 
-    setState(() {
-      if (userMessage.toLowerCase().contains('gatal-gatal')) {
-        messages.add({
-          'text': 'Sudah berapa lama Anda mengalami gejala gatal-gatal ini?',
-          'sender': 'doctor',
-          'time': time
-        });
-      } else if (userMessage.toLowerCase().contains('satu minggu')) {
-        messages.add({
-          'text':
-              'Apakah sebelumnya Anda pernah mengalami alergi atau kondisi kulit lainnya?',
-          'sender': 'doctor',
-          'time': time
-        });
-      } else if (userMessage.toLowerCase().contains('alergi makanan')) {
-        messages.add({
-          'text':
-              'Bisa tolong difotokan area yang gatal tersebut supaya saya bisa melihat kondisinya?',
-          'sender': 'doctor',
-          'time': time
-        });
-      } else if (messages.last.containsKey('image')) {
-        messages.add({
-          'text':
-              'Dari gambaran awal, kemungkinan besar ini adalah alergi. Apakah Anda sudah pernah konsultasi ke dokter terkait gatal-gatal yang mungkin pernah terjadi sebelumnya?',
-          'sender': 'doctor',
-          'time': time
-        });
-      } else if (messages.last.containsKey('transaksi')) {
-        messages.add({
-          'text':
-              'Dari catatan medis, terlihat bahwa Anda memiliki riwayat dermatitis kontak. Apakah ada perubahan produk perawatan kulit atau bahan yang sering Anda sentuh akhir-akhir ini?',
-          'sender': 'doctor',
-          'time': time
-        });
-      }
+    // Menyimpan tugas asinkron di luar setState
+    Map<String, dynamic>? messageToAdd;
+    if (userMessage.toLowerCase().contains('gatal-gatal')) {
+      messageToAdd = {
+        'text': 'Sudah berapa lama Anda mengalami gejala gatal-gatal ini?',
+        'sender': 'doctor',
+        'time': time
+      };
+    } else if (userMessage.toLowerCase().contains('satu minggu')) {
+      messageToAdd = {
+        'text':
+            'Apakah sebelumnya Anda pernah mengalami alergi atau kondisi kulit lainnya?',
+        'sender': 'doctor',
+        'time': time
+      };
+    } else if (userMessage.toLowerCase().contains('alergi makanan')) {
+      messageToAdd = {
+        'text':
+            'Bisa tolong difotokan area yang gatal tersebut supaya saya bisa melihat kondisinya?',
+        'sender': 'doctor',
+        'time': time
+      };
+    } else if (messages.last.containsKey('image')) {
+      messageToAdd = {
+        'text':
+            'Dari gambaran awal, kemungkinan besar ini adalah alergi. Apakah Anda sudah pernah konsultasi ke dokter terkait gatal-gatal yang mungkin pernah terjadi sebelumnya?',
+        'sender': 'doctor',
+        'time': time
+      };
+    } else if (messages.last.containsKey('transaksi')) {
+      messageToAdd = {
+        'text':
+            'Dari catatan medis, terlihat bahwa Anda memiliki riwayat dermatitis kontak. Apakah ada perubahan produk perawatan kulit atau bahan yang sering Anda sentuh akhir-akhir ini?',
+        'sender': 'doctor',
+        'time': time
+      };
+    }
+
+    // Tambahkan pesan ke messages jika messageToAdd tidak null
+    if (messageToAdd != null) {
+      setState(() {
+        messages.add(messageToAdd!);
+      });
+      await saveMessageToFirestore(messageToAdd); // Simpan pesan ke Firestore
       _scrollToBottom();
-    });
+    }
 
+    // Delay dan pesan tambahan setelahnya
     if (userMessage.toLowerCase().contains('sabun cuci piring')) {
-      setState(() {
-        messages.add({
-          'text':
-              'Kemungkinan besar, bahan kimia dalam sabun cuci piring tersebut dapat menyebabkan reaksi alergi pada kulit Anda yang sensitif. Saya sarankan Anda berhenti menggunakan sabun tersebut untuk sementara dan lihat apakah gejalanya berkurang.',
-          'sender': 'doctor',
-          'time': time
-        });
-        _scrollToBottom();
-      });
       await Future.delayed(const Duration(seconds: 6));
+      Map<String, dynamic> message = {
+        'text':
+            'Kemungkinan besar, bahan kimia dalam sabun cuci piring tersebut dapat menyebabkan reaksi alergi pada kulit Anda yang sensitif. Saya sarankan Anda berhenti menggunakan sabun tersebut untuk sementara dan lihat apakah gejalanya berkurang.',
+        'sender': 'doctor',
+        'time': time
+      };
       setState(() {
-        messages.add({
-          'text': 'Adakah pertanyaan lain yang ingin Anda tanyakan?',
-          'sender': 'doctor',
-          'time': time
-        });
-        _scrollToBottom();
+        messages.add(message);
       });
+      await saveMessageToFirestore(message);
+      _scrollToBottom();
+
+      await Future.delayed(const Duration(seconds: 6));
+      Map<String, dynamic> message2 = {
+        'text': 'Adakah pertanyaan lain yang ingin Anda tanyakan?',
+        'sender': 'doctor',
+        'time': time
+      };
+      setState(() {
+        messages.add(message2);
+      });
+      await saveMessageToFirestore(message2);
+      _scrollToBottom();
     }
 
+    // Delay dan pesan tambahan setelahnya
     if (userMessage.toLowerCase().contains('terima kasih')) {
-      setState(() {
-        messages.add({
-          'text':
-              'Baik saya akan coba mengirim catetan medis dan obat yang diperlukan.',
-          'sender': 'doctor',
-          'time': time
-        });
-        _scrollToBottom();
-      });
       await Future.delayed(const Duration(seconds: 8));
-      // Kirim resep obat
+      Map<String, dynamic> message = {
+        'text':
+            'Baik saya akan coba mengirim catetan medis dan obat yang diperlukan.',
+        'sender': 'doctor',
+        'time': time
+      };
       setState(() {
-        messages.add({
-          'catatan': 'test',
-          'sender': 'doctor',
-          'time': time,
-        });
-        _scrollToBottom();
+        messages.add(message);
       });
+      await saveMessageToFirestore(message);
+      _scrollToBottom();
+      await Future.delayed(const Duration(seconds: 1));
+      // Kirim resep obat
+      Map<String, dynamic> message2 = {
+        'catatan': 'test',
+        'sender': 'doctor',
+        'time': time,
+      };
+      setState(() {
+        messages.add(message2);
+      });
+      await saveMessageToFirestore(message2);
+      _scrollToBottom();
     }
+  }
+
+  Future<String> uploadImage(File image) async {
+    String fileName = path.basename(image.path);
+    Reference storageRef =
+        FirebaseStorage.instance.ref().child('images/$fileName');
+    UploadTask uploadTask = storageRef.putFile(image);
+    TaskSnapshot taskSnapshot = await uploadTask;
+    return await taskSnapshot.ref.getDownloadURL();
+  }
+
+  Future<void> saveMessageToFirestore(Map<String, dynamic> message) async {
+    // add timestamp to message
+    message['timestamp'] = FieldValue.serverTimestamp();
+
+    await FirebaseFirestore.instance
+        .collection('chats')
+        .doc(widget.transaksi.id)
+        .collection('messages')
+        .add(message);
   }
 
   Future<void> _pickImageFromGallery() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
+      String time = DateFormat('HH:mm').format(DateTime.now());
+      File imageFile = File(image.path);
+      String imageUrl = await uploadImage(imageFile);
+
       setState(() {
-        String time = DateFormat('HH:mm').format(DateTime.now());
         messages.add({
-          'image': File(image.path),
+          'image': imageUrl,
           'sender': 'user',
           'time': time,
         });
       });
+
+      await saveMessageToFirestore({
+        'image': imageUrl,
+        'sender': 'user',
+        'time': time,
+      });
+
       _scrollToBottom();
       handleResponse();
     }
@@ -343,14 +419,23 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
   Future<void> _takeImageFromCamera() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
+      String time = DateFormat('HH:mm').format(DateTime.now());
+      File imageFile = File(image.path);
+      String imageUrl = await uploadImage(imageFile);
+
       setState(() {
-        String time = DateFormat('HH:mm').format(DateTime.now());
         messages.add({
-          'image': File(image.path),
+          'image': imageUrl,
           'sender': 'user',
           'time': time,
         });
       });
+      await saveMessageToFirestore({
+        'image': imageUrl,
+        'sender': 'user',
+        'time': time,
+      });
+
       _scrollToBottom();
       handleResponse();
     }
@@ -628,9 +713,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
                                   SelectableText(messages[index]['text'] ?? ''),
                                 if (messages[index].containsKey('image'))
                                   GestureDetector(
-                                    onTap: () => _openImage(
-                                        context, messages[index]['image']),
-                                    child: Image.file(
+                                    onTap: () => _openImage(context,
+                                        File(messages[index]['image'])),
+                                    child: Image.network(
                                       messages[index]['image'],
                                       width: 150,
                                       height: 150,
