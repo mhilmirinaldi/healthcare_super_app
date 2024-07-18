@@ -61,7 +61,7 @@ class FirebaseFaskesRepository implements FaskesRepository {
 
       if (result.docs.isNotEmpty) {
         List<Faskes> selectedFaskess = [];
-        List<int> indices = [2, 0, 1, 3, 9];
+        List<int> indices = [2, 0, 3, 1, 9];
 
         for (int index in indices) {
           if (index < result.docs.length) {
