@@ -174,7 +174,7 @@ class _CheckoutAdditionalTimePageState
             ),
             ElevatedButton(
               onPressed: () async {
-                ref.read(durationProvider.notifier).extendDuration(60 * 5);
+                ref.read(durationProvider.notifier).extendDuration(60 * 10);
 
                 showDialog(
                   context: context,

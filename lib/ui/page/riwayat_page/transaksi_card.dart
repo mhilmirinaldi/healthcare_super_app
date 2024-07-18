@@ -23,9 +23,18 @@ class _TransaksiCardState extends ConsumerState<TransaksiCard> {
     return GestureDetector(
       onTap: () {
         if (widget.transaksi.kategori == 'chat') {
-          ref
-              .read(routerProvider)
-              .pushNamed('detail_pesanan_chat', extra: widget.transaksi);
+          if (widget.transaksi.status == 'selesai') {
+            ref
+                .read(routerProvider)
+                .pushNamed('chat_room', extra: widget.transaksi);
+            // ref
+            //     .read(routerProvider)
+            //     .pushNamed('detail_pesanan_chat', extra: widget.transaksi);
+          } else {
+            ref
+                .read(routerProvider)
+                .pushNamed('chat_room', extra: widget.transaksi);
+          }
         } else if (widget.transaksi.kategori == 'faskes') {
           ref
               .read(routerProvider)
@@ -245,9 +254,7 @@ class _TransaksiCardState extends ConsumerState<TransaksiCard> {
                                 ),
                                 Text(
                                   // total all pcs of obat
-                                  '${widget.transaksi.listObat!
-                                          .map((e) => e.jumlah)
-                                          .reduce((a, b) => a! + b!)} pcs',
+                                  '${widget.transaksi.listObat!.map((e) => e.jumlah).reduce((a, b) => a! + b!)} pcs',
                                   style: TextStyle(
                                       fontSize: 14, color: Colors.grey[800]),
                                 ),

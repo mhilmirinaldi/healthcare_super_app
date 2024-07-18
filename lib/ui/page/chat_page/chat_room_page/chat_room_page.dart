@@ -51,7 +51,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this); // Add this line
+    WidgetsBinding.instance.addObserver(this);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
@@ -71,11 +71,18 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
       ref.read(durationProvider.notifier).resetDuration();
     });
 
-    if (_timer == null) {
-      startTimer(ref);
+    if (widget.transaksi.status == 'selesai') {
+      setState(() {
+        isChatEnabled = false;
+        isAttachmentVisible = false;
+      });
+    } else if (widget.transaksi.status != 'selesai') {
+      if (_timer == null) {
+        startTimer(ref);
+      }
     }
 
-    addInitialMessage();
+    fetchMessages();
   }
 
   @override
@@ -84,7 +91,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
     _focusNode.dispose();
     _chatController.dispose();
     _scrollController.dispose();
-    WidgetsBinding.instance.removeObserver(this); // Add this line
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -92,12 +99,19 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
     final CollectionReference messagesCollection = FirebaseFirestore.instance
         .collection('chats/${widget.transaksi.id}/messages');
 
-    QuerySnapshot querySnapshot = await messagesCollection.get();
+    QuerySnapshot querySnapshot =
+        await messagesCollection.orderBy('timestamp').get();
+
     setState(() {
       messages = querySnapshot.docs
           .map((doc) => doc.data() as Map<String, dynamic>)
           .toList();
     });
+
+    // Panggil addInitialMessage() jika tidak ada pesan
+    if (messages.isEmpty) {
+      addInitialMessage();
+    }
   }
 
   void startTimer(WidgetRef ref) {
@@ -137,7 +151,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
             style: TextStyle(fontSize: 20),
           ),
           content: const Text(
-              "Waktu konsultasi tersisa 5 menit lagi, apakah anda ingin menambah durasi waktu konsultasi?"),
+              "Waktu konsultasi tersisa 3 menit lagi, apakah anda ingin menambah durasi waktu konsultasi?"),
           actions: [
             TextButton(
               onPressed: () {
@@ -266,7 +280,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
 
     if (!mounted) return;
 
-    // Menyimpan tugas asinkron di luar setState
     Map<String, dynamic>? messageToAdd;
     if (userMessage.toLowerCase().contains('gatal-gatal')) {
       messageToAdd = {
@@ -304,16 +317,14 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
       };
     }
 
-    // Tambahkan pesan ke messages jika messageToAdd tidak null
     if (messageToAdd != null) {
       setState(() {
         messages.add(messageToAdd!);
       });
-      await saveMessageToFirestore(messageToAdd); // Simpan pesan ke Firestore
+      await saveMessageToFirestore(messageToAdd);
       _scrollToBottom();
     }
 
-    // Delay dan pesan tambahan setelahnya
     if (userMessage.toLowerCase().contains('sabun cuci piring')) {
       await Future.delayed(const Duration(seconds: 6));
       Map<String, dynamic> message = {
@@ -341,7 +352,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
       _scrollToBottom();
     }
 
-    // Delay dan pesan tambahan setelahnya
     if (userMessage.toLowerCase().contains('terima kasih')) {
       await Future.delayed(const Duration(seconds: 8));
       Map<String, dynamic> message = {
@@ -380,14 +390,49 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
   }
 
   Future<void> saveMessageToFirestore(Map<String, dynamic> message) async {
-    // add timestamp to message
-    message['timestamp'] = FieldValue.serverTimestamp();
+    if (message.containsKey('transaksi') && message['transaksi'] is Transaksi) {
+      Transaksi transaksi = message['transaksi'];
 
-    await FirebaseFirestore.instance
-        .collection('chats')
-        .doc(widget.transaksi.id)
-        .collection('messages')
-        .add(message);
+      Map<String, dynamic> transaksiJson = transaksi.toJson();
+
+      transaksiJson.remove('listObat');
+      transaksiJson.remove('dokter');
+
+      if (transaksi.listObat != null) {
+        List<Map<String, dynamic>> obatListJson =
+            transaksi.listObat!.map((obat) => obat.toJson()).toList();
+        transaksiJson['listObat'] = obatListJson;
+      }
+
+      if (transaksi.dokter != null) {
+        Map<String, dynamic> dokterJson = transaksi.dokter!.toJson();
+
+        dokterJson.remove('review');
+
+        List<Map<String, dynamic>> reviewListJson =
+            transaksi.dokter!.review.map((review) => review.toJson()).toList();
+        dokterJson['review'] = reviewListJson;
+
+        transaksiJson['dokter'] = dokterJson;
+      }
+
+      message['timestamp'] = FieldValue.serverTimestamp();
+
+      message['transaksi'] = transaksiJson;
+      await FirebaseFirestore.instance
+          .collection('chats')
+          .doc(widget.transaksi.id)
+          .collection('messages')
+          .add(message);
+    } else {
+      message['timestamp'] = FieldValue.serverTimestamp();
+
+      await FirebaseFirestore.instance
+          .collection('chats')
+          .doc(widget.transaksi.id)
+          .collection('messages')
+          .add(message);
+    }
   }
 
   Future<void> _pickImageFromGallery() async {
@@ -495,9 +540,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
             ),
             TextButton(
               onPressed: () async {
-                ref
-                    .read(durationProvider.notifier)
-                    .setDuration(0); // Ubah durasi menjadi 0
+                ref.read(durationProvider.notifier).setDuration(0);
                 setState(() {
                   isChatEnabled = false;
                   isAttachmentVisible = false;
@@ -531,7 +574,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
     );
   }
 
-  void _openImage(BuildContext context, File imageFile) {
+  void _openImage(BuildContext context, String imageUrl) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -539,7 +582,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
           appBar: AppBar(),
           body: Center(
             child: PhotoView(
-              imageProvider: FileImage(imageFile),
+              imageProvider: NetworkImage(imageUrl),
             ),
           ),
         ),
@@ -551,11 +594,13 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
     setState(() {
       String time = DateFormat('HH:mm').format(DateTime.now());
       for (var transaksi in selectedTransaksi) {
-        messages.add({
+        Map<String, dynamic> message = {
           'transaksi': transaksi,
           'sender': 'user',
           'time': time,
-        });
+        };
+        messages.add(message);
+        saveMessageToFirestore(message);
       }
     });
     _scrollToBottom();
@@ -636,7 +681,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
             padding: const EdgeInsets.all(8),
             child: Column(
               children: [
-                if (duration > 0)
+                if (duration > 0 && isChatEnabled)
                   Padding(
                     padding: const EdgeInsets.only(top: 1, bottom: 6),
                     child: Row(
@@ -669,11 +714,14 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
                         if (messages[index].containsKey('transaksi')) {
+                          final transaksiJson = messages[index]['transaksi'];
+                          final transaksi = Transaksi.fromJson(transaksiJson);
+
                           return Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 12),
                             child: ChatRekamMedisCard(
-                              transaksi: messages[index]['transaksi'],
+                              transaksi: transaksi,
                               showCheckbox: false,
                               onChanged: (bool? value) {
                                 if (value == true) {
@@ -682,6 +730,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
                             ),
                           );
                         }
+
                         if (messages[index].containsKey('catatan')) {
                           return const Padding(
                             padding: EdgeInsets.symmetric(
@@ -713,8 +762,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
                                   SelectableText(messages[index]['text'] ?? ''),
                                 if (messages[index].containsKey('image'))
                                   GestureDetector(
-                                    onTap: () => _openImage(context,
-                                        File(messages[index]['image'])),
+                                    onTap: () => _openImage(
+                                        context, messages[index]['image']),
                                     child: Image.network(
                                       messages[index]['image'],
                                       width: 150,
