@@ -122,7 +122,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
           isChatEnabled = false;
         });
         timer.cancel();
-      } else if (duration == 60 * 3) {
+      } else if (duration == 60 * 5) {
         showReminderTimePopup();
       }
     });
@@ -145,7 +145,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
             style: TextStyle(fontSize: 20),
           ),
           content: const Text(
-              "Waktu konsultasi tersisa 3 menit lagi, apakah anda ingin menambah durasi waktu konsultasi?"),
+              "Waktu konsultasi tersisa 5 menit lagi, apakah anda ingin menambah durasi waktu konsultasi?"),
           actions: [
             TextButton(
               onPressed: () {

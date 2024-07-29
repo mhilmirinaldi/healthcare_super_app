@@ -77,17 +77,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                     )),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Forgot Password?',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                verticalSpaces(10),
+                // Align(
+                //   alignment: Alignment.centerRight,
+                //   child: TextButton(
+                //     onPressed: () {},
+                //     child: const Text(
+                //       'Forgot Password?',
+                //       style: TextStyle(fontWeight: FontWeight.bold),
+                //     ),
+                //   ),
+                // ),
+                verticalSpaces(25),
                 switch (ref.watch(userDataProvider)) {
                   AsyncData(:final value) => value == null
                       ? SizedBox(
