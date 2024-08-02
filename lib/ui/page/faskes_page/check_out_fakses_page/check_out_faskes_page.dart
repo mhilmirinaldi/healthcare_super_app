@@ -68,9 +68,10 @@ class _CheckoutFaskesPageState extends ConsumerState<CheckoutFaskesPage> {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         children: [
           Column(children: [
-            CheckoutFaskesCard(
+            checkoutFaskesCard(
               dokter: widget.transaksi.dokter!,
               transaksi: widget.transaksi,
+              ref: ref,
             ),
           ]),
           const SizedBox(height: 2),
@@ -143,7 +144,7 @@ class _CheckoutFaskesPageState extends ConsumerState<CheckoutFaskesPage> {
           ),
           const SizedBox(height: 16),
           // Pilih metode pembayaran
-          _buildPaymentMethodContainer(),
+          _buildPaymentMethod(),
         ],
       ),
       bottomNavigationBar: Container(
@@ -290,7 +291,7 @@ class _CheckoutFaskesPageState extends ConsumerState<CheckoutFaskesPage> {
     );
   }
 
-  Widget _buildPaymentMethodContainer() {
+  Widget _buildPaymentMethod() {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey[300]!),

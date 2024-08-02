@@ -256,7 +256,7 @@ class _SearchFaskesPageState extends ConsumerState<SearchFaskesPage> {
       ),
       itemCount: faskess.length,
       itemBuilder: (context, index) {
-        return FaskesCard(faskes: faskess[index]);
+        return faskesCard(faskess[index], ref);
       },
     );
   }

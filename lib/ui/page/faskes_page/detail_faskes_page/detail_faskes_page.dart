@@ -163,122 +163,126 @@ class _DetailFaskesPageState extends ConsumerState<DetailFaskesPage> {
                 ),
               ),
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  Container(
-                    height: 40,
-                    width: 119,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      underline: const SizedBox(),
-                      value: selectedSpesialis,
-                      items:
-                          kategoriList.map<DropdownMenuItem<String>>((value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: const TextStyle(fontSize: 13),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          if (newValue != null) {
-                            selectedSpesialis = newValue;
-                          }
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    height: 40,
-                    width: 131,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      underline: const SizedBox(),
-                      value: selectedGender,
-                      items: <String>[
-                        'Jenis Kelamin',
-                        'Laki-laki',
-                        'Perempuan',
-                      ].map<DropdownMenuItem<String>>((value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: const TextStyle(fontSize: 13),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          if (newValue != null) {
-                            selectedGender = newValue;
-                          }
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    height: 40,
-                    width: 100,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      underline: const SizedBox(),
-                      value: selectedFilter,
-                      items: <String>[
-                        'Urutkan',
-                        'Harga tertinggi',
-                        'Harga terendah',
-                        'Rating tertinggi',
-                        'Rating terendah',
-                      ].map<DropdownMenuItem<String>>((value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: const TextStyle(fontSize: 13),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          if (newValue != null) {
-                            selectedFilter = newValue;
-                          }
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              _buildFilterSection(),
               const SizedBox(height: 4),
-              ...filteredList.map((rev) => DokterFaskesCard(
-                    dokter: rev,
+              ...filteredList.map((rev) => dokterFaskesCard(
+                    rev,
+                    ref,
                   )),
               const SizedBox(height: 8),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildFilterSection() {
+    return Row(
+      children: [
+        Container(
+          height: 40,
+          width: 119,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: DropdownButton<String>(
+            isExpanded: true,
+            underline: const SizedBox(),
+            value: selectedSpesialis,
+            items: kategoriList.map<DropdownMenuItem<String>>((value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(
+                  value,
+                  style: const TextStyle(fontSize: 13),
+                ),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                if (newValue != null) {
+                  selectedSpesialis = newValue;
+                }
+              });
+            },
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          height: 40,
+          width: 131,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: DropdownButton<String>(
+            isExpanded: true,
+            underline: const SizedBox(),
+            value: selectedGender,
+            items: <String>[
+              'Jenis Kelamin',
+              'Laki-laki',
+              'Perempuan',
+            ].map<DropdownMenuItem<String>>((value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(
+                  value,
+                  style: const TextStyle(fontSize: 13),
+                ),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                if (newValue != null) {
+                  selectedGender = newValue;
+                }
+              });
+            },
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          height: 40,
+          width: 100,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: DropdownButton<String>(
+            isExpanded: true,
+            underline: const SizedBox(),
+            value: selectedFilter,
+            items: <String>[
+              'Urutkan',
+              'Harga tertinggi',
+              'Harga terendah',
+              'Rating tertinggi',
+              'Rating terendah',
+            ].map<DropdownMenuItem<String>>((value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(
+                  value,
+                  style: const TextStyle(fontSize: 13),
+                ),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                if (newValue != null) {
+                  selectedFilter = newValue;
+                }
+              });
+            },
+          ),
+        ),
+      ],
     );
   }
 }

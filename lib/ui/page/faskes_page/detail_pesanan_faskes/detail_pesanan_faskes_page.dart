@@ -61,9 +61,10 @@ class _CheckoutFaskesPageState extends ConsumerState<DetailPesananFaskesPage> {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         children: [
           Column(children: [
-            CheckoutFaskesCard(
+            checkoutFaskesCard(
               dokter: widget.transaksi.dokter!,
               transaksi: widget.transaksi,
+              ref: ref,
             ),
           ]),
           const SizedBox(height: 2),

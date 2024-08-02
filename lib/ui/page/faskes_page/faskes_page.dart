@@ -86,7 +86,7 @@ class FaskesPage extends ConsumerWidget {
                                         padding: EdgeInsets.only(
                                             left: faskes == faskess.first ? 2 : 15,
                                             right: faskes == faskess.last ? 2 : 0),
-                                        child: FaskesCard(faskes: faskes),
+                                        child: faskesCard(faskes, ref),
                                       ))
                                   .toList(),
                             ),

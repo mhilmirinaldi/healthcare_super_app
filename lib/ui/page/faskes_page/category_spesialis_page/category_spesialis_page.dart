@@ -298,7 +298,7 @@ class _CategorySpesialisPageState extends ConsumerState<CategorySpesialisPage> {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       itemCount: faskess.length,
       itemBuilder: (context, index) {
-        return DokterSpesialisCard(dokter: faskess[index]);
+        return dokterSpesialisCard(dokter: faskess[index], ref: ref);
       },
     );
   }
