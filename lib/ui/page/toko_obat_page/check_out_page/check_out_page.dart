@@ -90,7 +90,7 @@ class _CheckoutObatPageState extends ConsumerState<CheckoutObatPage> {
               children: [
                 Column(
                   children:
-                      cart.items.map((e) => CheckoutItemCard(obat: e)).toList(),
+                      cart.items.map((e) => checkoutItemCard(e, ref)).toList(),
                 ),
                 const SizedBox(height: 2),
                 Container(
@@ -176,7 +176,7 @@ class _CheckoutObatPageState extends ConsumerState<CheckoutObatPage> {
                 ),
                 const SizedBox(height: 16),
                 // Pilih metode pembayaran
-                _buildPaymentMethodContainer(),
+                _buildPaymentMethod(),
               ],
             ),
       bottomNavigationBar: totalItems == 0
@@ -341,7 +341,7 @@ class _CheckoutObatPageState extends ConsumerState<CheckoutObatPage> {
     );
   }
 
-  Widget _buildPaymentMethodContainer() {
+  Widget _buildPaymentMethod() {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey[300]!),

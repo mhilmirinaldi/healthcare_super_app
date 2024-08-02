@@ -301,7 +301,7 @@ class _DetailTransaksiPageState extends ConsumerState<DetailTransaksiPage> {
                             const SizedBox(height: 8),
                             Column(
                               children: widget.transaksi.listObat!
-                                  .map((e) => DetailTransaksiObatCard(obat: e))
+                                  .map((e) => detailTransaksiObatCard(e, ref))
                                   .toList(),
                             ),
                             const SizedBox(height: 0),

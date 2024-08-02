@@ -253,7 +253,7 @@ class _CategoryObatPageState extends ConsumerState<CategoryObatPage> {
       ),
       itemCount: obats.length,
       itemBuilder: (context, index) {
-        return ObatCard(obat: obats[index]);
+        return obatCard(obats[index], ref);
       },
     );
   }

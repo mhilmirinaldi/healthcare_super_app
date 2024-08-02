@@ -161,7 +161,7 @@ class _DetailPesananChatState extends ConsumerState<DetailPesananChatPage> {
                   data: (obats) {
                     return Column(
                       children: obats
-                          .map((obat) => DetailTransaksiObatCard(obat: obat))
+                          .map((obat) => detailTransaksiObatCard(obat, ref))
                           .toList(),
                     );
                   },

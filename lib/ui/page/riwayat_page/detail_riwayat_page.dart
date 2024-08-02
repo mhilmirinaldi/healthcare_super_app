@@ -74,11 +74,12 @@ class _CheckoutFaskesPageState extends ConsumerState<DetailRiwayatPage> {
                   transaksis.sort((a, b) =>
                       -a.waktuTransaksi!.compareTo(b.waktuTransaksi!));
                   transaksis = transaksis
-                      .where((transaksi) => transaksi.kategori == widget.kategori)
+                      .where(
+                          (transaksi) => transaksi.kategori == widget.kategori)
                       .toList();
                   return Column(
                     children: transaksis.map((transaksi) {
-                      return TransaksiCard(transaksi: transaksi);
+                      return transaksiCard(transaksi, ref);
                     }).toList(),
                   );
                 }

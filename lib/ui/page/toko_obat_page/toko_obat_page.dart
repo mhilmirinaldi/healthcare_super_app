@@ -100,7 +100,7 @@ class TokoObatPage extends ConsumerWidget {
                                                   right: obat == obats.last
                                                       ? 2
                                                       : 0),
-                                              child: ObatCard(obat: obat),
+                                              child: obatCard(obat, ref),
                                             ))
                                         .toList(),
                                   ),

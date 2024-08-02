@@ -76,7 +76,7 @@ class _CheckOutObatChatPageState extends ConsumerState<CheckOutObatChatPage> {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         children: [
           Column(
-            children: widget.obat.map((e) => CheckoutItemCard(obat: e)).toList(),
+            children: widget.obat.map((e) => checkoutItemCard(e, ref)).toList(),
           ),
           const SizedBox(height: 2),
           Container(

@@ -242,7 +242,7 @@ class _SearchObatPageState extends ConsumerState<SearchObatPage> {
       ),
       itemCount: obats.length,
       itemBuilder: (context, index) {
-        return ObatCard(obat: obats[index]);
+        return obatCard(obats[index], ref);
       },
     );
   }

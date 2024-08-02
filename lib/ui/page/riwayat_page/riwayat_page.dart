@@ -202,7 +202,7 @@ class _RiwayatPageState extends ConsumerState<RiwayatPage> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: transaksi.length,
       itemBuilder: (context, index) {
-        return TransaksiCard(transaksi: transaksi[index]);
+        return transaksiCard(transaksi[index], ref);
       },
     );
   }

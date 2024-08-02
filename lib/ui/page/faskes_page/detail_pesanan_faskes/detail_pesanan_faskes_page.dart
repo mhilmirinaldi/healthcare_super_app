@@ -192,7 +192,7 @@ class _CheckoutFaskesPageState extends ConsumerState<DetailPesananFaskesPage> {
                   data: (obats) {
                     return Column(
                       children: obats
-                          .map((obat) => DetailTransaksiObatCard(obat: obat))
+                          .map((obat) => detailTransaksiObatCard(obat, ref))
                           .toList(),
                     );
                   },

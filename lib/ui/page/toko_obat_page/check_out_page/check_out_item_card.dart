@@ -6,14 +6,8 @@ import 'package:super_app_telemedicine/ui/misc/colors.dart';
 import 'package:super_app_telemedicine/ui/provider/cart/cart_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
-class CheckoutItemCard extends ConsumerWidget {
-  final Obat obat;
-
-  const CheckoutItemCard({super.key, required this.obat});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
+Widget checkoutItemCard (Obat obat, WidgetRef ref){
+  return Container(
       padding: const EdgeInsets.only(bottom: 16),
       child: GestureDetector(
         onTap: () {
@@ -112,5 +106,4 @@ class CheckoutItemCard extends ConsumerWidget {
         ),
       ),
     );
-  }
 }
