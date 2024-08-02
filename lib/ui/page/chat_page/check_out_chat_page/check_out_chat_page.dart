@@ -68,9 +68,7 @@ class _CheckoutChatPageState extends ConsumerState<CheckoutChatPage> {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         children: [
           Column(children: [
-            CheckOutChatCard(
-              dokter: widget.transaksi.dokter!,
-            ),
+            checkoutChatCard(widget.transaksi.dokter!, ref),
           ]),
           const SizedBox(height: 2),
           Container(
@@ -142,7 +140,7 @@ class _CheckoutChatPageState extends ConsumerState<CheckoutChatPage> {
           ),
           const SizedBox(height: 16),
           // Pilih metode pembayaran
-          _buildPaymentMethodContainer(),
+          _buildPaymentMethod(),
         ],
       ),
       bottomNavigationBar: Container(
@@ -255,7 +253,9 @@ class _CheckoutChatPageState extends ConsumerState<CheckoutChatPage> {
                           .refreshTransaksiData();
                       ref.read(userDataProvider.notifier).refreshUserData();
                       // PINDAH HALAMAN
-                      ref.read(routerProvider).pushNamed('chat_room', extra: transaksi);
+                      ref
+                          .read(routerProvider)
+                          .pushNamed('chat_room', extra: transaksi);
 
                     case Failed(:final message):
                       context.showSnackBar(message);
@@ -289,7 +289,7 @@ class _CheckoutChatPageState extends ConsumerState<CheckoutChatPage> {
     );
   }
 
-  Widget _buildPaymentMethodContainer() {
+  Widget _buildPaymentMethod() {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey[300]!),

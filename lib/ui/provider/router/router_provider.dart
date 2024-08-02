@@ -75,11 +75,11 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(routes: [
           path: '/category',
           name: 'category',
           builder: (context, state) =>
-              CategoryPage(state.extra as KategoriDokter)),
+              CategoryDokterPage(state.extra as KategoriDokter)),
       GoRoute(
           path: '/search_page',
           name: 'search_page',
-          builder: (context, state) => const SearchPage()),
+          builder: (context, state) => const SearchDokterPage()),
       GoRoute(
           path: '/lainnya',
           name: 'lainnya',
@@ -123,7 +123,7 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(routes: [
       GoRoute(
           path: '/check_out',
           name: 'check_out',
-          builder: (context, state) => const CheckoutPage()),
+          builder: (context, state) => const CheckoutObatPage()),
       GoRoute(
           path: '/detail_transaksi',
           name: 'detail_transaksi',

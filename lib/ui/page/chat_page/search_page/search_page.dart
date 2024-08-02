@@ -5,14 +5,14 @@ import 'package:super_app_telemedicine/ui/page/chat_page/dokter_card.dart';
 import 'package:super_app_telemedicine/ui/provider/dokter/search_dokter_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 
-class SearchPage extends ConsumerStatefulWidget {
-  const SearchPage({super.key});
+class SearchDokterPage extends ConsumerStatefulWidget {
+  const SearchDokterPage({super.key});
 
   @override
-  ConsumerState<SearchPage> createState() => _SearchPageState();
+  ConsumerState<SearchDokterPage> createState() => _SearchDokterPageState();
 }
 
-class _SearchPageState extends ConsumerState<SearchPage> {
+class _SearchDokterPageState extends ConsumerState<SearchDokterPage> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   bool _hasSearched = false;
@@ -275,7 +275,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       itemCount: dokters.length,
       itemBuilder: (context, index) {
-        return DokterCard(dokter: dokters[index]);
+        return dokterCard(ref, dokters[index]);
       },
     );
   }

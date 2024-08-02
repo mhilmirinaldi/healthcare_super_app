@@ -64,8 +64,9 @@ class _CheckoutAdditionalTimePageState
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         children: [
           Column(children: [
-            CheckOutChatCard(
-              dokter: widget.transaksi.dokter!,
+            checkoutChatCard(
+              widget.transaksi.dokter!,
+              ref,
             ),
           ]),
           const SizedBox(height: 2),

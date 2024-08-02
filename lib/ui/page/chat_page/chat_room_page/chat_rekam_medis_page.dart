@@ -223,7 +223,7 @@ class _ChatRekamMedisPageState extends ConsumerState<ChatRekamMedisPage> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: transaksi.length,
       itemBuilder: (context, index) {
-        return ChatRekamMedisCard(
+        return chatRekamMedisCard(
           transaksi: transaksi[index],
           onChanged: (bool? value) {
             // Update the callback type to bool?
@@ -236,6 +236,7 @@ class _ChatRekamMedisPageState extends ConsumerState<ChatRekamMedisPage> {
             });
           },
           isSelected: _selectedTransaksi.contains(transaksi[index]),
+          ref: ref,
         );
       },
     );

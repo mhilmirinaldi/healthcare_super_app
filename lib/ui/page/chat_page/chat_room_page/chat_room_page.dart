@@ -714,22 +714,23 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
                           return Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 12),
-                            child: ChatRekamMedisCard(
+                            child: chatRekamMedisCard(
                               transaksi: transaksi,
                               showCheckbox: false,
                               onChanged: (bool? value) {
                                 if (value == true) {
                                 } else {}
                               },
+                              ref: ref,
                             ),
                           );
                         }
 
                         if (messages[index].containsKey('catatan')) {
-                          return const Padding(
-                            padding: EdgeInsets.symmetric(
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 12),
-                            child: CatetanDokerCard(),
+                            child: catetanDokerCard(ref),
                           );
                         }
                         return Align(

@@ -7,16 +7,16 @@ import 'package:super_app_telemedicine/ui/provider/dokter/search_dokter_provider
 import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 import 'package:super_app_telemedicine/ui/page/chat_page/dokter_card.dart';
 
-class CategoryPage extends ConsumerStatefulWidget {
+class CategoryDokterPage extends ConsumerStatefulWidget {
   final KategoriDokter kategori;
 
-  const CategoryPage(this.kategori, {super.key});
+  const CategoryDokterPage(this.kategori, {super.key});
 
   @override
-  ConsumerState<CategoryPage> createState() => _CategoryPageState();
+  ConsumerState<CategoryDokterPage> createState() => _CategoryDokterPageState();
 }
 
-class _CategoryPageState extends ConsumerState<CategoryPage> {
+class _CategoryDokterPageState extends ConsumerState<CategoryDokterPage> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   bool _isSearching = false;
@@ -289,7 +289,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       itemCount: dokters.length,
       itemBuilder: (context, index) {
-        return DokterCard(dokter: dokters[index]);
+        return dokterCard(ref, dokters[index]);
       },
     );
   }

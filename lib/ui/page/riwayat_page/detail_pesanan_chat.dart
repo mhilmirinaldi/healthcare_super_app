@@ -37,9 +37,9 @@ class _DetailPesananChatState extends ConsumerState<DetailPesananChatPage> {
             leading: Padding(
               padding: const EdgeInsets.only(left: 8),
               child: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => ref.read(routerProvider).goNamed('main', extra: 3)
-              ),
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () =>
+                      ref.read(routerProvider).goNamed('main', extra: 3)),
             ),
             elevation: 2,
             backgroundColor: Colors.white,
@@ -61,8 +61,9 @@ class _DetailPesananChatState extends ConsumerState<DetailPesananChatPage> {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         children: [
           Column(children: [
-            CheckOutChatCard(
-              dokter: widget.transaksi.dokter!,
+            checkoutChatCard(
+              widget.transaksi.dokter!,
+              ref,
             ),
           ]),
           const SizedBox(height: 2),

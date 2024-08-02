@@ -15,14 +15,14 @@ import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data
 import 'package:super_app_telemedicine/ui/provider/usecase/create_transaksi_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
-class CheckoutPage extends ConsumerStatefulWidget {
-  const CheckoutPage({super.key});
+class CheckoutObatPage extends ConsumerStatefulWidget {
+  const CheckoutObatPage({super.key});
 
   @override
-  ConsumerState<CheckoutPage> createState() => _CheckoutPageState();
+  ConsumerState<CheckoutObatPage> createState() => _CheckoutObatPageState();
 }
 
-class _CheckoutPageState extends ConsumerState<CheckoutPage> {
+class _CheckoutObatPageState extends ConsumerState<CheckoutObatPage> {
   String _selectedPaymentCategory = 'Uang Elektronik';
   String _selectedPaymentMethod = 'Gopay';
 

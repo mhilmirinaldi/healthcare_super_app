@@ -78,7 +78,7 @@ class ChatPage extends ConsumerWidget {
                       style: TextStyle(fontSize: 18)),
                   ...listDokter.maybeWhen(
                     data: (dokters) => dokters
-                        .map((dokter) => DokterCard(dokter: dokter))
+                        .map((dokter) => dokterCard(ref, dokter))
                         .toList(),
                     orElse: () =>
                         [const Center(child: CircularProgressIndicator())],

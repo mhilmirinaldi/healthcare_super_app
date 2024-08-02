@@ -174,96 +174,7 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        height: 30,
-                        width: 90,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey),
-                        ),
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          underline: const SizedBox(),
-                          value: selectedRating,
-                          items: <String>[
-                            'Rating',
-                            '5 Bintang',
-                            '4 Bintang',
-                            '3 Bintang',
-                            '2 Bintang',
-                            '1 Bintang'
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: value == 'Rating'
-                                  ? Text(
-                                      value,
-                                      style: const TextStyle(fontSize: 13.5),
-                                    )
-                                  : Row(children: [
-                                      const Icon(
-                                        Icons.star,
-                                        size: 16,
-                                        color: Colors.orange,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        ('${value[0]}.0'),
-                                        style: const TextStyle(fontSize: 13.5),
-                                      ),
-                                    ]),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              if (newValue != null) {
-                                selectedRating = newValue;
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Container(
-                        height: 30,
-                        width: 148,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey),
-                        ),
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          underline: const SizedBox(),
-                          value: selectedFilter,
-                          items: <String>[
-                            'Urutkan',
-                            'Rating Tertinggi',
-                            'Rating Terendah',
-                            'Terbaru'
-                          ].map<DropdownMenuItem<String>>((value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: const TextStyle(fontSize: 13.5),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              if (newValue != null) {
-                                selectedFilter = newValue;
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                  _buildFilterSection(),
                 ],
               ),
               const SizedBox(height: 6),
@@ -340,6 +251,99 @@ class _DetailDokterPageState extends ConsumerState<DetailDokterPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildFilterSection() {
+    return Row(
+      children: [
+        Container(
+          height: 30,
+          width: 90,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: DropdownButton<String>(
+            isExpanded: true,
+            underline: const SizedBox(),
+            value: selectedRating,
+            items: <String>[
+              'Rating',
+              '5 Bintang',
+              '4 Bintang',
+              '3 Bintang',
+              '2 Bintang',
+              '1 Bintang'
+            ].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: value == 'Rating'
+                    ? Text(
+                        value,
+                        style: const TextStyle(fontSize: 13.5),
+                      )
+                    : Row(children: [
+                        const Icon(
+                          Icons.star,
+                          size: 16,
+                          color: Colors.orange,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          ('${value[0]}.0'),
+                          style: const TextStyle(fontSize: 13.5),
+                        ),
+                      ]),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                if (newValue != null) {
+                  selectedRating = newValue;
+                }
+              });
+            },
+          ),
+        ),
+        const SizedBox(width: 12),
+        Container(
+          height: 30,
+          width: 148,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: DropdownButton<String>(
+            isExpanded: true,
+            underline: const SizedBox(),
+            value: selectedFilter,
+            items: <String>[
+              'Urutkan',
+              'Rating Tertinggi',
+              'Rating Terendah',
+              'Terbaru'
+            ].map<DropdownMenuItem<String>>((value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(
+                  value,
+                  style: const TextStyle(fontSize: 13.5),
+                ),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                if (newValue != null) {
+                  selectedFilter = newValue;
+                }
+              });
+            },
+          ),
+        ),
+      ],
     );
   }
 }
