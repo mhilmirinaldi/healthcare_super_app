@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:super_app_telemedicine/data/repository/authentication.dart';
 import 'package:super_app_telemedicine/domain/entity/result.dart';
 
@@ -48,6 +49,28 @@ class FirebaseAuthentication implements Authentication {
       return Result.success(userCredential.user!.uid);
     } on firebase_auth.FirebaseAuthException catch (e) {
       return Result.failed('${e.message}');
+    }
+  }
+
+  @override
+  Future<Result<void>> resetPassword({required String email}) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      // check if email is registered
+      final CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
+
+      final QuerySnapshot result =
+          await users.where('email', isEqualTo: email).limit(1).get();
+
+      if (result.docs.isEmpty) {
+        return const Result.failed('Email is not registered');
+      }
+
+      
+      return const Result.failed('Reset password email sent');
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      return Result.failed(e.message!);
     }
   }
 }

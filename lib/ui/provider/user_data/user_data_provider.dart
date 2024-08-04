@@ -21,6 +21,7 @@ import 'package:super_app_telemedicine/ui/provider/faskes/list_rekomendasi_faske
 import 'package:super_app_telemedicine/ui/provider/obat/list_kategori_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/obat/list_rekomendasi_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/obat/list_resep_obat_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/repository/authentication/authentication_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/create_transaksi_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/get_logged_in_user_provider.dart';
@@ -149,6 +150,22 @@ class UserData extends _$UserData {
 
     if (result.isSuccess) {
       state = AsyncData(result.resultValue);
+    }
+  }
+
+  Future<void> resetPassword({required String email}) async {
+    state = const AsyncLoading();
+
+    var auth = ref.read(authenticationProvider);
+
+    var result = await auth.resetPassword(email: email);
+
+    if (result.isSuccess) {
+      state = const AsyncData(null);
+    } else {
+      state = AsyncError(FlutterError(result.errorMessage!), StackTrace.current);
+
+      state = const AsyncData(null);
     }
   }
 

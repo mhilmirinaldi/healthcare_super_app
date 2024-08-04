@@ -77,17 +77,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                     )),
-                // Align(
-                //   alignment: Alignment.centerRight,
-                //   child: TextButton(
-                //     onPressed: () {},
-                //     child: const Text(
-                //       'Forgot Password?',
-                //       style: TextStyle(fontWeight: FontWeight.bold),
-                //     ),
-                //   ),
-                // ),
-                verticalSpaces(25),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      // check if email null
+                      if (emailController.text.isEmpty) {
+                        context.showSnackBar('Email cannot be empty');
+                        return;
+                      }
+                      ref
+                          .read(userDataProvider.notifier)
+                          .resetPassword(email: emailController.text);
+                    },
+                    child: const Text(
+                      'Forgot Password?',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                verticalSpaces(10),
                 switch (ref.watch(userDataProvider)) {
                   AsyncData(:final value) => value == null
                       ? SizedBox(
@@ -105,7 +114,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             },
                             child: const Text(
                               'Login',
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         )

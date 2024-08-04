@@ -10,5 +10,6 @@ abstract interface class Authentication {
     required String password,
   });
   Future<Result<void>> logout();
+  Future<Result<void>> resetPassword({required String email});
   String? getLoggedInUserId();
 }
