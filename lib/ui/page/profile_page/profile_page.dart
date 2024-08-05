@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_app_telemedicine/ui/misc/methods.dart';
 import 'package:super_app_telemedicine/ui/page/profile_page/profile_item.dart';
 import 'package:super_app_telemedicine/ui/page/profile_page/user_info.dart';
+import 'package:super_app_telemedicine/ui/provider/router/router_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/user_data/user_data_provider.dart';
 
 class ProfilePage extends ConsumerWidget {
@@ -21,9 +22,13 @@ class ProfilePage extends ConsumerWidget {
               verticalSpaces(20),
               const Divider(),
               verticalSpaces(20),
-              profileItem('Update Profile'),
+              profileItem('Update Profile', onTap: () {
+                ref.read(routerProvider).pushNamed('update_profile');
+              }),
               verticalSpaces(20),
-              profileItem('Change Password'),
+              profileItem('Change Password', onTap: () {
+                ref.read(routerProvider).pushNamed('change_password');
+              }),
               verticalSpaces(60),
               SizedBox(
                 width: double.infinity,

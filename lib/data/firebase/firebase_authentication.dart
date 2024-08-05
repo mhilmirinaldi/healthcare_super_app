@@ -73,4 +73,23 @@ class FirebaseAuthentication implements Authentication {
       return Result.failed(e.message!);
     }
   }
+
+  @override
+  Future<Result<void>> changePassword(
+      {required String email,
+      required String currentPassword,
+      required String newPassword}) async {
+    try {
+      var userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: currentPassword,
+      );
+
+      await userCredential.user!.updatePassword(newPassword);
+
+      return const Result.failed('Password changed successfully');
+    } on firebase_auth.FirebaseAuthException {
+      return const Result.failed('Your current password is incorrect');
+    }
+  }
 }

@@ -24,6 +24,8 @@ import 'package:super_app_telemedicine/ui/page/faskes_page/detail_pesanan_faskes
 import 'package:super_app_telemedicine/ui/page/faskes_page/search_faskes_page/search_faskes_page.dart';
 import 'package:super_app_telemedicine/ui/page/login_page/login_page.dart';
 import 'package:super_app_telemedicine/ui/page/main_page/main_page.dart';
+import 'package:super_app_telemedicine/ui/page/profile_page/change_password_page.dart';
+import 'package:super_app_telemedicine/ui/page/profile_page/update_profile_page.dart';
 import 'package:super_app_telemedicine/ui/page/register_page/register_page.dart';
 import 'package:super_app_telemedicine/ui/page/riwayat_page/detail_pesanan_chat.dart';
 import 'package:super_app_telemedicine/ui/page/riwayat_page/detail_riwayat_page.dart';
@@ -169,4 +171,12 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(routes: [
           name: 'checkout_obat_chat',
           builder: (context, state) =>
               CheckOutObatChatPage(obat: state.extra as List<Obat>)),
+      GoRoute(
+          path: '/update_profile',
+          name: 'update_profile',
+          builder: (context, state) => const UpdateProfilePage()),
+      GoRoute(
+          path: '/change_password',
+          name: 'change_password',
+          builder: (context, state) => const ChangePasswordPage()),
     ], initialLocation: '/login', debugLogDiagnostics: false);

@@ -22,6 +22,7 @@ import 'package:super_app_telemedicine/ui/provider/obat/list_kategori_obat_provi
 import 'package:super_app_telemedicine/ui/provider/obat/list_rekomendasi_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/obat/list_resep_obat_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/repository/authentication/authentication_provider.dart';
+import 'package:super_app_telemedicine/ui/provider/repository/user_repository/user_repository_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/transaksi_data/transaksi_data_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/create_transaksi_provider.dart';
 import 'package:super_app_telemedicine/ui/provider/usecase/get_logged_in_user_provider.dart';
@@ -163,11 +164,63 @@ class UserData extends _$UserData {
     if (result.isSuccess) {
       state = const AsyncData(null);
     } else {
-      state = AsyncError(FlutterError(result.errorMessage!), StackTrace.current);
+      state =
+          AsyncError(FlutterError(result.errorMessage!), StackTrace.current);
 
       state = const AsyncData(null);
     }
   }
+
+  Future<void> updateProfile({
+    required String name,
+    required String email,
+  }) async {
+    state = const AsyncLoading();
+
+    var user = state.valueOrNull;
+
+    if (user != null) {
+      user = user.copyWith(name: name, email: email);
+
+      var userRepository = ref.read(userRepositoryProvider);
+
+      var result = await userRepository.updateUser(user: user);
+
+      if (result.isSuccess) {
+        state = AsyncData(user);
+      } else {
+        state =
+            AsyncError(FlutterError(result.errorMessage!), StackTrace.current);
+        state = AsyncData(state.valueOrNull);
+      }
+    }
+  }
+
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    state = const AsyncLoading();
+
+    var user = state.valueOrNull;
+
+    if (user != null) {
+      var auth = ref.read(authenticationProvider);
+
+      var result = await auth.changePassword(
+          email: user.email, currentPassword: currentPassword, newPassword: newPassword);
+
+      if (result.isSuccess) {
+        state = AsyncData(user);
+      } else {
+        state =
+            AsyncError(FlutterError(result.errorMessage!), StackTrace.current);
+        state = AsyncData(state.valueOrNull);
+      }
+    }
+  }
+
+
 
   // Read list data yang ada di beberapa menu
   void _getListDokterAndKategori() {

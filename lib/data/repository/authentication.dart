@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:super_app_telemedicine/domain/entity/result.dart';
 
 abstract interface class Authentication {
@@ -11,5 +13,9 @@ abstract interface class Authentication {
   });
   Future<Result<void>> logout();
   Future<Result<void>> resetPassword({required String email});
+  Future<Result<void>> changePassword(
+      {required String email,
+      required String currentPassword,
+      required String newPassword});
   String? getLoggedInUserId();
 }
