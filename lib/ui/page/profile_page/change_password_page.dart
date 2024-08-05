@@ -148,7 +148,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
                             ),
                           ),
                         )),
-                    verticalSpaces(30),
+                    verticalSpaces(25),
                     switch (ref.watch(userDataProvider)) {
                       AsyncData(:final value) => value != null
                           ? SizedBox(

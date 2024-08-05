@@ -98,7 +98,7 @@ class _UpdateProfilePageState extends ConsumerState<UpdateProfilePage> {
                               borderSide: BorderSide(color: greyColor)),
                           prefixIcon: Icon(Icons.email),
                         )),
-                    verticalSpaces(30),
+                    verticalSpaces(25),
                     switch (ref.watch(userDataProvider)) {
                       AsyncData(:final value) => value != null
                           ? SizedBox(
