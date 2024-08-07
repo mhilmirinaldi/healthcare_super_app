@@ -121,6 +121,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
         setState(() {
           isChatEnabled = false;
         });
+        showReviewPopup(context);
         timer.cancel();
       } else if (duration == 60 * 5) {
         showReminderTimePopup();
@@ -558,6 +559,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
                   }
                 });
                 Navigator.of(context).pop();
+                showReviewPopup(context);
               },
               child: const Text("Ya"),
             ),
@@ -891,6 +893,80 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage>
             ),
         ],
       ),
+    );
+  }
+}
+
+void showReviewPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text(
+          "Tambah Ulasan",
+          style: TextStyle(fontSize: 20),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text("Pilih bintang dan masukkan ulasan Anda."),
+            const SizedBox(height: 10),
+            StarRatingWidget(),
+            const SizedBox(height: 10),
+            const TextField(
+              maxLines: 3,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Masukkan ulasan Anda di sini...',
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("Batal"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("Kirim"),
+          ),
+        ],
+      );
+    },
+    barrierDismissible: false,
+  );
+}
+
+class StarRatingWidget extends StatefulWidget {
+  @override
+  _StarRatingWidgetState createState() => _StarRatingWidgetState();
+}
+
+class _StarRatingWidgetState extends State<StarRatingWidget> {
+  int _rating = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(5, (index) {
+        return IconButton(
+          icon: Icon(
+            index < _rating ? Icons.star : Icons.star_border,
+            color: Colors.amber,
+          ),
+          onPressed: () {
+            setState(() {
+              _rating = index + 1;
+            });
+          },
+        );
+      }),
     );
   }
 }
