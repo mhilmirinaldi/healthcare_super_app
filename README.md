@@ -5,9 +5,9 @@ This super app provides a range of healthcare services that are easily accessibl
 
 ## Screenshots
 <p float="left">
-  <img src="screenshots/app_1.png" alt="Chat Room" width="300" />
-  <img src="screenshots/app_2.png" alt="Detail Transaction" width="300" />
-  <img src="screenshots/app_3.png" alt="Consultation Screen" width="300" />
+  <img src="screenshots/app_1.png" alt="Chat Room" width="270" />
+  <img src="screenshots/app_2.png" alt="Detail Transaction" width="270" />
+  <img src="screenshots/app_3.png" alt="Consultation Screen" width="270" />
 </p>
 
 ## Features
